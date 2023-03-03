@@ -20,7 +20,7 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: alex
+  username: railgram2023
   password: <%= ENV['RAILGRAM_DATABASE_PASSWORD'] %>
 
 development:
@@ -84,5 +84,5 @@ test:
 production:
   <<: *default
   database: railgram_production
-  username: railgram
+  username: railgram2023
   password: <%= ENV["RAILGRAM_DATABASE_PASSWORD"] %>
