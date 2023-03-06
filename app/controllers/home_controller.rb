@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def index
     if user_signed_in?
-      # TODO: redirect_to 'posts#index'
+      redirect_to user_posts_url(current_user)
     else
       render :index
     end
