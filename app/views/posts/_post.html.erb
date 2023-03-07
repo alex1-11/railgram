@@ -1,4 +1,10 @@
 <div id="<%= dom_id post %>">
+  <% if post.image %>
+    <%= image_tag post.image_url %>
+  <% else %>
+    <p>Here must be an image, but seems it was railed away 🧐</p>
+  <% end %>
+
   <p>
     <strong><%= post.user.name %> </strong>
     <%= post.caption %>
