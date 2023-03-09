@@ -5,6 +5,5 @@ FactoryBot.define do
     email { FFaker::Internet.email }
     name { FFaker::Name.first_name }
     password { 'password' }
-    password_confirmation { 'password' }
   end
 end
