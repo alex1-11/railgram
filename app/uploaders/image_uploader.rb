@@ -5,11 +5,11 @@ class ImageUploader < Shrine
 
   plugin :validation
   plugin :validation_helpers
-  plugin :store_dimensions
   plugin :remove_invalid
+  plugin :store_dimensions, log_subscriber: nil
 
   Attacher.validate do
-    validate_max_size 20.megabytes
+    validate_max_size 10.megabytes
     validate_min_size 1.kilobyte
     if  validate_mime_type_inclusion(%w[image/jpeg image/png image/webp]) &&
         validate_extension_inclusion(%w[jpg jpeg png webp])
