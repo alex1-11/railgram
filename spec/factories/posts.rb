@@ -1,9 +1,10 @@
 FactoryBot.define do
   factory :post do
-    user { build(:user).id } # FIXME
+    # Association with user factory to fill in user_id parameter
+    user
 
-    # Generating random paragraph with character length limit
-    caption { FFaker::Lorem.paragraph[0..2200] }
+    # Generates random paragraph with character length limit
+    caption { FFaker::Lorem.paragraphs }
 
     # TODO: testing of shrine gem image uploading
     # image

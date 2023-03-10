@@ -4,4 +4,5 @@ class Post < ApplicationRecord
 
   belongs_to :user
   validates :caption, length: { maximum: 2200 }
+  validates :user_id, presence: true
 end
