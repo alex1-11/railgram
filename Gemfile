@@ -82,4 +82,4 @@ group :test do
 end
 
 gem "shrine", "~> 3.4"
-gem "image_processing", "~> 1.0"
+gem "image_processing", "~> 1.8"
