@@ -7,6 +7,7 @@ class ImageUploader < Shrine
   plugin :validation_helpers
   plugin :remove_invalid
   plugin :store_dimensions, log_subscriber: nil
+  plugin :determine_mime_type, analyzer: :fastimage
 
   Attacher.validate do
     validate_max_size 10.megabytes
