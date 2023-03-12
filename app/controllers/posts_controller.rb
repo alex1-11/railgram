@@ -22,9 +22,6 @@ class PostsController < ApplicationController
   # POST /posts or /posts.json
   def create
     @post = current_user.posts.build(post_params)
-
-    @post.image = ImageProcessing::Vips.source(@post.image.download).resize_to_fill!(100, 100)
-
     respond_to do |format|
       if @post.save
         format.html { redirect_to user_posts_url(@post), notice: "Post was successfully created." }

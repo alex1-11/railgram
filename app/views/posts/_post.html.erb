@@ -1,6 +1,6 @@
 <div id="<%= dom_id post %>">
   <% if post.image %>
-    <%= image_tag post.image_url %>
+    <%= image_tag post.image_url(:post_size) %>
   <% else %>
     <p>Here must be an image, but seems it was railed away 🧐</p>
   <% end %>

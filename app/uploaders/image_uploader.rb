@@ -8,7 +8,6 @@ class ImageUploader < Shrine
   plugin :remove_invalid
   plugin :store_dimensions, log_subscriber: nil
   plugin :determine_mime_type, analyzer: :fastimage
-  plugin :derivatives
 
   Attacher.validate do
     validate_max_size 10.megabytes
@@ -20,20 +19,11 @@ class ImageUploader < Shrine
     end
   end
 
-  # Attacher.derivatives do |original|
-  #   resize = ImageProcessing::Vips.source(original) # FIXME
-  # end
-
-  # # Apply processing to the original image before storing it
-  # process(:store) do |io|
-  #   # Limit image width and height to 1080px, keeping aspect ratio
-  #   resize_to_fill!(io.download, 1080, 1080)
-  # end
-
-  # processed = ImageProcessing::Vips
-  #   .source(image)
-  #   .resize_to_fill(1080, 1080)
-  #   .strip
-  #   .call
-
+  # Limit image width and height to 1080px, keeping aspect ratio
+  Attacher.derivatives do |original|
+    vips = ImageProcessing::Vips.source(original)
+    {
+      post_size: vips.resize_to_fill!(1080, 1080)
+    }
+  end
 end
