@@ -97,7 +97,3 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
-
-# TODO: implement simplecov, see:
-# 1) https://stackoverflow.com/questions/22893907/how-to-check-rspec-code-coverage-in-rails-application
-# 2) https://github.com/simplecov-ruby/simplecov
