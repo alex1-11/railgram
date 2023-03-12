@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  subject { create(:post) }
+  subject { build(:post) }
 
   describe 'validation' do
     context 'with all required and valid data provided' do
