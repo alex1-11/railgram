@@ -1,6 +1,5 @@
-require 'support/images/test_data'
-
 FactoryBot.define do
+
   factory :post do
     # Association with user factory to fill in user_id parameter
     user
