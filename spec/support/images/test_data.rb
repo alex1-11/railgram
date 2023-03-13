@@ -1,4 +1,5 @@
-# https://shrinerb.com/docs/testing#test-data
+# Sample testing images by Thorsten Schulze from Pixabay (https://pixabay.com/users/thorsten1970-11841595/)
+# Testing documentation and hints https://shrinerb.com/docs/testing#test-data
 
 module TestData
   module_function
