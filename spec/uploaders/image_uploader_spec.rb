@@ -14,19 +14,22 @@ RSpec.describe ImageUploader do
     expect(image.height).to be_instance_of(Integer)
   end
 
-  it 'validates' do
-    # TODO
+  describe 'validation' do
+    it 'passes validation' do
+      expect(notice).to be_empty
+    end
+
   end
 
-  describe 'derivatives processing' do
-    it 'has no derivateves before saving to storage' do
+  describe 'derivative' do
+    it 'is nil before saving to storage' do
       expect(derivatives[:post_size]).to be_nil
     end
 
     context 'after saving 1920x1280 image to storage (promoting)' do
       let(:post) { create(:post, image: File.open('spec/support/images/sample_1920x1280.jpg', 'rb'))}
 
-      it 'generates derivatives' do
+      it 'generates derivative image' do
         expect(derivatives[:post_size]).to be_kind_of(Shrine::UploadedFile)
       end
 
@@ -38,7 +41,7 @@ RSpec.describe ImageUploader do
       end
     end
 
-    context 'original 427x640 image' do
+    context 'after saving 427x640 image to storage (promoting)' do
       let(:post) { create(:post, image: File.open('spec/support/images/sample_427x640.jpg', 'rb'))}
 
       it 'upscales to fit 1080x1080' do
