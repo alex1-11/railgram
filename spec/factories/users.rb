@@ -3,7 +3,10 @@
 FactoryBot.define do
   factory :user do
     email { FFaker::Internet.email }
-    name { FFaker::Internet.user_name }
+    name do
+      sample = FFaker::Internet.user_name until sample.length >= 3
+      sample
+    end
     password { 'password' }
   end
 end

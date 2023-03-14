@@ -1,4 +1,4 @@
-require_relative '../support/images/test_data'
+require_relative 'test_data'
 
 FactoryBot.use_parent_strategy = false
 FactoryBot.define do
@@ -10,7 +10,7 @@ FactoryBot.define do
     # Generates random paragraph with character length limit
     caption { FFaker::Lorem.paragraphs }
 
-    # TODO: testing of shrine gem image uploading
+    # Image uploaded by shrine gem (see test_data.rb)
     image_data { TestData.image_data }
   end
 end
