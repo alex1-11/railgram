@@ -1,6 +1,6 @@
 require_relative 'test_data'
 
-FactoryBot.use_parent_strategy = false
+FactoryBot.use_parent_strategy = false # config for auto creation of User record
 FactoryBot.define do
 
   factory :post do

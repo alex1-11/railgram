@@ -5,7 +5,7 @@ RSpec.describe ImageUploader do
   # let(:post)        { build(:post, image: File.open('spec/support/images/sample_1280x720.jpg', 'rb')) }
   # let(:image)       { post.image }
   let(:uploader) { Shrine::Attacher.new }
-  let(:file) { File.open('spec/support/images/sample_1280x720.jpg') }
+  let(:file) { File.open('spec/support/images/sample_1280x720.jpg', 'rb') }
 
   describe '#validate' do
     context 'when file is within size limits and has valid format' do
@@ -16,7 +16,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'when file is too large' do
-      let(:file) { File.open('spec/support/images/sample_1280x720.jpg') }
+      let(:file) { File.open('spec/support/images/sample_1280x720.jpg', 'rb') }
 
       it 'fails validation' do
         uploader.validate(file)
@@ -25,7 +25,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'when file format is invalid' do
-      let(:file) { File.open('spec/support/images/sample_1280x720.jpg') }
+      let(:file) { File.open('spec/support/images/sample_1280x720.jpg', 'rb') }
 
       it 'fails validation' do
         uploader.validate(file)
@@ -34,7 +34,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'when file dimensions are invalid' do
-      let(:file) { File.open('spec/support/images/sample_1280x720.jpg') }
+      let(:file) { File.open('spec/support/images/sample_1280x720.jpg', 'rb') }
 
       it 'fails validation' do
         uploader.validate(file)
