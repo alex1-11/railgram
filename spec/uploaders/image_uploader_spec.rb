@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'image_processing/vips'
 
 RSpec.describe ImageUploader do
-  let(:post)        { build(:post, image: File.open('spec/support/images/sample_1280x720.jpg', 'rb')) }
+  let(:post)        { create(:post, image: File.open('spec/support/images/sample_1280x720.jpg', 'rb')) }
   let(:image)       { post.image }
   let(:derivatives) { post.image_derivatives }
 
@@ -15,14 +15,25 @@ RSpec.describe ImageUploader do
   end
 
   describe 'validation' do
+    let(:image) { TestData.uploaded_image('valid') }
+
     it 'passes validation' do
-      expect(notice).to be_empty
+      expect(image).to be_empty
+    end
+
+    context 'with too large image' do
+      let(:image) { TestData.uploaded_image('invalid_size_large') }
+      it 'adds error' do
+        print image.metadata['size']
+        expect(image).to include?('is too large')
+      end
     end
 
   end
 
   describe 'derivative' do
-    it 'is nil before saving to storage' do
+    context 'before saving sample image to storage (promotoing image, storing post instance in db`s row)'
+    it 'is nil' do
       expect(derivatives[:post_size]).to be_nil
     end
 
