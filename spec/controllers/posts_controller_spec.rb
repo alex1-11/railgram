@@ -80,6 +80,16 @@ RSpec.describe PostsController, type: :controller do
         expect(assigns(:post)).to be_nil
       end
     end
-  # TODO
+  end
+
+  # FIXME
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      let(:test_post) { build(:post) }
+      it 'creates a new post record' do
+        expect { post :create, params: {post: attributes_for(:post).merge!(user_id: user.id)} }
+          .to change(Post, :count).by(1)
+      end
+    end
   end
 end
