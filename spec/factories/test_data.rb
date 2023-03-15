@@ -16,14 +16,16 @@ module TestData
     attacher.column_data # or attacher.data in case of postgres jsonb column
   end
 
-  def uploaded_image(version)
+  def uploaded_image(version = 'valid')
     file = File.open('spec/support/images/sample_1280x720.jpg', binmode: true)
 
     # Metadata to assign depending on requested file version
     common_data = {
       'size' => File.size(file.path),
       'mime_type' => 'image/jpeg',
-      'filename' => 'test.jpg'
+      'filename' => 'test.jpg',
+      'width' => 500,
+      'height' => 500
     }
 
     data_versions = {

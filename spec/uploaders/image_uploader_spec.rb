@@ -18,14 +18,16 @@ RSpec.describe ImageUploader do
     let(:image) { TestData.uploaded_image('valid') }
 
     it 'passes validation' do
-      expect(image).to be_empty
+      expect(post.errors).to be_empty
     end
 
     context 'with too large image' do
-      let(:image) { TestData.uploaded_image('invalid_size_large') }
-      it 'adds error' do
-        print image.metadata['size']
-        expect(image).to include?('is too large')
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_size_large')) }
+      # it 'adds error' do
+      #   expect(post.errors.inspect).to include('is too large')  
+      # end
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Image size must not be greater than 10.0 MB")
       end
     end
 
@@ -33,6 +35,7 @@ RSpec.describe ImageUploader do
 
   describe 'derivative' do
     context 'before saving sample image to storage (promotoing image, storing post instance in db`s row)'
+    let(:post) { build(:post, image: TestData.uploaded_image) }
     it 'is nil' do
       expect(derivatives[:post_size]).to be_nil
     end
