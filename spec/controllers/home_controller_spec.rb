@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe HomeController, type: :controller do
-  describe "GET #index" do
+  describe 'GET #index' do
     subject { get :index }
 
-    context "when user is signed in" do
+    context 'when user is signed in' do
       let(:user) { create(:user) }
       before { sign_in user }
 
@@ -14,10 +14,10 @@ RSpec.describe HomeController, type: :controller do
       end
     end
 
-    context "when user is not signed in" do
+    context 'when user is not signed in' do
       # before { sign_out(:user) } # Can leave commented out, no user was created
 
-      it "renders the index template" do
+      it 'renders the index template' do
         subject
         expect(response).to render_template(:index)
       end
