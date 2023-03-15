@@ -15,29 +15,73 @@ RSpec.describe ImageUploader do
   end
 
   describe 'validation' do
-    let(:image) { TestData.uploaded_image('valid') }
-
-    it 'passes validation' do
-      expect(post.errors).to be_empty
-    end
-
-    context 'with too large image' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_size_large')) }
-      # it 'adds error' do
-      #   expect(post.errors.inspect).to include('is too large')  
-      # end
-      it 'raises error' do
-        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Image size must not be greater than 10.0 MB")
+    context 'correct image file' do
+      it 'passes validation' do
+        expect(post.errors).to be_empty
       end
     end
 
+    context 'too large (size-vise) file' do
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_size_large')) }
+
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validation failed: Image size must not be greater than 10.0 MB')
+      end
+    end
+
+    context 'too small (size-vise) file' do
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_size_small')) }
+
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validation failed: Image size must not be less than 1.0 KB')
+      end
+    end
+
+    context 'wrong mime (non-image file under image extension)' do
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_mime')) }
+
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validation failed: Image type must be one of: image/jpeg, image/png, image/webp')
+      end
+    end
+
+    context 'wrong file extension' do
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_extention')) }
+
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validation failed: Image extension must be one of: jpg, jpeg, png, webp')
+      end
+    end
+
+    context 'too wide image' do
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_width')) }
+
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validation failed: Image dimensions must not be greater than 5000x5000')
+      end
+    end
+
+    context 'too high image' do
+      let(:post) { create(:post, image: TestData.uploaded_image('invalid_hight')) }
+
+      it 'raises error' do
+        expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
+                                            'Validation failed: Image dimensions must not be greater than 5000x5000')
+      end
+    end
   end
 
   describe 'derivative' do
-    context 'before saving sample image to storage (promotoing image, storing post instance in db`s row)'
-    let(:post) { build(:post, image: TestData.uploaded_image) }
-    it 'is nil' do
-      expect(derivatives[:post_size]).to be_nil
+    context 'before saving sample image to storage (promoting image, storing post instance in db`s row)' do
+      let(:post) { build(:post, image: TestData.uploaded_image) }
+      it 'is nil' do
+        expect(derivatives[:post_size]).to be_nil
+      end
     end
 
     context 'after saving 1920x1280 image to storage (promoting)' do
