@@ -8,7 +8,7 @@ FactoryBot.define do
     user
 
     # Generates random paragraph with character length limit
-    caption { FFaker::Lorem.paragraphs }
+    caption { FFaker::Lorem.paragraphs.join }
 
     # Image uploaded by shrine gem (see test_data.rb)
     image_data { TestData.image_data }
