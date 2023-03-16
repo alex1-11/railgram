@@ -82,19 +82,25 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  # FIXME
+  # TODO
   describe 'POST #create' do
+    let(:post_attributes) { attributes_for(:post, user_id: user.id) }
+    let(:request_params) do
+      { user_id: user.id,
+        post: post_attributes }
+    end
+
     context 'with valid attributes' do
-      # let(:test_post) { build(:post) }
       it 'creates a new post record' do
-        expect do
-          para = attributes_for(:post, user_id: user.id)
-          # binding.break
-          post(:create,
-               params: { user_id: user.id,
-                         post: para })
-        end.to change(Post, :count).by(1)
+        expect { post :create, params: request_params }.to change(Post, :count).by(1)
+      end
+
+      it 'redirects to user_posts_url' do
+        # TODO: expect { post :create, params: request_params }.to redirect_to(user_posts_url())
+        # }
       end
     end
+
+
   end
 end
