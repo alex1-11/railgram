@@ -8,7 +8,7 @@ module TestData
     attacher = Shrine::Attacher.new
     attacher.set(uploaded_image(version))
 
-    # For derivatives processing
+    # Assign derivatives explicitly, to skip image processing
     attacher.set_derivatives(
       post_size: uploaded_image(version)
     )
@@ -20,12 +20,14 @@ module TestData
     file = File.open('spec/support/images/sample_1280x720.jpg', binmode: true)
 
     # Metadata to assign depending on requested file version
+    extract_real_metadata = version == 'real_metadata' # TODO: delete these key and var if no usecases (here and lower)
+
     common_data = {
       'size' => File.size(file.path),
       'mime_type' => 'image/jpeg',
       'filename' => 'test.jpg',
-      'width' => 500,
-      'height' => 500
+      'width' => 1280,
+      'height' => 720
     }
 
     data_versions = {
@@ -39,8 +41,8 @@ module TestData
     }
 
     # For performance we skip metadata extraction and assign test metadata
-    uploaded_file = Shrine.upload(file, :store, metadata: false)
-    uploaded_file.metadata.merge!(data_versions[version])
+    uploaded_file = Shrine.upload(file, :store, metadata: extract_real_metadata)
+    uploaded_file.metadata.merge!(data_versions[version]) unless extract_real_metadata
     uploaded_file
   end
 end

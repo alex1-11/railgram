@@ -22,7 +22,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'too large (size-vise) file' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_size_large')) }
+      let(:post) { create(:post, version: 'invalid_size_large') }
 
       it 'raises error' do
         expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
@@ -31,7 +31,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'too small (size-vise) file' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_size_small')) }
+      let(:post) { create(:post, version: 'invalid_size_small') }
 
       it 'raises error' do
         expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
@@ -40,7 +40,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'wrong mime (non-image file under image extension)' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_mime')) }
+      let(:post) { create(:post, version: 'invalid_mime') }
 
       it 'raises error' do
         expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
@@ -49,7 +49,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'wrong file extension' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_extention')) }
+      let(:post) { create(:post, version: 'invalid_extention') }
 
       it 'raises error' do
         expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
@@ -58,7 +58,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'too wide image' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_width')) }
+      let(:post) { create(:post, version: 'invalid_width') }
 
       it 'raises error' do
         expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
@@ -67,7 +67,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'too high image' do
-      let(:post) { create(:post, image: TestData.uploaded_image('invalid_hight')) }
+      let(:post) { create(:post, version: 'invalid_hight') }
 
       it 'raises error' do
         expect { post.save }.to raise_error(ActiveRecord::RecordInvalid,
@@ -78,14 +78,14 @@ RSpec.describe ImageUploader do
 
   describe 'derivative' do
     context 'before saving sample image to storage (promoting image, storing post instance in db`s row)' do
-      let(:post) { build(:post, image: TestData.uploaded_image) }
-      it 'is nil' do
+      let(:post) { build(:post) }
+      it 'derivatives are nil' do
         expect(derivatives[:post_size]).to be_nil
       end
     end
 
     context 'after saving 1920x1280 image to storage (promoting)' do
-      let(:post) { create(:post, image: File.open('spec/support/images/sample_1920x1280.jpg', 'rb'))}
+      let(:post) { create(:post, image: File.open('spec/support/images/sample_1920x1280.jpg', 'rb'), image_data: {}) }
 
       it 'generates derivative image' do
         expect(derivatives[:post_size]).to be_kind_of(Shrine::UploadedFile)
@@ -100,7 +100,7 @@ RSpec.describe ImageUploader do
     end
 
     context 'after saving 427x640 image to storage (promoting)' do
-      let(:post) { create(:post, image: File.open('spec/support/images/sample_427x640.jpg', 'rb'))}
+      let(:post) { create(:post, image: File.open('spec/support/images/sample_427x640.jpg', 'rb'), image_data: {}) }
 
       it 'upscales to fit 1080x1080' do
         expect(image.width).to  be < derivatives[:post_size].width

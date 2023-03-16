@@ -10,7 +10,26 @@ FactoryBot.define do
     # Generates random paragraph with character length limit
     caption { FFaker::Lorem.paragraphs.join }
 
+    # Allows to choose which image version to build (default: 'valid')
+    transient do
+      version { 'valid' }
+    end
+
     # Image uploaded by shrine gem (see test_data.rb)
-    image_data { TestData.image_data }
+    image { TestData.uploaded_image(version) }
+
+    # Image metadata
+    image_data { TestData.image_data(version) }
+
+    # Made for controller testing. Simulates file attached and submited via html form
+    trait :simulate_form_upload do
+      image_data {}
+      image do
+        Rack::Test::UploadedFile.new(
+          Rails.root.join('spec', 'support', 'images', 'sample_1280x720.jpg'),
+          'image/jpeg'
+        )
+      end
+    end
   end
 end

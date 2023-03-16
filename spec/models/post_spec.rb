@@ -5,7 +5,8 @@ RSpec.describe Post, type: :model do
 
   describe 'association' do
     it { is_expected.to belong_to(:user) }
-    it 'has valid image with data and post_size version' do
+    it 'has valid image with data and post_size derivative version' do
+      subject.save
       expect(subject.image).to be_kind_of(ImageUploader::UploadedFile)
       expect(subject.image(:post_size)).to be_kind_of(ImageUploader::UploadedFile)
     end
