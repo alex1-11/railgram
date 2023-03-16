@@ -11,6 +11,9 @@ FactoryBot.define do
     caption { FFaker::Lorem.paragraphs.join }
 
     # Image uploaded by shrine gem (see test_data.rb)
+    image { TestData.uploaded_image }
+
+    # Image metadata
     image_data { TestData.image_data }
   end
 end

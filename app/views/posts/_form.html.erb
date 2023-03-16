@@ -12,8 +12,8 @@
   <% end %>
 
   <div>
-    <%= form.hidden_field :image_data, value: post.cached_image_data, id: nil %>
-    <%= form.file_field :image_data %>
+    <%= form.hidden_field :image, value: post.cached_image_data, id: nil %>
+    <%= form.file_field :image %>
 
     <%= form.label :caption, style: "display: block" %>
     <%= form.text_field :caption %>
