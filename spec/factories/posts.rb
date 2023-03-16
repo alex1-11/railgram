@@ -15,5 +15,10 @@ FactoryBot.define do
 
     # Image metadata
     image_data { TestData.image_data }
+
+    trait :with_real_metadata do
+      image { TestData.uploaded_image('real_metadata') }
+      image_data { TestData.image_data('real_metadata') }
+    end
   end
 end

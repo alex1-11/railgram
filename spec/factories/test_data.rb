@@ -20,6 +20,8 @@ module TestData
     file = File.open('spec/support/images/sample_1280x720.jpg', binmode: true)
 
     # Metadata to assign depending on requested file version
+    extract_real_metadata = version == 'real_metadata'
+
     common_data = {
       'size' => File.size(file.path),
       'mime_type' => 'image/jpeg',
@@ -39,8 +41,8 @@ module TestData
     }
 
     # For performance we skip metadata extraction and assign test metadata
-    uploaded_file = Shrine.upload(file, :store, metadata: false)
-    uploaded_file.metadata.merge!(data_versions[version])
+    uploaded_file = Shrine.upload(file, :store, metadata: extract_real_metadata)
+    uploaded_file.metadata.merge!(data_versions[version]) unless extract_real_metadata
     uploaded_file
   end
 end

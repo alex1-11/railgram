@@ -84,7 +84,7 @@ RSpec.describe PostsController, type: :controller do
 
   # TODO
   describe 'POST #create' do
-    let(:post_attributes) { attributes_for(:post, user_id: user.id) }
+    let(:post_attributes) { attributes_for(:post, image: ImageUploader.new {} ) } # FIXME
     let(:request_params) do
       { user_id: user.id,
         post: post_attributes }
