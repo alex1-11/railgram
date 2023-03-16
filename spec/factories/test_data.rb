@@ -8,7 +8,7 @@ module TestData
     attacher = Shrine::Attacher.new
     attacher.set(uploaded_image(version))
 
-    # For derivatives processing
+    # Assign derivatives explicitly, to skip image processing
     attacher.set_derivatives(
       post_size: uploaded_image(version)
     )
@@ -24,8 +24,8 @@ module TestData
       'size' => File.size(file.path),
       'mime_type' => 'image/jpeg',
       'filename' => 'test.jpg',
-      'width' => 500,
-      'height' => 500
+      'width' => 1280,
+      'height' => 720
     }
 
     data_versions = {
