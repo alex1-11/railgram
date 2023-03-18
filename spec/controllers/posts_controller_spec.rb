@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
   let(:user) { create(:user) }
+
   before { sign_in user }
 
   describe 'GET #index' do
@@ -27,26 +28,26 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:post) { create(:post, user: user) }
+    let(:sample_post) { create(:post, user: user) }
 
     it "assigns user's post" do
-      get :show, params: { user_id: user.id, id: post.id }
-      expect(assigns(:post)).to eq(post)
+      get :show, params: { user_id: user.id, id: sample_post.id }
+      expect(assigns(:post)).to eq(sample_post)
     end
 
     it 'renders show template' do
-      get :show, params: { user_id: user.id, id: post.id }
+      get :show, params: { user_id: user.id, id: sample_post.id }
       expect(response).to render_template(:show)
     end
   end
 
   describe 'GET #new' do
     # Initialize new Post instance with current user_id and nil attributes
-    let(:post) { Post.new(user_id: user.id) }
+    let(:sample_post) { Post.new(user_id: user.id) }
 
     it "initiates post with nil parameters, except current user's user_id" do
       get :new, params: {user_id: user.id }
-      expect(assigns(:post).attributes).to eq(post.attributes)
+      expect(assigns(:post).attributes).to eq(sample_post.attributes)
     end
 
     it "renders 'new' template" do
@@ -57,16 +58,16 @@ RSpec.describe PostsController, type: :controller do
 
   describe 'GET #edit' do
     # Get post instance with current user_id, post_id
-    let(:post) { create(:post, user: user) }
+    let(:sample_post) { create(:post, user: user) }
 
     context 'edit own posts' do
       it "loads and assigns post with user_id and post_id" do
-        get :edit, params: { user_id: user.id, id: post.id }
-        expect(assigns(:post).attributes).to eq(post.attributes)
+        get :edit, params: { user_id: user.id, id: sample_post.id }
+        expect(assigns(:post).attributes).to eq(sample_post.attributes)
       end
 
       it "renders 'edit' template" do
-        get :edit, params: { user_id: user.id, id: post.id }
+        get :edit, params: { user_id: user.id, id: sample_post.id }
         expect(response).to render_template(:edit)
       end
     end
@@ -84,25 +85,52 @@ RSpec.describe PostsController, type: :controller do
 
   # TODO
   describe 'POST #create' do
-    let(:post_attributes) do
-      attributes_for(:post, :simulate_form_upload)
-    end
-    let(:request_params) do
-      { user_id: user.id,
-        post: post_attributes }
-    end
+    let(:post_attributes) { attributes_for(:post, :simulate_form_upload, user_id: user.id) }
+    let(:request_params)  { { user_id: user.id, post: post_attributes } }
+    let(:request)         { post :create, params: request_params }
 
     context 'with valid attributes' do
       it 'creates a new post record' do
-        expect { post :create, params: request_params }.to change(Post, :count).by(1)
+        expect { request }.to change(Post, :count).by(1)
       end
 
-      it 'redirects to user_posts_url' do
-        # TODO: expect { post :create, params: request_params }.to redirect_to(user_posts_url())
-        # }
+      it "redirects to user's posts" do 
+        expect(request).to redirect_to(user_posts_url(user))
       end
     end
 
+    context 'with invalid attributes' do
+      let(:post_attributes) { attributes_for(:post, user_id: user.id, image: nil, image_data: nil) }
+      let(:sample_post)     { Post.new(post_attributes) }
 
+      it "doesn't create a new post record" do
+        expect { request }.to_not change(Post, :count)
+      end
+
+      it 'rerenders form' do
+        expect(request).to render_template(:new)
+      end
+
+      it 'keeps the input data' do
+        request
+        expect(assigns(:post).attributes).to include(sample_post.attributes)
+      end
+    end
   end
+
+  describe 'PATCH/PUT #update' do
+    let(:post_to_edit)        { create(:post, user_id: user.id) }
+    let(:post_new_attributes) { attributes_for(:post, :simulate_form_upload, user_id: user.id) }
+    let(:request_params)      { { user_id: user.id, post: post_to_edit.attributes, id: post_to_edit.id } }
+    let(:request)             { put :update, params: request_params }
+    let(:sample_post)         { Post.new(post_new_attributes) }
+
+    context 'with valid attributes' do
+      it 'changes attributes of edited post' do
+        request
+        expect(assigns(:post).attributes).to include(sample_post.attributes)
+      end
+    end
+  end
+
 end
