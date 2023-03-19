@@ -97,6 +97,11 @@ RSpec.describe PostsController, type: :controller do
       it "redirects to user's posts" do 
         expect(request).to redirect_to(user_posts_url(user))
       end
+
+      it 'sets a flash notice' do
+        request
+        expect(flash[:notice]).to eq('Post was successfully created.')
+      end
     end
 
     context 'with invalid attributes' do
@@ -119,17 +124,47 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'PATCH/PUT #update' do
-    let(:post_to_edit)        { create(:post, user_id: user.id) }
-    let(:post_new_attributes) { attributes_for(:post, :simulate_form_upload, user_id: user.id) }
-    let(:request_params)      { { user_id: user.id, post: post_to_edit.attributes, id: post_to_edit.id } }
-    let(:request)             { put :update, params: request_params }
-    let(:sample_post)         { Post.new(post_new_attributes) }
+    let(:original_post)  { create(:post, user_id: user.id) }
+    let(:new_attributes) { attributes_for(:post, :simulate_form_upload, user_id: user.id) }
+    let(:updated_post)   { Post.new(new_attributes) }
+    let(:request_params) { { user_id: user.id, post: new_attributes, id: original_post.id } }
+    let(:request)        { put :update, params: request_params }
 
     context 'with valid attributes' do
-      it 'changes attributes of edited post' do
+      it 'assigns updated attributes to the post' do
         request
-        expect(assigns(:post).attributes).to include(sample_post.attributes)
+        expect(assigns(:post).caption).to eq(updated_post.caption)
+        expect(assigns(:post).image.metadata).to eq(updated_post.image.metadata)
       end
+
+      it 'redirects to user posts' do
+        expect(request).to redirect_to user_posts_url(user.id)
+      end
+
+      it 'sets a flash notice' do
+        request
+        expect(flash[:notice]).to eq('Post was successfully updated.')
+      end
+    end
+
+    context 'with invalid attributes' do
+      let(:new_attributes) { attributes_for(:post, caption: nil, image: nil, image_data: nil, user_id: user.id) }
+
+      it "doesn't update the post record" do
+        request
+        expect(assigns(:post).caption).to_not eq(new_attributes['caption'])
+        expect(assigns(:post).image).to_not eq(new_attributes['image'])
+      end
+
+      it 'rerenders form' do
+        expect(request).to render_template(:edit)
+      end
+
+      it 'keeps the input data' do
+        request
+        expect(assigns(:post).attributes).to include(new_attributes)
+      end
+
     end
   end
 
