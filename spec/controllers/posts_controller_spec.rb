@@ -83,7 +83,6 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  # TODO
   describe 'POST #create' do
     let(:post_attributes) { attributes_for(:post, :simulate_form_upload, user_id: user.id) }
     let(:request_params)  { { user_id: user.id, post: post_attributes } }
@@ -148,7 +147,7 @@ RSpec.describe PostsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:new_attributes) { attributes_for(:post, caption: nil, image: nil, image_data: nil, user_id: user.id) }
+      let(:new_attributes) { attributes_for(:post, :with_too_long_caption_only, user_id: user.id) }
 
       it "doesn't update the post record" do
         request
@@ -157,15 +156,19 @@ RSpec.describe PostsController, type: :controller do
       end
 
       it 'rerenders form' do
+        request
         expect(request).to render_template(:edit)
       end
 
       it 'keeps the input data' do
         request
-        expect(assigns(:post).attributes).to include(new_attributes)
+        expect(assigns(:post).caption).to eq(updated_post.caption)
       end
 
+      it 'adds error' do
+        request
+        expect(assigns(:post).errors.inspect).to include('#<ActiveModel::Error attribute=caption, type=too_long, options={:count=>2200}>')
+      end
     end
   end
-
 end

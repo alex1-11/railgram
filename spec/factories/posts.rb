@@ -31,5 +31,10 @@ FactoryBot.define do
         )
       end
     end
+    trait :with_too_long_caption_only do
+      caption { FFaker::Lorem.characters(3000) }
+      image { nil }
+      image_data { nil }
+    end
   end
 end
