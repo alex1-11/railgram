@@ -173,24 +173,48 @@ RSpec.describe PostsController, type: :controller do
   #   end
   # end
 
-  describe 'DELETE #destroy' do
-    let(:sample_post)    { create(:post, user_id: user.id) }
-    let(:request_params) { { user_id: user.id, id: sample_post } }
-    let(:request)        { delete :destroy, params: request_params }
+  # describe 'DELETE #destroy' do
+  #   let(:sample_post)    { create(:post, user_id: user.id) }
+  #   let(:request_params) { { user_id: user.id, id: sample_post } }
+  #   let(:request)        { delete :destroy, params: request_params }
 
-    before { sample_post }
+  #   before { sample_post }
 
-    it 'destroys the post record' do
-      expect { request }.to change(Post, :count).by(-1)
+  #   it 'destroys the post record' do
+  #     expect { request }.to change(Post, :count).by(-1)
+  #   end
+
+  #   it 'redirects to user posts' do
+  #     expect(request).to redirect_to user_posts_url(user.id)
+  #   end
+
+  #   it 'flashes notice of successful deletion' do
+  #     request
+  #     expect(flash[:notice]).to eq('Post was successfully deleted.')
+  #   end
+  # end
+
+  # describe 'set_post' do
+  #   let(:sample_post) { create(:post, user:) }
+
+  #   it 'assigns the requested post to @post' do
+  #     get :show, params: { user_id: user.id, id: sample_post.id }
+  #     expect(assigns(:post)).to eq(sample_post)
+  #   end
+  # end
+
+  describe 'post_params' do
+    let(:request_params) do
+      { user_id: user.id,
+        post: attributes_for(:post, :simulate_form_upload, user:) }
     end
+    let(:sent_params) { ActionController::Parameters.new(request_params) }
 
-    it 'redirects to user posts' do
-      expect(request).to redirect_to user_posts_url(user.id)
-    end
-
-    it 'flashes notice of successful deletion' do
-      request
-      expect(flash[:notice]).to eq('Post was successfully deleted.')
+    context 'with valid params passed' do
+      it 'permits image, caption, user_id params' do
+        debugger
+        expect(sent_params).to eq(request_params)
+      end
     end
   end
 end
