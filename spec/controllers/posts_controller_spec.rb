@@ -5,6 +5,8 @@ RSpec.describe PostsController, type: :controller do
 
   before { sign_in user }
 
+  # it { should use_before_action(:set_post) }
+
   # describe 'GET #index' do
   #   context 'user has no posts' do
   #     it 'assigns nil posts' do
@@ -204,17 +206,15 @@ RSpec.describe PostsController, type: :controller do
   # end
 
   describe 'post_params' do
-    let(:request_params) do
+    # Tested via shoulda_matchers gem (more about matcher `permit`: https://github.com/thoughtbot/shoulda-matchers/blob/main/lib/shoulda/matchers/action_controller/permit_matcher.rb)
+    let(:sample_params) do
       { user_id: user.id,
         post: attributes_for(:post, :simulate_form_upload, user:) }
     end
-    let(:sent_params) { ActionController::Parameters.new(request_params) }
 
-    context 'with valid params passed' do
-      it 'permits image, caption, user_id params' do
-        debugger
-        expect(sent_params).to eq(request_params)
-      end
+    it do
+      should permit(:image, :caption, :user_id)
+        .for(:create, params: sample_params)
     end
   end
 end
