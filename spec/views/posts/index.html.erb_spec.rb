@@ -4,7 +4,6 @@ RSpec.describe 'posts/index', type: :view do
   subject            { rendered }
   let(:user)         { create :user }
   let(:sample_posts) { create_list(:post, 5, user:) }
-  let(:sp) { create :post, user:}
 
   before do
     sign_in user
