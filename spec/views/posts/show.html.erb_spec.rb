@@ -23,6 +23,4 @@ RSpec.describe 'posts/show', type: :view do
     expect(rendered).to have_selector('a[data-turbo-method="delete"]' \
       '[data-turbo-confirm="Are sure you want to delete this post?"]')
   end
-  
-  
 end
