@@ -13,7 +13,7 @@ RSpec.describe 'posts/index', type: :view do
 
   it { should have_link('New post', href: new_user_post_path(user)) }
   it { should have_selector('h1', text: 'My posts') }
-  
+
   it 'renders all the posts using "_post" partial' do
     expect(view).to render_template(partial: '_post', count: 5)
   end

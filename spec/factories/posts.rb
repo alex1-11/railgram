@@ -2,7 +2,6 @@ require_relative 'test_data'
 
 FactoryBot.use_parent_strategy = false # config for auto creation of User record
 FactoryBot.define do
-
   factory :post do
     # Association with user factory to fill in user_id parameter (see https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md#build-strategies-1)
     user
@@ -31,10 +30,17 @@ FactoryBot.define do
         )
       end
     end
+
     trait :with_too_long_caption_only do
-      caption { FFaker::Lorem.characters(3000) }
-      image { nil }
-      image_data { nil }
+      caption     { FFaker::Lorem.characters(3000) }
+      image       { nil }
+      image_data  { nil }
+    end
+
+    trait :empty do
+      caption     { nil }
+      image       { nil }
+      image_data  { nil }
     end
   end
 end
