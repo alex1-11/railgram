@@ -27,5 +27,9 @@
 
 /public/assets
 
+# TODO: probably should remove this on deploy?
+/public/uploads/*
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+coverage

@@ -61,6 +61,11 @@ test:
   <<: *default
   database: railgram_test
 
+  # Config for database_cleaner-active_record gem to filter out noisy notices
+  # with Postgre database (see https://github.com/DatabaseCleaner/database_cleaner-active_record#common-errors)
+  adapter: postgresql
+  min_messages: WARNING
+
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.

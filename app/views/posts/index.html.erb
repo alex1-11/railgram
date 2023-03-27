@@ -1,0 +1,14 @@
+<br/><br/>
+
+<%= link_to "New post", new_user_post_path(current_user) %>
+
+<h1>My posts</h1>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <%= render post %>
+    <p>
+      <%= link_to "Show this post", user_post_path(current_user, post) %>
+    </p>
+  <% end %>
+</div>

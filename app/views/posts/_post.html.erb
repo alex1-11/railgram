@@ -1,0 +1,7 @@
+<div id="<%= dom_id post %>">
+  <%= image_tag post.image_url(:post_size) %>
+  <p>
+    <strong><%= post.user.name %> </strong>
+    <%= post.caption %>
+  </p>
+</div>
