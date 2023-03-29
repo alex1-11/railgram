@@ -8,6 +8,7 @@ RSpec.describe 'posts/index', type: :view do
   before do
     sign_in user
     assign(:posts, sample_posts)
+    assign(:user, user)
     render
   end
 

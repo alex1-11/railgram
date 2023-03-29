@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     @user = User.find(params[:id])
-    redirect_to user_posts_url(@user)
+    redirect_to user_posts_path(@user)
   end
 
   # GET /users/new

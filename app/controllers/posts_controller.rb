@@ -3,7 +3,8 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = current_user.posts
+    @user = User.find(params[:user_id])
+    @posts = @user.posts
   end
 
   # GET /posts/1
