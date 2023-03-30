@@ -1,15 +1,16 @@
 <div>
   <h1>Account information</h1>
-  <p>Name: <%= current_user.name %></p>
-  <p>Email: <%= current_user.email %></p>
-
-  <%
-=begin%>
- <%= # render "form", user: @user %> 
-<%
-=end%>
-  
-  <%= link_to "Change password", edit_user_password_path %> 
+  <p>
+    Name: <%= current_user.name %> 
+    <%= link_to 'Change' %>
+  </p>
+  <p>
+    Email: <%= current_user.email %> 
+    <%= link_to 'Change' %>
+  </p>
+  <p>
+    <%= link_to "Change password", edit_user_registration_path %> 
+  </p>
 
 </div>
 
