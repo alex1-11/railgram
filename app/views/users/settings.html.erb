@@ -16,9 +16,8 @@
 
 <div>
   <h1>Danger zone</h1>
-    <%= link_to "Delete my account and all the posts permanently (no undo!)", user_path(current_user),
-      data: {
-        turbo_method: 'delete',
-        turbo_confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!"
-      } %>
+    <%= button_to "Delete my account and all the posts permanently (no undo!)", user_path(current_user),
+      data: { turbo_confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!",
+              confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!" },
+      method: 'delete' %>
 </div>
