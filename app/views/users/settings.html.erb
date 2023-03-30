@@ -1,23 +1,14 @@
 <div>
-  <h1>Account information</h1>
-  <p>
-    Name: <%= current_user.name %> 
-    <%= link_to 'Change' %>
-  </p>
-  <p>
-    Email: <%= current_user.email %> 
-    <%= link_to 'Change' %>
-  </p>
-  <p>
-    <%= link_to "Change password", edit_user_registration_path %> 
-  </p>
-
+  <h2>Account information</h2>
+  <p>Name: <%= current_user.name %></p>
+  <p>Email: <%= current_user.email %></p>
+  <p><%= link_to "Change password", edit_user_registration_path %></p>
 </div>
 
 <div>
-  <h1>Danger zone</h1>
+  <h2>Danger zone</h2>
     <%= button_to "Delete my account and all the posts permanently (no undo!)", user_path(current_user),
-      data: { turbo_confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!",
-              confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!" },
+      data: { confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!",
+              turbo_confirm: "Are really sure you want to delete your account and all the posts you made?\nThis action CAN NOT BE UNDONE!" },
       method: 'delete' %>
 </div>

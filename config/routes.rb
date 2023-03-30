@@ -7,5 +7,5 @@ Rails.application.routes.draw do
     resources :posts
   end
 
-  get 'settings', to: 'users#settings', as: 'settings'
+  get 'settings', to: 'users#settings', as: 'user_settings'
 end
