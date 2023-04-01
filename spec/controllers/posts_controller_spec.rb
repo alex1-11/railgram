@@ -52,16 +52,32 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:sample_post) { create(:post, user: user) }
+    context 'user accesses own post' do
+      let(:sample_post) { create(:post, user:) }
 
-    it "assigns user's post" do
-      get :show, params: { user_id: user.id, id: sample_post.id }
-      expect(assigns(:post)).to eq(sample_post)
+      it "assigns user's post" do
+        get :show, params: { user_id: user.id, id: sample_post.id }
+        expect(assigns(:post)).to eq(sample_post)
+      end
+
+      it 'renders show template' do
+        get :show, params: { user_id: user.id, id: sample_post.id }
+        expect(response).to render_template(:show)
+      end
     end
 
-    it 'renders show template' do
-      get :show, params: { user_id: user.id, id: sample_post.id }
-      expect(response).to render_template(:show)
+    context "user accesses other user's post" do
+      let(:sample_post) { create(:post) }
+
+      it "assigns user's post" do
+        get :show, params: { user_id: sample_post.user_id, id: sample_post.id }
+        expect(assigns(:post)).to eq(sample_post)
+      end
+
+      it 'renders show template' do
+        get :show, params: { user_id: sample_post.user_id, id: sample_post.id }
+        expect(response).to render_template(:show)
+      end
     end
   end
 
