@@ -11,7 +11,7 @@ RSpec.describe PostsController, type: :controller do
     let(:sample_post) { create(:post, user:) }
 
     it 'assigns the requested post to @post' do
-      get :show, params: { user_id: user.id, id: sample_post.id }
+      get :edit, params: { user_id: user.id, id: sample_post.id }
       expect(assigns(:post)).to eq(sample_post)
     end
   end
@@ -30,38 +30,65 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'GET #index' do
+    let(:request) { get :index, params: { user_id: user.id } }
+
+    before { request }
+
+    it { should render_template(:index) }
+
     context 'user has no posts' do
-      it 'assigns nil posts' do
-        get :index, params: { user_id: user.id }
-        expect(assigns(:@posts)).to be_nil
+      it 'assigns empty posts collection' do
+        expect(assigns(:posts)).to be_empty
       end
     end
 
-    context 'user has posts' do
-      it "assigns user's posts" do
-        create_list(:post, 3, user: user)
-        get :index, params: { user_id: user.id }
+    context 'user has some posts' do
+      it "assigns user and user's posts" do
+        create_list(:post, 3, user:)
+        expect(assigns(:user)).to eq(user)
         expect(assigns(:posts)).to eq(user.posts)
       end
     end
 
-    it 'renders index template' do
-      get :index, params: { user_id: user.id }
-      expect(response).to render_template(:index)
+    context "user accesses other user's posts" do
+      let(:other_user)   { create :user }
+      let(:sample_posts) { create_list(:post, 3, user: other_user) }
+      let(:request)      { get :index, params: { user_id: other_user.id } }
+
+      it 'assigns other user and his/her posts' do
+        expect(assigns(:user)).to eq(other_user)
+        expect(assigns(:posts)).to eq(other_user.posts)
+      end
     end
   end
 
   describe 'GET #show' do
-    let(:sample_post) { create(:post, user: user) }
+    context 'user accesses own post' do
+      let(:sample_post) { create(:post, user:) }
 
-    it "assigns user's post" do
-      get :show, params: { user_id: user.id, id: sample_post.id }
-      expect(assigns(:post)).to eq(sample_post)
+      it "assigns user's post" do
+        get :show, params: { user_id: user.id, id: sample_post.id }
+        expect(assigns(:post)).to eq(sample_post)
+      end
+
+      it 'renders show template' do
+        get :show, params: { user_id: user.id, id: sample_post.id }
+        expect(response).to render_template(:show)
+      end
     end
 
-    it 'renders show template' do
-      get :show, params: { user_id: user.id, id: sample_post.id }
-      expect(response).to render_template(:show)
+    context "user accesses other user's post" do
+      let(:sample_post) { create(:post) }
+
+      it "assigns user's post" do
+        get :show, params: { user_id: sample_post.user_id, id: sample_post.id }
+        expect(assigns(:post)).to eq(sample_post)
+      end
+
+      it 'renders show template' do
+        get :show, params: { user_id: sample_post.user_id, id: sample_post.id }
+        expect(response).to render_template(:show)
+      end
     end
   end
 

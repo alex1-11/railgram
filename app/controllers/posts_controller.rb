@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[show edit update destroy]
+  before_action :set_post, only: %i[edit update destroy]
 
   # GET /posts
   def index
@@ -9,6 +9,8 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
+    @user = User.find(params[:user_id])
+    @post = @user.posts.find(params[:id])
   end
 
   # GET /posts/new
