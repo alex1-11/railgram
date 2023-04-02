@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+Sample testing images by Thorsten Schulze from Pixabay (https://pixabay.com/users/thorsten1970-11841595/)
