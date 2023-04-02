@@ -23,9 +23,10 @@ RSpec.describe 'posts/show', type: :view do
     it { should have_selector("form[action='#{user_post_path(author, sample_post)}']") }
     it { should have_button('Destroy this post') }
 
-    it 'destroy button has turbo attributes' do
+    it 'destroy button inside form has turbo attributes' do
       expect(subject).to have_selector(
-        'button[data-turbo-confirm="Are sure you want to delete this post?"]'\
+        "form[action='#{user_post_path(author, sample_post)}']"\
+        '>button[data-turbo-confirm="Are sure you want to delete this post?"]'\
         '[data-confirm="Are sure you want to delete this post?"]'\
         '[type="submit"]'
       )

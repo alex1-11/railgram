@@ -13,12 +13,11 @@
   <body>
     <%= render 'shared/navbar' %>
     <% if notice %>
-      <p class="alert alert-succes"><%= notice %></p>
+      <p class="alert alert-success"><%= notice %></p>
     <% end %>
-    <% if notice %>
+    <% if alert %>
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
     <%= yield %>
-    <%= console %>
   </body>
 </html>
