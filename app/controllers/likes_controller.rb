@@ -17,11 +17,12 @@ class LikesController < ApplicationController
   private
 
   def like_params
-    params.permit(:id)
+    debugger
+    params.require(:post).permit(:post_id)
   end
 
   def update_like_toggle
-    @post = Post.find(like_params)
+    @post = Post.all.find(like_params)
     render turbo_stream:
       turbo_stream.replace(
         'like_toggle',
