@@ -35,7 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_03_125922) do
 
   create_table "users", force: :cascade do |t|
     t.string "email", limit: 256, default: "", null: false
-    t.string "password"
     t.string "name", limit: 30, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
