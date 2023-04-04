@@ -1,7 +1,7 @@
 <div id="<%= dom_id post %>">
   <%= image_tag post.image_url(:post_size) %>
 
-  <%= render 'likes/like_toggle', post: post %>
+  <%= render 'likes/like_toggle', post: %>
 
   <p>
     <strong><%= post.user.name %> </strong>

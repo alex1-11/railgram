@@ -1,9 +1,9 @@
-<%= turbo_frame_tag "like_toggle" do %>
+<%= turbo_frame_tag "like_toggle_#{post.id}" do %>
   <p>
-    <% if post.liking_users.find_by(id: current_user.id) %>
-      <%= button_to "Unlike | #{post.likes.count}", like_path(:post, post), method: :delete %>
+    <% if post.likes.find_by(user_id: current_user.id) %>
+      <%= button_to "Unlike | #{post.likes.count}", like_path(post.likes.find_by(user_id: current_user.id)), method: :delete, params: { post_id: post.id } %>
     <% else %>
-      <%= button_to "Like | #{post.likes.count}", likes_path(:post, post), method: :post %>
+      <%= button_to "Like | #{post.likes.count}", likes_path, method: :post, params: { post_id: post.id } %>
     <% end %>
   </p>
 <% end %>

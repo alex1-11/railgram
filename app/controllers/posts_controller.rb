@@ -5,12 +5,14 @@ class PostsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts
+    # FIXME: @posts_likes = @posts.map { |post| { post.id => post.likes.find_by(user_id: current_user.id) } }
   end
 
   # GET /posts/1
   def show
     @user = User.find(params[:user_id])
     @post = @user.posts.find(params[:id])
+    # FIXME: @post_like = @post.likes.find_by(user_id: current_user.id)
   end
 
   # GET /posts/new

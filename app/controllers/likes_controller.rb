@@ -1,31 +1,33 @@
-# TODO: Make turbo frame and replace with `render` partial
-# See https://www.youtube.com/watch?v=lnSJ01chhG4&ab_channel=Deanin
-# And https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials
 class LikesController < ApplicationController
+  before_action :set_post
+
   def create
-    @like = current_user.likes.build(like_params)
+    @like = current_user.likes.build(post_id: @post.id)
     @like.save
     update_like_toggle
   end
 
   def destroy
-    @like = current_user.likes.find_by(post_id: like_params)
+    @like = current_user.likes.find(like_params[:id])
     @like.destroy
     update_like_toggle
   end
 
   private
 
+  def set_post
+    @post = Post.all.find(like_params[:post_id])
+  end
+
   def like_params
-    debugger
-    params.require(:post).permit(:post_id)
+    params.permit(:post_id, :id)
   end
 
   def update_like_toggle
-    @post = Post.all.find(like_params)
+    # Renders new like toggle without refreshing the page (Solution by Deanin https://www.youtube.com/watch?v=lnSJ01chhG4&ab_channel=Deanin)
     render turbo_stream:
       turbo_stream.replace(
-        'like_toggle',
+        "like_toggle_#{@post.id}",
         partial: 'likes/like_toggle',
         locals: { post: @post }
       )
