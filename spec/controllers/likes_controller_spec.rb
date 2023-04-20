@@ -55,6 +55,14 @@ RSpec.describe LikesController, type: :controller do
         should receive(:update_like_toggle)
         request
       end
+
+      it 'updates turbo-frame via turbo-stream' do
+        request
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq Mime[:turbo_stream]
+        expect(response).to render_template(layout: false)
+        expect(response.body).to include('<turbo-stream action="replace"', "target=\"like_toggle_#{sample_post.id}\">")
+      end
     end
 
     context "when trying to forge other user's like" do
@@ -87,6 +95,14 @@ RSpec.describe LikesController, type: :controller do
     it do
       should receive(:update_like_toggle)
       request
+    end
+
+    it 'updates turbo-frame via turbo-stream' do
+      request
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq Mime[:turbo_stream]
+      expect(response).to render_template(layout: false)
+      expect(response.body).to include('<turbo-stream action="replace"', "target=\"like_toggle_#{sample_post.id}\">")
     end
   end
 end
