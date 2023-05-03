@@ -5,9 +5,11 @@ Rails.application.routes.draw do
   resources :users, only: %i[show destroy] do
     resources :posts, only: :index
   end
-
-  resources :posts, only: %i[show new create edit update destroy]
   get 'settings', to: 'users#settings', as: 'user_settings'
+
+  resources :posts, only: %i[show new create edit update destroy] do
+    resources :comments, only: %i[index create destroy]
+  end
 
   resources :likes, only: %i[create destroy]
 end
