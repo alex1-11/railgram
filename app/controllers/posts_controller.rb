@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[edit update destroy]
 
-  # GET /posts
+  # GET /users/:user_id/posts
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts
@@ -10,8 +10,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    @user = User.find(params[:user_id])
-    @post = @user.posts.find(params[:id])
+    @post = Post.find(params[:id])
     # FIXME: join tables or @post_like = @post.likes.find_by(user_id: current_user.id)
   end
 
@@ -46,7 +45,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to user_posts_url, notice: "Post was successfully deleted."
+    redirect_to user_posts_url(current_user), notice: "Post was successfully deleted."
   end
 
   private

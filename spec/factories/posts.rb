@@ -9,7 +9,7 @@ FactoryBot.define do
     # Generates random paragraph with character length limit
     caption { FFaker::Lorem.paragraphs.join }
 
-    # Allows to choose which image version to build (default: 'valid')
+    # Allows to pass key to choose which image version to build (default: 'valid') using preset TestData module for testing images
     transient do
       version { 'valid' }
     end

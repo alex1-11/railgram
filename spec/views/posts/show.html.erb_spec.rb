@@ -19,13 +19,13 @@ RSpec.describe 'posts/show', type: :view do
     end
 
     it { should have_link("Back to #{author.name}'s posts", href: user_posts_path(author)) }
-    it { should have_link('Edit this post', href: edit_user_post_path(author, sample_post)) }
-    it { should have_selector("form[action='#{user_post_path(author, sample_post)}']") }
+    it { should have_link('Edit this post', href: edit_post_path(sample_post)) }
+    it { should have_selector("form[action='#{post_path(sample_post)}']") }
     it { should have_button('Destroy this post') }
 
     it 'destroy button inside form has turbo attributes' do
       expect(subject).to have_selector(
-        "form[action='#{user_post_path(author, sample_post)}']"\
+        "form[action='#{post_path(sample_post)}']"\
         '>button[data-turbo-confirm="Are sure you want to delete this post?"]'\
         '[data-confirm="Are sure you want to delete this post?"]'\
         '[type="submit"]'
