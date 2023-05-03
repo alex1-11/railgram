@@ -1,0 +1,14 @@
+<p>
+  <strong><%= @post.user.name %> </strong>
+  <%= @post.caption %>
+</p>
+
+<h2>Comments</h2>
+
+<div id="comments">
+  <% @comments.each do |comment| %>
+    <%= render comment %>
+  <% end %>
+</div>
+
+<%= link_to "New comment", new_post_comment_path %>

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'settings', to: 'users#settings', as: 'user_settings'
 
   resources :posts, only: %i[show new create edit update destroy] do
-    resources :comments, only: %i[index create destroy]
+    resources :comments, only: %i[index new create destroy]
   end
 
   resources :likes, only: %i[create destroy]
