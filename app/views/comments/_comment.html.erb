@@ -1,8 +1,14 @@
 <div id="<%= dom_id comment %>">
 
   <p>
-    <strong><%= comment.user.name %> </strong>
-    <%= comment.text %>
+    <strong>
+      <%= comment.user.name %> 
+    </strong>
+    <%= comment.text %><br>
+    <span title='<%= comment.created_at.localtime.to_fs(:long) %>'>
+      <%= time_ago_in_words(comment.created_at) %> ago
+    </span>
   </p>
+
 
 </div>

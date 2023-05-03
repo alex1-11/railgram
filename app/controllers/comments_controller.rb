@@ -3,19 +3,14 @@ class CommentsController < ApplicationController
   def index
     @post = Post.find(params[:post_id])
     @comments = @post.comments
-  end
-
-  # GET /comments/new
-  def new
-    # @post = Post.find(params[:post_id])
-    @comment = current_user.comments.build(post_id: params[:post_id])
+    @new_comment = @post.comments.build(user_id: current_user.id)
   end
 
   # POST /comments
   def create
     @comment = current_user.comments.build(comment_params)
     if @comment.save
-      redirect_to comment_url(@comment), notice: 'You commented the post.'
+      redirect_to post_comments_url(@comment.post), notice: 'You commented the post.'
     else
       render :new, status: :unprocessable_entity
     end
