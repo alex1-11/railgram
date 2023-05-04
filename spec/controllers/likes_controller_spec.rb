@@ -88,6 +88,7 @@ RSpec.describe LikesController, type: :controller do
     let(:request)         { delete :destroy, params: request_params }
 
     before { like }
+
     it 'destroys the like record' do
       expect { request }.to change(Like, :count).by(-1)
     end
