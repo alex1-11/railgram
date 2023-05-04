@@ -4,11 +4,20 @@
     <strong>
       <%= comment.user.name %> 
     </strong>
-    <%= comment.text %><br>
     <span title='<%= comment.created_at.localtime.to_fs(:long) %>'>
       <%= time_ago_in_words(comment.created_at) %> ago
     </span>
-  </p>
+    <br>
 
+    <%= comment.text %>
+    <br>
+
+    <% if current_user == comment.user || current_user == comment.post.user %>
+      <%= button_to 'x', post_comment_path(comment.post, comment),
+        data: { turbo_confirm: 'Delete this comment?',
+                confirm: 'Delete this comment?' },
+        method: 'delete' %>
+    <% end %>
+  </p>
 
 </div>

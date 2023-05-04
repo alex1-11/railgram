@@ -19,11 +19,11 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   def destroy
     @comment = Comment.find(params[:id])
-    if current_user == comment.user || current_user == comment.post.user
+    if current_user == @comment.user || current_user == @comment.post.user
       @comment.destroy
-      redirect_to comments_url, notice: 'Comment was successfully destroyed.'
+      redirect_to post_comments_url(@comment.post), notice: 'Comment was deleted.'
     else
-      redirect_to post_url(comment.post), warning: "You can't delete this comment!"
+      redirect_to post_comments_url(@comment.post), warning: "You can't delete this comment!"
     end
   end
 
