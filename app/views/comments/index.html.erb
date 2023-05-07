@@ -1,8 +1,11 @@
-<%= link_to 'Back to post', post_comments_path(@post) %>
-<p>
-  <strong><%= @post.user.name %> </strong>
-  <%= @post.caption %>
-</p>
+<%= link_to 'Back to post', post_path(@post) %>
+
+<div id="caption">
+  <p>
+    <strong><%= @post.user.name %> </strong>
+    <%= @post.caption %>
+  </p>
+</div>
 
 <h2>Comments</h2>
 
