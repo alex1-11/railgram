@@ -3,9 +3,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
   resources :users, only: %i[show destroy] do
-    resources :posts
+    resources :posts, only: :index
+  end
+  get 'settings', to: 'users#settings', as: 'user_settings'
+
+  resources :posts, only: %i[show new create edit update destroy] do
+    resources :comments, only: %i[index create destroy]
   end
 
-  get 'settings', to: 'users#settings', as: 'user_settings'
   resources :likes, only: %i[create destroy]
 end

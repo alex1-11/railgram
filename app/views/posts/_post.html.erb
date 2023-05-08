@@ -7,4 +7,14 @@
     <strong><%= post.user.name %> </strong>
     <%= post.caption %>
   </p>
+  
+  <p>
+    <%= link_to pluralize(post.comments.count, 'Comment'), post_comments_path(post) %>
+  </p>
+
+  <p>
+    <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
+      <%= time_ago_in_words(post.created_at) %> ago
+    </span>
+  </p>
 </div>

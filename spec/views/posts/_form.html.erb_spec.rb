@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 RSpec.describe 'posts/_form', type: :view do
@@ -15,7 +14,7 @@ RSpec.describe 'posts/_form', type: :view do
   it { should have_selector('label[for="post_caption"]', text: 'Caption') }
 
   context 'creating new post' do
-    it { should have_selector("form[action='#{url_for([user, sample_post])}'][method='post']") }
+    it { should have_selector("form[action='#{url_for(sample_post)}'][method='post']") }
     it { should have_selector("input[name='post[caption]'][type='text']") }
     it { should have_selector('input[type="submit"][value="Create Post"]') }
   end
@@ -23,7 +22,7 @@ RSpec.describe 'posts/_form', type: :view do
   context 'updating existing post' do
     let(:sample_post) { create(:post, user:) }
 
-    it { should have_selector("form[action='#{user_post_path(user, sample_post)}'][method='post']") }
+    it { should have_selector("form[action='#{post_path(sample_post)}'][method='post']") }
     it { should have_selector('input[name="_method"][type="hidden"][value="patch"]', visible: false) }
     it { should have_selector("input[name='post[caption]'][type='text'][value='#{sample_post.caption}']") }
     it { should have_selector('input[type="submit"][value="Update Post"]') }

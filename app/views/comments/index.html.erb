@@ -1,0 +1,18 @@
+<%= link_to 'Back to post', post_path(@post) %>
+
+<div id="caption">
+  <p>
+    <strong><%= @post.user.name %> </strong>
+    <%= @post.caption %>
+  </p>
+</div>
+
+<h2>Comments</h2>
+
+<div id="comments">
+  <% @comments.each do |comment| %>
+    <%= render comment if comment.id %>
+  <% end %>
+</div>
+
+<%= render 'form', comment: @new_comment %>

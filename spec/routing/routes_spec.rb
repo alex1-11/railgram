@@ -47,28 +47,28 @@ RSpec.describe 'Routes', type: :routing do
     end
 
     it 'routes to posts#show' do
-      expect(get: '/users/1/posts/1').to route_to(controller: 'posts', action: 'show', user_id: '1', id: '1')
+      expect(get: '/posts/1').to route_to(controller: 'posts', action: 'show', id: '1')
     end
 
     it 'routes to posts#new' do
-      expect(get: '/users/1/posts/new').to route_to(controller: 'posts', action: 'new', user_id: '1')
+      expect(get: '/posts/new').to route_to(controller: 'posts', action: 'new')
     end
 
     it 'routes to posts#edit' do
-      expect(get: '/users/1/posts/1/edit').to route_to(controller: 'posts', action: 'edit', user_id: '1', id: '1')
+      expect(get: '/posts/1/edit').to route_to(controller: 'posts', action: 'edit', id: '1')
     end
 
     it 'routes to posts#create' do
-      expect(post: '/users/1/posts').to route_to(controller: 'posts', action: 'create', user_id: '1')
+      expect(post: '/posts').to route_to(controller: 'posts', action: 'create')
     end
 
     it 'routes to posts#update' do
-      expect(patch: '/users/1/posts/1').to route_to(controller: 'posts', action: 'update', user_id: '1', id: '1')
-      expect(put: '/users/1/posts/1').to route_to(controller: 'posts', action: 'update', user_id: '1', id: '1')
+      expect(patch: '/posts/1').to route_to(controller: 'posts', action: 'update', id: '1')
+      expect(put: '/posts/1').to route_to(controller: 'posts', action: 'update', id: '1')
     end
 
     it 'routes to posts#destroy' do
-      expect(delete: '/users/1/posts/1').to route_to(controller: 'posts', action: 'destroy', user_id: '1', id: '1')
+      expect(delete: '/posts/1').to route_to(controller: 'posts', action: 'destroy', id: '1')
     end
   end
 

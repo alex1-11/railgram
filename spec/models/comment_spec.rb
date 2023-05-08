@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Like, type: :model do
-  subject { build(:like) }
+RSpec.describe Comment, type: :model do
+  subject { build :comment }
 
   describe 'association' do
     it { should belong_to(:user) }
@@ -18,11 +18,25 @@ RSpec.describe Like, type: :model do
 
     context 'with nil user data' do
       before { subject.user_id = nil }
+
       it { should be_invalid }
     end
 
     context 'with nil post data' do
       before { subject.post_id = nil }
+
+      it { should be_invalid }
+    end
+
+    context 'with nil text data' do
+      before { subject.text = nil }
+
+      it { should be_invalid }
+    end
+
+    context 'with too long text data' do
+      subject { build :comment, :with_too_long_text }
+
       it { should be_invalid }
     end
   end
