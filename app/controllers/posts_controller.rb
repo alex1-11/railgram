@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /users/:user_id/posts
   def index
     @user = User.find(params[:user_id])
-    @posts = @user.posts
+    @posts = @user.posts.order(created_at: :desc)
     # FIXME: join tables or @posts_likes = @posts.map { |post| { post.id => post.likes.find_by(user_id: current_user.id) } }
   end
 
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      redirect_to user_posts_url(@post), notice: "Post was successfully updated."
+      redirect_to post_path(@post), notice: "Post was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
