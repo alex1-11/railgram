@@ -10,7 +10,8 @@ class User < ApplicationRecord
   has_many :passive_relations, class_name: 'Relation',
                                foreign_key: 'followed_id',
                                dependent: :destroy
-  has_many :following, through: :active_relations, source: :followed
+  has_many :following, through: :active_relations,  source: :followed
+  has_many :followers, through: :passive_relations, source: :follower
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

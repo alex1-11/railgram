@@ -65,28 +65,38 @@ RSpec.describe User, type: :model do
 
     describe 'relations' do
       let(:user)     { create :user }
-      let(:user2)    { create :user }
-      let(:relation) { build(:relation, follower: user, followed: user2) }
+      let(:blogger)  { create :user }
+      let(:relation) { create(:relation, follower: user, followed: blogger) }
+
+      before { relation }
 
       it 'shows users which the user is following' do
-        relation.save
+        expect(user.following).to include(blogger)
         relation2 = create(:relation, follower: user)
-        expect(user.following).to include(user2)
         expect(user.following).to include(relation2.followed)
-        expect(user.following).to eq([user2, relation2.followed])
+        expect(user.following).to eq([blogger, relation2.followed])
       end
 
       it 'shows followers of the user' do
+        expect(blogger.followers).to include(user)
+        relation2 = create(:relation, followed: blogger)
+        expect(blogger.followers).to include(relation2.follower)
+        expect(blogger.followers).to eq([user, relation2.follower])
       end
 
       it 'follows/unfollows a user, creating/destroying a relation' do
-        expect(user2.follows?(user)).to be_falsey
+        relation.destroy
+        expect(user.follows?(blogger)).to be_falsey
+        expect(blogger.followers).to_not include(user)
 
-        expect { user2.follow(user) }.to change(Relation, :count).by(1)
-        expect(user2.follows?(user)).to be_truthy
+        expect { user.follow(blogger) }.to change(Relation, :count).by(1)
+        expect(user.follows?(blogger)).to be_truthy
+        blogger.reload
+        expect(blogger.followers).to include(user)
 
-        expect { user2.unfollow(user) }.to change(Relation, :count).by(-1)
-        expect(user2.follows?(user)).to be_falsey
+        expect { user.unfollow(blogger) }.to change(Relation, :count).by(-1)
+        expect(user.follows?(blogger)).to be_falsey
+        expect(blogger.followers).to_not include(user)
       end
     end
   end
