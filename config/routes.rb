@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :relations
   devise_for :users
   # Defines the root path route ("/")
   root "home#index"
@@ -13,4 +12,5 @@ Rails.application.routes.draw do
   end
 
   resources :likes, only: %i[create destroy]
+  resources :relations, only: %i[index create destroy]
 end

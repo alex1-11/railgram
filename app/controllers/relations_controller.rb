@@ -1,70 +1,53 @@
 class RelationsController < ApplicationController
-  before_action :set_relation, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[create destroy]
 
-  # GET /relations or /relations.json
+  # FIXME: GET /relations
   def index
     @relations = Relation.all
   end
 
-  # GET /relations/1 or /relations/1.json
-  def show
-  end
-
-  # GET /relations/new
-  def new
-    @relation = Relation.new
-  end
-
-  # GET /relations/1/edit
-  def edit
-  end
-
-  # POST /relations or /relations.json
+  # POST /relations
+  # TODO: make impossible to follow yourself
   def create
-    @relation = Relation.new(relation_params)
-
-    respond_to do |format|
-      if @relation.save
-        format.html { redirect_to relation_url(@relation), notice: "Relation was successfully created." }
-        format.json { render :show, status: :created, location: @relation }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @relation.errors, status: :unprocessable_entity }
-      end
-    end
+    @relation = current_user.follow(@user)
+    update_follow_toggle
   end
 
-  # PATCH/PUT /relations/1 or /relations/1.json
-  def update
-    respond_to do |format|
-      if @relation.update(relation_params)
-        format.html { redirect_to relation_url(@relation), notice: "Relation was successfully updated." }
-        format.json { render :show, status: :ok, location: @relation }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @relation.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /relations/1 or /relations/1.json
+  # DELETE /relations/1
+  # FIXME: check parameters passed to controller
+    # ActiveRecord::RecordNotFound (Couldn't find User without an ID):
+    # app/controllers/relations_controller.rb:29:in `set_user'
   def destroy
+    @relation = current_user.active_relations.find(@user)
     @relation.destroy
-
-    respond_to do |format|
-      format.html { redirect_to relations_url, notice: "Relation was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    update_follow_toggle
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_relation
-      @relation = Relation.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def relation_params
-      params.require(:relation).permit(:follower_id, :followed_id)
-    end
+  def set_user
+    @user = User.find(relation_params[:followed_id])
+  end
+
+  def relation_params
+    params.permit(:followed_id, :id)
+  end
+
+  # FIXME
+  def update_follow_toggle
+    # Renders new follow toggle without refreshing the page
+    @user.reload
+    render turbo_stream:
+      turbo_stream.replace(
+        "followers_count",
+        partial: 'relations/followers_counter',
+        locals: { relation: @relation, user: @user }
+      )
+      # FIXME: does this get executed?
+      turbo_stream.replace(
+        "follow_toggle",
+        partial: 'relations/follow_toggle',
+        locals: { relation: @relation, user: @user }
+      )
+  end
 end

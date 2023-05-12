@@ -2,13 +2,7 @@
 
 <%= link_to "New post", new_post_path %>
 
-<h1>
-  <% if @user == current_user %>
-    My posts:
-  <% else %>
-    <%= @user.name %> posted:
-  <% end %>
-</h1>
+<%= render 'users/profile', user: @user %>
 
 <div id="posts">
   <% @posts.each do |post| %>
