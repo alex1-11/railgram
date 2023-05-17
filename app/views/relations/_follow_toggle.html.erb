@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "follow_toggle" do %>
   <p>
     <% if current_user.follows?(user) %>
-      <%= button_to "Unfollow", relation_path(relation), method: :delete, params: { relation_id: relation.id } %>
+      <%= button_to "Unfollow", relation_path(relation), method: :delete, params: { followed_id: user.id, id: relation.id } %>
     <% else %>
       <%= button_to "Follow", relations_path, method: :post, params: { followed_id: user.id } %>
     <% end %>

@@ -14,12 +14,9 @@ class RelationsController < ApplicationController
   end
 
   # DELETE /relations/1
-  # FIXME: check parameters passed to controller
-    # ActiveRecord::RecordNotFound (Couldn't find User without an ID):
-    # app/controllers/relations_controller.rb:29:in `set_user'
   def destroy
-    @relation = current_user.active_relations.find(@user)
-    @relation.destroy
+    relation = current_user.active_relations.find(relation_params[:id])
+    relation.destroy
     update_follow_toggle
   end
 
