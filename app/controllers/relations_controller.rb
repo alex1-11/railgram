@@ -35,16 +35,16 @@ class RelationsController < ApplicationController
     # Renders new follow toggle without refreshing the page
     @user.reload
     render turbo_stream:
-      turbo_stream.replace(
+      [turbo_stream.replace(
         "followers_count",
         partial: 'relations/followers_counter',
         locals: { relation: @relation, user: @user }
-      )
-      # FIXME: does this get executed?
-      turbo_stream.replace(
+      ),
+       # FIXME: does this get executed?
+       turbo_stream.replace(
         "follow_toggle",
         partial: 'relations/follow_toggle',
         locals: { relation: @relation, user: @user }
-      )
+      )]
   end
 end
