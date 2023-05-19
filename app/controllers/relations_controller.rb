@@ -7,16 +7,14 @@ class RelationsController < ApplicationController
   end
 
   # POST /relations
-  # TODO: make impossible to follow yourself
   def create
-    @relation = current_user.follow(@user)
+    @relation = current_user.follow(@user) if current_user != @user
     update_follow_toggle
   end
 
   # DELETE /relations/1
   def destroy
-    relation = current_user.active_relations.find(relation_params[:id])
-    relation.destroy
+    current_user.unfollow(@user)
     update_follow_toggle
   end
 
@@ -30,21 +28,20 @@ class RelationsController < ApplicationController
     params.permit(:followed_id, :id)
   end
 
-  # FIXME
   def update_follow_toggle
     # Renders new follow toggle without refreshing the page
-    @user.reload
     render turbo_stream:
-      [turbo_stream.replace(
-        "followers_count",
-        partial: 'relations/followers_counter',
-        locals: { relation: @relation, user: @user }
-      ),
-       # FIXME: does this get executed?
-       turbo_stream.replace(
-        "follow_toggle",
-        partial: 'relations/follow_toggle',
-        locals: { relation: @relation, user: @user }
-      )]
+      [
+        turbo_stream.replace(
+          'followers_counter',
+          partial: 'relations/followers_counter',
+          locals: { relation: @relation, user: @user }
+        ),
+        turbo_stream.replace(
+          'follow_toggle',
+          partial: 'relations/follow_toggle',
+          locals: { relation: @relation, user: @user }
+        )
+      ]
   end
 end
