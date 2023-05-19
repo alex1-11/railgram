@@ -1,10 +1,5 @@
 class RelationsController < ApplicationController
-  before_action :set_user, only: %i[create destroy]
-
-  # FIXME: GET /relations
-  def index
-    @relations = Relation.all
-  end
+  before_action :set_user
 
   # POST /relations
   def create
@@ -29,7 +24,7 @@ class RelationsController < ApplicationController
   end
 
   def update_follow_toggle
-    # Renders new follow toggle without refreshing the page
+    # Renders new follow counter and toggle without refreshing the page
     render turbo_stream:
       [
         turbo_stream.replace(

@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   root "home#index"
   resources :users, only: %i[show destroy] do
     resources :posts, only: :index
+    member do
+      get 'followers'
+      get 'following'
+    end
   end
+  get 'feed', to: 'users#feed', as: 'feed'
   get 'settings', to: 'users#settings', as: 'user_settings'
 
   resources :posts, only: %i[show new create edit update destroy] do
@@ -12,5 +17,5 @@ Rails.application.routes.draw do
   end
 
   resources :likes, only: %i[create destroy]
-  resources :relations, only: %i[index create destroy]
+  resources :relations, only: %i[create destroy]
 end
