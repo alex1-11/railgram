@@ -2,7 +2,7 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <% if post %>
+    <% if post.present? %>
       <%= render post %>
       <p>
         <%= link_to "Show this post", post_path(post) %>

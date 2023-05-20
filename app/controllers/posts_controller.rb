@@ -49,8 +49,8 @@ class PostsController < ApplicationController
   end
 
   def feed
-    # FIXME
-    @posts = current_user.following.includes(:posts).map(&:posts)
+    following_ids = current_user.following_ids
+    @posts = Post.where(user_id: following_ids).order(created_at: :desc)
   end
 
   private

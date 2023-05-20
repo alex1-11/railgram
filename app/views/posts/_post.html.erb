@@ -4,7 +4,7 @@
   <%= render 'likes/like_toggle', post: %>
 
   <p>
-    <strong><%= post.user.name %> </strong>
+    <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
     <%= post.caption %>
   </p>
   
