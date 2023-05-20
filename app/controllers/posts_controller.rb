@@ -48,6 +48,11 @@ class PostsController < ApplicationController
     redirect_to user_posts_url(current_user), notice: "Post was successfully deleted."
   end
 
+  def feed
+    # FIXME
+    @posts = current_user.following.includes(:posts).map(&:posts)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

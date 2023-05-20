@@ -23,11 +23,6 @@ class UsersController < ApplicationController
     @following = @user.following
   end
 
-  def feed
-    # FIXME
-    @posts = current_user.following.includes(:posts).map(&:posts)
-  end
-
   private
 
   def set_user

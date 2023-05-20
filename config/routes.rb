@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   # Defines the root path route ("/")
   root "home#index"
+
   resources :users, only: %i[show destroy] do
     resources :posts, only: :index
     member do
@@ -9,12 +10,14 @@ Rails.application.routes.draw do
       get 'following'
     end
   end
-  get 'feed', to: 'users#feed', as: 'feed'
+
   get 'settings', to: 'users#settings', as: 'user_settings'
 
   resources :posts, only: %i[show new create edit update destroy] do
     resources :comments, only: %i[index create destroy]
   end
+
+  get 'feed', to: 'posts#feed', as: 'feed'
 
   resources :likes, only: %i[create destroy]
   resources :relations, only: %i[create destroy]
