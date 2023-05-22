@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
-  let(:user) { create(:user) }
+  let(:user) { create :user }
 
   before { sign_in user }
 
@@ -248,6 +248,26 @@ RSpec.describe PostsController, type: :controller do
     it 'flashes notice of successful deletion' do
       request
       expect(flash[:notice]).to eq('Post was successfully deleted.')
+    end
+  end
+
+  # FIXME
+  describe 'feed' do
+    let(:blogger1)  { create :user }
+    let(:blogger2)  { create :user }
+    let(:posts1)    { create_list(:post, 3, user: blogger1) }
+    let(:posts2)    { create_list(:post, 3, user: blogger2) }
+    let(:relation1) { create(:relation, follower: user, followed: blogger1) }
+    let(:relation2) { create(:relation, follower: user, followed: blogger2) }
+    let(:request)   { get :feed }
+
+    before { request }
+    it 'assigns all posts of followed users to @posts instance variable' do
+      posts_collection = [posts1, posts2]
+      expect(assigns(:posts)).to match_array(posts_collection)
+    end
+    it 'puts posts at descending order from fresh to old' do
+
     end
   end
 end
