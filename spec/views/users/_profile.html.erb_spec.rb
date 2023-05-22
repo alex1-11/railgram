@@ -15,7 +15,7 @@ RSpec.describe 'users/_profile', type: :view do
   it { should have_selector('div', text: '0 Posts') }
   it { should have_selector('div', text: '0 Followers') }
   it { should render_template(partial: 'relations/_followers_counter', count: 1) }
-  it { should have_link('0 Following', href: "#{following_user_path(user)}") }
+  it { should have_link('0 Following', href: following_user_path(user).to_s) }
   it { should have_selector('div', text: '0 Following') }
 
   context 'own profile' do
@@ -37,6 +37,6 @@ RSpec.describe 'users/_profile', type: :view do
 
     it { should have_selector('div', text: '5 Posts') }
     it { should have_selector('div', text: '4 Followers') }
-    it { should have_link('3 Following', href: "#{following_user_path(user)}") }
+    it { should have_link('3 Following', href: following_user_path(user).to_s) }
   end
 end
