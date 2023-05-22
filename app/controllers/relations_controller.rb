@@ -4,13 +4,13 @@ class RelationsController < ApplicationController
   # POST /relations
   def create
     @relation = current_user.follow(@user) if current_user != @user
-    update_follow_toggle
+    replace_follow_elements
   end
 
   # DELETE /relations/1
   def destroy
     current_user.unfollow(@user)
-    update_follow_toggle
+    replace_follow_elements
   end
 
   private
@@ -23,7 +23,7 @@ class RelationsController < ApplicationController
     params.permit(:followed_id, :id)
   end
 
-  def update_follow_toggle
+  def replace_follow_elements
     # Renders new follow counter and toggle without refreshing the page
     render turbo_stream:
       [
