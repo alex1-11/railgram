@@ -52,11 +52,11 @@ RSpec.describe LikesController, type: :controller do
       end
 
       it do
-        should receive(:update_like_toggle)
+        should receive(:replace_like_toggle)
         request
       end
 
-      it 'updates turbo-frame via turbo-stream' do
+      it 'replaces turbo-frame via turbo-stream' do
         request
         expect(response).to have_http_status(:ok)
         expect(response.media_type).to eq Mime[:turbo_stream]
@@ -76,7 +76,7 @@ RSpec.describe LikesController, type: :controller do
       end
 
       it do
-        should receive(:update_like_toggle)
+        should receive(:replace_like_toggle)
         request
       end
     end
@@ -94,11 +94,11 @@ RSpec.describe LikesController, type: :controller do
     end
 
     it do
-      should receive(:update_like_toggle)
+      should receive(:replace_like_toggle)
       request
     end
 
-    it 'updates turbo-frame via turbo-stream' do
+    it 'replaces turbo-frame via turbo-stream' do
       request
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq Mime[:turbo_stream]
