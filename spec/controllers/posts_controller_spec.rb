@@ -46,7 +46,13 @@ RSpec.describe PostsController, type: :controller do
       it "assigns user and user's posts" do
         create_list(:post, 3, user:)
         expect(assigns(:user)).to eq(user)
-        expect(assigns(:posts)).to eq(user.posts)
+        expect(assigns(:posts)).to match_array(user.posts)
+      end
+
+      it 'assigns posts in descending order of creation datetime' do
+        create_list(:post, 3, user:)
+        expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
+        expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
       end
     end
 
@@ -187,8 +193,8 @@ RSpec.describe PostsController, type: :controller do
         expect(assigns(:post).image.metadata).to eq(updated_post.image.metadata)
       end
 
-      it 'redirects to user posts' do
-        expect(request).to redirect_to user_posts_url(user.id)
+      it 'redirects to updated post' do
+        expect(request).to redirect_to post_path(original_post)
       end
 
       it 'sets a flash notice' do
