@@ -31,7 +31,10 @@ class User < ApplicationRecord
 
   # Follows user and creates relation record if not existed yet, returns relation
   def follow(other_user)
-    following << other_user unless follows?(other_user)
+    return false if self == other_user
+    return false if follows?(other_user)
+
+    following << other_user
     Relation.find_by(follower: self, followed: other_user)
   end
 

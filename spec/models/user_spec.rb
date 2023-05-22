@@ -64,8 +64,9 @@ RSpec.describe User, type: :model do
     it { should have_many(:following) }
 
     describe 'relations' do
-      let(:user)     { create :user }
-      let(:blogger)  { create :user }
+      let(:user)    { create :user }
+      let(:blogger) { create :user }
+
       let(:relation) { create(:relation, follower: user, followed: blogger) }
 
       before { relation }
@@ -97,6 +98,16 @@ RSpec.describe User, type: :model do
         expect { user.unfollow(blogger) }.to change(Relation, :count).by(-1)
         expect(user.follows?(blogger)).to be_falsey
         expect(blogger.followers).to_not include(user)
+      end
+
+      it 'restricts double following' do
+        expect { user.follow(blogger) }.to_not change(Relation, :count)
+        expect(user.follow(blogger)).to be_falsey
+      end
+
+      it 'restricts self following' do
+        expect { user.follow(user) }.to_not change(Relation, :count)
+        expect(user.follow(user)).to be_falsey
       end
     end
   end
