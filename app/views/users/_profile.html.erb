@@ -1,21 +1,23 @@
 <div id="<%= dom_id user %>">
   <h2><%= user.name %></h2>
 
-  <div>
+  <div id='posts_counter'>
     <%= pluralize(user.posts.count, 'Post') %>
   </div>
 
-  <div>
+  <div id='followers_counter_div'>
     <%= render 'relations/followers_counter', user: %>
   </div>
 
-  <div>
+  <div id='following_counter'>
     <%= link_to "#{user.following.count} Following", following_user_path(user) %>
   </div>
 
-  <% if current_user != user %>
-    <%= render 'relations/follow_toggle',
-               user: user,
-               relation: current_user.active_relations.find_by(followed: user) %>
-  <% end %>
+  <div id='follow_toggle_div'>
+    <% if current_user != user %>
+      <%= render 'relations/follow_toggle',
+                user: user,
+                relation: current_user.active_relations.find_by(followed: user) %>
+    <% end %>
+  </div>
 </div>
