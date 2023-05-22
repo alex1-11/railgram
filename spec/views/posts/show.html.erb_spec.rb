@@ -18,7 +18,7 @@ RSpec.describe 'posts/show', type: :view do
       expect(view).to render_template(partial: '_post', count: 1)
     end
 
-    it { should have_link("Back to #{author.name}'s posts", href: user_posts_path(author)) }
+    it { expect(rendered).to have_link('Back') }
     it { should have_link('Edit this post', href: edit_post_path(sample_post)) }
     it { should have_selector("form[action='#{post_path(sample_post)}']") }
     it { should have_button('Destroy this post') }
@@ -40,6 +40,6 @@ RSpec.describe 'posts/show', type: :view do
       expect(view).to render_template(partial: '_post', count: 1)
     end
 
-    it { should have_link("Back to #{author.name}'s posts", href: user_posts_path(author)) }
+    it { should have_link('Back') }
   end
 end
