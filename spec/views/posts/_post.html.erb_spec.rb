@@ -12,7 +12,7 @@ RSpec.describe 'posts/_post', type: :view do
 
   it { should have_selector("div##{dom_id sample_post}") }
   it { should have_selector("img[src='#{sample_post.image_url(:post_size)}']") }
-  it { should have_selector('strong', text: sample_post.user.name.to_s) }
+  it { should have_link(user.name, href: user_path(user)) }
   it { should have_selector('p', text: sample_post.caption.to_s) }
   it do
     should have_selector("span[title='#{sample_post.created_at.localtime.to_fs(:long)}']",
