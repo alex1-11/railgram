@@ -2,14 +2,20 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   let(:user)    { create :user }
-  let(:request) { get :show, params: { id: user.id } }
+  let(:request) {}
 
   before do
     sign_in user
     request
   end
 
+  it { should use_before_action(:set_user) }
+
   describe 'GET #show' do
+    let(:request) { get :show, params: { id: user.id } }
+
+    it { should permit(:id).for(:show, params: { id: user.id }, verb: :get) }
+
     context 'signed in user trying to view his/her own user page' do
       it 'assigns user instance variable with user from request' do
         expect(assigns(:user)).to eq(user)
@@ -66,5 +72,49 @@ RSpec.describe UsersController, type: :controller do
         expect(User.find(other_user.id)).to eq(other_user)
       end
     end
+  end
+
+  describe 'GET #followers' do
+    let(:other_user) { create :user }
+    let(:request)    { get :followers, params: { id: other_user.id } }
+
+    before do
+      create_list(:relation, 3, followed: other_user)
+      request
+    end
+
+    it { should permit(:id).for(:followers, params: { id: other_user.id }, verb: :get) }
+
+    it 'assigns user instance variable with user from request' do
+      expect(assigns(:user)).to eq(other_user)
+    end
+
+    it 'assigns user followers to @followers' do
+      expect(assigns(:followers)).to match_array(other_user.followers)
+    end
+
+    it { should render_template(:followers) }
+  end
+
+  describe 'GET #following' do
+    let(:other_user) { create :user }
+    let(:request)    { get :following, params: { id: other_user.id } }
+
+    before do
+      create_list(:relation, 3, follower: other_user)
+      request
+    end
+
+    it { should permit(:id).for(:following, params: { id: other_user.id }, verb: :get) }
+
+    it 'assigns user instance variable with user from request' do
+      expect(assigns(:user)).to eq(other_user)
+    end
+
+    it 'assigns user following to @following' do
+      expect(assigns(:following)).to match_array(other_user.following)
+    end
+
+    it { should render_template(:following) }
   end
 end
