@@ -251,7 +251,6 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  # FIXME
   describe 'feed' do
     let(:blogger1)  { create :user }
     let(:blogger2)  { create :user }
@@ -261,13 +260,23 @@ RSpec.describe PostsController, type: :controller do
     let(:relation2) { create(:relation, follower: user, followed: blogger2) }
     let(:request)   { get :feed }
 
-    before { request }
+    before do
+      posts1
+      posts2
+      relation1
+      relation2
+      request
+    end
+
     it 'assigns all posts of followed users to @posts instance variable' do
-      posts_collection = [posts1, posts2]
+      posts_collection = posts1.concat posts2
       expect(assigns(:posts)).to match_array(posts_collection)
     end
-    it 'puts posts at descending order from fresh to old' do
 
+    it 'puts posts at descending order from fresh to old' do
+      expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
+      expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
+      expect(assigns(:posts)[3].created_at > assigns(:posts)[5].created_at).to be_truthy
     end
   end
 end
