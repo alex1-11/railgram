@@ -8,9 +8,9 @@ RSpec.describe HomeController, type: :controller do
       let(:user) { create(:user) }
       before { sign_in user }
 
-      it "redirects to user's posts" do
+      it "redirects to user's page" do
         subject
-        expect(response).to redirect_to(user_posts_url(user))
+        expect(response).to redirect_to(user_url(user))
       end
     end
 

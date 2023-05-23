@@ -278,5 +278,7 @@ RSpec.describe PostsController, type: :controller do
       expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
       expect(assigns(:posts)[3].created_at > assigns(:posts)[5].created_at).to be_truthy
     end
+
+    it { should render_template(:feed) }
   end
 end
