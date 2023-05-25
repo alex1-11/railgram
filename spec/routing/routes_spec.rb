@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Routes', type: :routing do
-  describe 'Devise routes' do
+  describe 'Devise routing' do
     it 'routes to devise sessions' do
       expect(get: '/users/sign_in').to route_to(controller: 'devise/sessions', action: 'new')
     end
@@ -15,13 +15,13 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
-  describe 'Home routes' do
+  describe 'Root routing' do
     it 'routes to home#index' do
       expect(get: '/').to route_to(controller: 'home', action: 'index')
     end
   end
 
-  describe 'User routes' do
+  describe 'Users routing' do
     it 'routes to user#show' do
       expect(get: '/users/1').to route_to(controller: 'users', action: 'show', id: '1')
     end
@@ -31,7 +31,7 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
-  describe 'Settings routes' do
+  describe 'Settings routing' do
     it 'routes to user#settings' do
       expect(get: '/settings').to route_to(controller: 'users', action: 'settings')
     end
@@ -41,7 +41,7 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
-  describe 'Post routes' do
+  describe 'Posts routing' do
     it 'routes to posts#index' do
       expect(get: '/users/1/posts').to route_to(controller: 'posts', action: 'index', user_id: '1')
     end
@@ -72,13 +72,50 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
-  describe 'Like routes' do
+  describe 'Likes routing' do
     it 'routes to likes#create' do
       expect(post: '/likes').to route_to(controller: 'likes', action: 'create')
     end
 
     it 'routes to likes#destroy' do
       expect(delete: '/likes/1').to route_to(controller: 'likes', action: 'destroy', id: '1')
+    end
+  end
+
+  describe 'Comments routing' do
+    it 'routes to #index' do
+      expect(get: '/posts/1/comments').to route_to('comments#index', post_id: '1')
+    end
+
+    it 'routes to #create' do
+      expect(post: '/posts/1/comments').to route_to('comments#create', post_id: '1')
+    end
+
+    it 'routes to #destroy' do
+      expect(delete: 'posts/1/comments/1').to route_to('comments#destroy', post_id: '1', id: '1')
+    end
+  end
+
+  describe 'Relations routing' do
+    it 'routes to #create' do
+      expect(post: 'relations').to route_to('relations#create')
+    end
+
+    it 'routes to #destroy' do
+      expect(delete: 'relations/1').to route_to('relations#destroy', id: '1')
+    end
+
+    it 'routes to user#followers' do
+      expect(get: 'users/1/followers').to route_to(controller: 'users', action: 'followers', id: '1')
+    end
+
+    it 'routes to user#following' do
+      expect(get: 'users/1/following').to route_to(controller: 'users', action: 'following', id: '1')
+    end
+
+    it 'routes to posts#feed through "feed" named route' do
+      expect(get: 'feed').to route_to('posts#feed')
+      expect(feed_path).to eq '/feed'
     end
   end
 end

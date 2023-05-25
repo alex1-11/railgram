@@ -1,9 +1,7 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render @post %>
 
 <div>
-  <%= link_to "Back to #{@post.user.name}'s posts", user_posts_path(@post.user) %>
+  <%= link_to "Back", :back %>
   <% if @post.user == current_user %>
      | <%= link_to 'Edit this post', edit_post_path(@post) %>
     <%= button_to 'Destroy this post', post_path(@post),

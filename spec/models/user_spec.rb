@@ -56,7 +56,62 @@ RSpec.describe User, type: :model do
 
   describe 'associations' do
     it { should have_many(:posts) }
+    it { should have_many(:likes) }
+    it { should have_many(:liked_posts) }
+    it { should have_many(:comments) }
+    it { should have_many(:active_relations) }
+    it { should have_many(:passive_relations) }
+    it { should have_many(:following) }
+    it { should have_many(:followers) }
+  end
+
+  describe 'relation helpers' do
+    let(:user)    { create :user }
+    let(:blogger) { create :user }
+
+    let(:relation) { create(:relation, follower: user, followed: blogger) }
+
+    before { relation }
+
+    it 'shows users which the user is following' do
+      expect(user.following).to include(blogger)
+      relation2 = create(:relation, follower: user)
+      expect(user.following).to include(relation2.followed)
+      expect(user.following).to eq([blogger, relation2.followed])
+    end
+
+    it 'shows followers of the user' do
+      expect(blogger.followers).to include(user)
+      relation2 = create(:relation, followed: blogger)
+      expect(blogger.followers).to include(relation2.follower)
+      expect(blogger.followers).to eq([user, relation2.follower])
+    end
+
+    describe 'follow(user) relation helper' do
+      it 'follows/unfollows a user, creating/destroying a relation' do
+        relation.destroy
+        expect(user.follows?(blogger)).to be_falsey
+        expect(blogger.followers).to_not include(user)
+
+        expect { user.follow(blogger) }.to change(Relation, :count).by(1)
+        expect(user.follows?(blogger)).to be_truthy
+        blogger.reload
+        expect(blogger.followers).to include(user)
+
+        expect { user.unfollow(blogger) }.to change(Relation, :count).by(-1)
+        expect(user.follows?(blogger)).to be_falsey
+        expect(blogger.followers).to_not include(user)
+      end
+
+      it 'restricts double following and returns existing relation' do
+        expect { user.follow(blogger) }.to_not change(Relation, :count)
+        expect(user.follow(blogger)).to eq(relation)
+      end
+
+      it 'restricts self following' do
+        expect { user.follow(user) }.to_not change(Relation, :count)
+        expect(user.follow(user)).to be_falsey
+      end
+    end
   end
 end
-
-# TODO: https://github.com/heartcombo/devise/wiki/How-To:-Test-controllers-with-Rails-(and-RSpec)

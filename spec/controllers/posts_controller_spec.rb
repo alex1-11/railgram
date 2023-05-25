@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
-  let(:user) { create(:user) }
+  let(:user) { create :user }
 
   before { sign_in user }
 
@@ -46,7 +46,13 @@ RSpec.describe PostsController, type: :controller do
       it "assigns user and user's posts" do
         create_list(:post, 3, user:)
         expect(assigns(:user)).to eq(user)
-        expect(assigns(:posts)).to eq(user.posts)
+        expect(assigns(:posts)).to match_array(user.posts)
+      end
+
+      it 'assigns posts in descending order of creation datetime' do
+        create_list(:post, 3, user:)
+        expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
+        expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
       end
     end
 
@@ -187,8 +193,8 @@ RSpec.describe PostsController, type: :controller do
         expect(assigns(:post).image.metadata).to eq(updated_post.image.metadata)
       end
 
-      it 'redirects to user posts' do
-        expect(request).to redirect_to user_posts_url(user.id)
+      it 'redirects to updated post' do
+        expect(request).to redirect_to post_path(original_post)
       end
 
       it 'sets a flash notice' do
@@ -243,5 +249,36 @@ RSpec.describe PostsController, type: :controller do
       request
       expect(flash[:notice]).to eq('Post was successfully deleted.')
     end
+  end
+
+  describe 'feed' do
+    let(:blogger1)  { create :user }
+    let(:blogger2)  { create :user }
+    let(:posts1)    { create_list(:post, 3, user: blogger1) }
+    let(:posts2)    { create_list(:post, 3, user: blogger2) }
+    let(:relation1) { create(:relation, follower: user, followed: blogger1) }
+    let(:relation2) { create(:relation, follower: user, followed: blogger2) }
+    let(:request)   { get :feed }
+
+    before do
+      posts1
+      posts2
+      relation1
+      relation2
+      request
+    end
+
+    it 'assigns all posts of followed users to @posts instance variable' do
+      posts_collection = posts1.concat posts2
+      expect(assigns(:posts)).to match_array(posts_collection)
+    end
+
+    it 'puts posts at descending order from fresh to old' do
+      expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
+      expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
+      expect(assigns(:posts)[3].created_at > assigns(:posts)[5].created_at).to be_truthy
+    end
+
+    it { should render_template(:feed) }
   end
 end

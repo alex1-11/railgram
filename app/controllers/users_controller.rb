@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: %i[show followers following]
+  
   # GET /users/1
   def show
-    params.permit(:id)
-    @user = User.find(params[:id])
     redirect_to user_posts_path(@user)
   end
 
@@ -13,5 +13,23 @@ class UsersController < ApplicationController
   def destroy
     current_user.destroy
     redirect_to :root, notice: 'User was successfully destroyed.'
+  end
+
+  def followers
+    @followers = @user.followers
+  end
+
+  def following
+    @following = @user.following
+  end
+
+  private
+
+  def set_user
+    @user = User.find(user_params[:id])
+  end
+
+  def user_params
+    params.permit(:id)
   end
 end

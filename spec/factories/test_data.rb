@@ -20,7 +20,7 @@ module TestData
     file = File.open('spec/support/images/sample_1280x720.jpg', binmode: true)
 
     # Metadata to assign depending on requested file version
-    extract_real_metadata = version == 'real_metadata' # TODO: delete these key and var if no usecases (here and lower)
+    extract_real_metadata = version == 'real_metadata'
 
     common_data = {
       'size' => File.size(file.path),
