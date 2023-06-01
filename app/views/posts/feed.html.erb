@@ -2,11 +2,19 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <% if post.present? %>
+    <%
+=begin%>
+ <% if post.present? %> 
+<%
+=end%>
       <%= render post %>
       <p>
         <%= link_to "Show this post", post_path(post) %>
       </p>
-    <% end %>
+    <%
+=begin%>
+ <% end %> 
+<%
+=end%>
   <% end %>
 </div>

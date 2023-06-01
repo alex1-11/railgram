@@ -2,13 +2,13 @@ class LikesController < ApplicationController
   before_action :set_post
 
   def create
-    @like = current_user.likes.build(post_id: @post.id)
+    @like = @user.likes.build(post_id: @post.id)
     @like.save
     replace_like_toggle
   end
 
   def destroy
-    @like = current_user.likes.find(like_params[:id])
+    @like = @user.likes.find(like_params[:id])
     @like.destroy
     replace_like_toggle
   end
@@ -16,7 +16,8 @@ class LikesController < ApplicationController
   private
 
   def set_post
-    @post = Post.find(like_params[:post_id])
+    @post = Post.includes(:likes).find(like_params[:post_id])
+    @user = current_user
   end
 
   def like_params
@@ -29,7 +30,7 @@ class LikesController < ApplicationController
       turbo_stream.replace(
         "like_toggle_#{@post.id}",
         partial: 'likes/like_toggle',
-        locals: { post: @post }
+        locals: { post: @post, likes: @post.likes, user: @user }
       )
   end
 end
