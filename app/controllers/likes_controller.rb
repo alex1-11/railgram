@@ -10,13 +10,14 @@ class LikesController < ApplicationController
   def destroy
     @like = @user.likes.find(like_params[:id])
     @like.destroy
+    @like = nil
     replace_like_toggle
   end
 
   private
 
   def set_post
-    @post = Post.includes(:likes).find(like_params[:post_id])
+    @post = Post.find(like_params[:post_id])
     @user = current_user
   end
 
@@ -26,11 +27,12 @@ class LikesController < ApplicationController
 
   def replace_like_toggle
     # Renders new like toggle without refreshing the page (Solution by Deanin https://www.youtube.com/watch?v=lnSJ01chhG4&ab_channel=Deanin)
+    @post.reload
     render turbo_stream:
       turbo_stream.replace(
         "like_toggle_#{@post.id}",
         partial: 'likes/like_toggle',
-        locals: { post: @post, likes: @post.likes, user: @user }
+        locals: { post: @post, like: @like }
       )
   end
 end

@@ -10,11 +10,10 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    @user = current_user
-    @post = Post.includes(:likes, :comments).find(params[:id])
-    @own_post = @post.user == @user
-    # @liked = @post.liking_users.find(@user.id)
-    # FIXME: join tables or @post_like = @post.likes.find_by(user_id: current_user.id)
+    viewer = current_user
+    @post = Post.includes(:user).find(params[:id])
+    @own_post = @post.user_id == viewer.id
+    @like = @post.likes.find_by(user_id: viewer.id)
   end
 
   # GET /posts/new

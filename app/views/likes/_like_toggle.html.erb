@@ -1,15 +1,15 @@
 <%= turbo_frame_tag "like_toggle_#{post.id}" do %>
   <p>
-    <% if likes.any? { |like| like.user_id == user.id } %>
-      <%= button_to "Unlike", like_path(likes.find_by(user_id: user.id)), method: :delete, params: { post_id: post.id } %>
+    <% if like %>
+      <%= button_to "Unlike", like_path(like), method: :delete, params: { post_id: post.id } %>
     <% else %>
       <%= button_to "Like", likes_path, method: :post, params: { post_id: post.id } %>
     <% end %>
   </p>
 
-  <% if likes.count > 0 %>
+  <% if post.likes_count > 0 %>
     <p>
-      <%= pluralize(likes.count, 'Like') %>
+      <%= pluralize(post.likes_count, 'Like') %>
     </p>
   <% end %>
 <% end %>
