@@ -7,12 +7,16 @@ RSpec.describe LikesController, type: :controller do
 
   before { sign_in user }
 
-  it { should use_before_action(:set_post) }
+  it { should use_before_action(:set_post_and_viewer) }
 
-  describe 'set_post' do
+  describe 'set_post_and_viewer' do
     it 'assigns the liked post to @post' do
       post :create, params: { user_id: user.id, post_id: sample_post.id }
       expect(assigns(:post)).to eq(sample_post)
+    end
+    it 'assigns the current_user to @viewer' do
+      post :create, params: { user_id: user.id, post_id: sample_post.id }
+      expect(assigns(:viewer)).to eq(user)
     end
   end
 

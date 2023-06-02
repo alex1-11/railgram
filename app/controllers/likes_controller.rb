@@ -1,14 +1,14 @@
 class LikesController < ApplicationController
-  before_action :set_post
+  before_action :set_post_and_viewer
 
   def create
-    @like = @user.likes.build(post_id: @post.id)
+    @like = @viewer.likes.build(post_id: @post.id)
     @like.save
     replace_like_toggle
   end
 
   def destroy
-    @like = @user.likes.find(like_params[:id])
+    @like = @viewer.likes.find(like_params[:id])
     @like.destroy
     @like = nil
     replace_like_toggle
@@ -16,9 +16,9 @@ class LikesController < ApplicationController
 
   private
 
-  def set_post
+  def set_post_and_viewer
     @post = Post.find(like_params[:post_id])
-    @user = current_user
+    @viewer = current_user
   end
 
   def like_params
