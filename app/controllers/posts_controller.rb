@@ -10,9 +10,8 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
-    viewer = current_user
     @post = Post.includes(:user).find(params[:id])
-    @own_post = @post.user_id == viewer.id
+    @own_post = @post.user_id == @viewer.id
     @like = @post.likes.find_by(user_id: viewer.id)
   end
 
@@ -59,7 +58,8 @@ class PostsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = current_user.posts.find(params[:id])
+    @viewer = current_user
+    @post = viewer.posts.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
