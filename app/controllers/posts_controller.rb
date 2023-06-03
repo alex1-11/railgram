@@ -1,11 +1,12 @@
 class PostsController < ApplicationController
+  before_action :set_viewer
   before_action :set_post, only: %i[edit update destroy]
 
   # GET /users/:user_id/posts
   def index
-    @user = User.find(params[:user_id])
+    @user = User.includes(:posts).find(params[:user_id])
     @posts = @user.posts.order(created_at: :desc)
-    # FIXME: join tables or @posts_likes = @posts.map { |post| { post.id => post.likes.find_by(user_id: current_user.id) } }
+    @liked_posts = @viewer.liked_posts
   end
 
   # GET /posts/1
@@ -17,7 +18,7 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = current_user.posts.build
+    @post = @viewer.posts.build
   end
 
   # GET /posts/1/edit
@@ -26,9 +27,9 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = current_user.posts.build(post_params)
+    @post = @viewer.posts.build(post_params)
     if @post.save
-      redirect_to user_posts_url(current_user), notice: "Post was successfully created."
+      redirect_to user_posts_url(@viewer), notice: "Post was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -46,20 +47,22 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to user_posts_url(current_user), notice: "Post was successfully deleted."
+    redirect_to user_posts_url(@viewer), notice: "Post was successfully deleted."
   end
 
   def feed
-    following_ids = current_user.following_ids
+    following_ids = @viewer.following_ids
     @posts = Post.where(user_id: following_ids).order(created_at: :desc)
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_post
+  def set_viewer
     @viewer = current_user
-    @post = viewer.posts.find(params[:id])
+  end
+
+  def set_post
+    @post = @viewer.posts.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
