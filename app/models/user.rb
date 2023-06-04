@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  after_initialize :set_default_counter_cache_values
+
   has_many :posts, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_posts, through: :likes, source: :post
@@ -45,5 +47,11 @@ class User < ApplicationRecord
     else
       false
     end
+  end
+
+  def set_default_counter_cache_values
+    self.posts_count ||= 0
+    self.followers_count ||= 0
+    self.following_count ||= 0
   end
 end

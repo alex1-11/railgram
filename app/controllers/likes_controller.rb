@@ -4,7 +4,7 @@ class LikesController < ApplicationController
   def create
     @like = @viewer.likes.build(post_id: @post.id)
     @like.save
-    @likes << @like
+    @likes = [] << @like
     replace_like_toggle
   end
 
