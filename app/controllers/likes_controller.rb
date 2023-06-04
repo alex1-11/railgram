@@ -11,6 +11,7 @@ class LikesController < ApplicationController
     @like = @viewer.likes.find(like_params[:id])
     @like.destroy
     @like = nil
+    @likes = nil
     replace_like_toggle
   end
 

@@ -1,6 +1,7 @@
 <%= render partial: 'posts/post', 
            locals: { post: @post,
-                     like: @like } %>
+                     likes: @likes,
+                     viewer: @viewer } %>
 
 <div>
   <%= link_to "Back", :back %>

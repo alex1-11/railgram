@@ -4,16 +4,16 @@ class PostsController < ApplicationController
 
   # GET /users/:user_id/posts
   def index
-    @user = User.includes(:posts).find(params[:user_id])
+    @user = User.find(params[:user_id])
     @posts = @user.posts.order(created_at: :desc)
-    @liked_posts = @viewer.liked_posts
+    @likes = @viewer.likes
   end
 
   # GET /posts/1
   def show
     @post = Post.includes(:user).find(params[:id])
     @own_post = @post.user_id == @viewer.id
-    @like = @post.likes.find_by(user_id: viewer.id)
+    @likes = @viewer.likes
   end
 
   # GET /posts/new

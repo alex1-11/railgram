@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "like_toggle_#{post.id}" do %>
   <p>
-    <% if like %>
+    <% if like |= likes.find {|l| l.post_id == post.id} %>
       <%= button_to "Unlike", like_path(like), method: :delete, params: { post_id: post.id } %>
     <% else %>
       <%= button_to "Like", likes_path, method: :post, params: { post_id: post.id } %>

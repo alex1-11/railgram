@@ -6,7 +6,10 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <%= render post %>
+    <%= render partial: 'posts/post', 
+           locals: { post:,
+                     viewer: @viewer,
+                     likes: @likes } %>
     <p>
       <%= link_to "Show this post", post_path(post) %>
     </p>
