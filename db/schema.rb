@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_04_130220) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_04_165810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,8 +40,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_04_130220) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "image_data", null: false
-    t.bigint "likes_count", default: 0
-    t.bigint "comments_count", default: 0
+    t.bigint "likes_count", default: 0, null: false
+    t.bigint "comments_count", default: 0, null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -64,9 +64,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_04_130220) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.bigint "posts_count", default: 0
-    t.bigint "followers_count", default: 0
-    t.bigint "following_count", default: 0
+    t.bigint "posts_count", default: 0, null: false
+    t.bigint "followers_count", default: 0, null: false
+    t.bigint "following_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
