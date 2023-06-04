@@ -4,6 +4,7 @@ class LikesController < ApplicationController
   def create
     @like = @viewer.likes.build(post_id: @post.id)
     @like.save
+    @likes << @like
     replace_like_toggle
   end
 
@@ -11,7 +12,7 @@ class LikesController < ApplicationController
     @like = @viewer.likes.find(like_params[:id])
     @like.destroy
     @like = nil
-    @likes = nil
+    @likes = []
     replace_like_toggle
   end
 
@@ -33,7 +34,7 @@ class LikesController < ApplicationController
       turbo_stream.replace(
         "like_toggle_#{@post.id}",
         partial: 'likes/like_toggle',
-        locals: { post: @post, like: @like }
+        locals: { post: @post, like: @like, likes: @likes }
       )
   end
 end
