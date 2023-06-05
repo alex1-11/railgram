@@ -2,7 +2,7 @@
 
   <p>
     <strong>
-      <%= comment.user.name %> 
+      <%= comment.user.name %>
     </strong>
     <span title='<%= comment.created_at.localtime.to_fs(:long) %>'>
       <%= time_ago_in_words(comment.created_at) %> ago

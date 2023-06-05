@@ -3,12 +3,12 @@ class CommentsController < ApplicationController
 
   # GET /post/:post_id/comments
   def index
-    @new_comment = current_user.comments.build(post_id: params[:post_id])
+    @new_comment = @viewer.comments.build(post_id: params[:post_id])
   end
 
   # POST /post/:post_id/comments
   def create
-    @new_comment = current_user.comments.build(comment_params)
+    @new_comment = @viewer.comments.build(comment_params)
     if @new_comment.save
       redirect_to post_comments_url(@post), notice: 'You commented the post.'
     else
@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
   # DELETE /post/:post_id/comments/:id
   def destroy
     @comment = Comment.find(params[:id])
-    if current_user == @comment.user || current_user == @comment.post.user
+    if @viewer == @comment.user || @viewer == @comment.post.user
       @comment.destroy
       redirect_to post_comments_url(@comment.post), notice: 'Comment was deleted.'
     else
@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
   private
 
   def set_post_comments
-    @post = Post.find(params[:post_id])
+    @post = Post.includes(:user, { comments: :user }).find(params[:post_id])
     @comments = @post.comments
   end
 
