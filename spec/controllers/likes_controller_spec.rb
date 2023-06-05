@@ -98,6 +98,10 @@ RSpec.describe LikesController, type: :controller do
       request
     end
 
+    it 'assigns @like to a nil value' do
+      expect(assigns(:like)).to be_nil
+    end
+
     it 'replaces turbo-frame via turbo-stream' do
       request
       expect(response).to have_http_status(:ok)
