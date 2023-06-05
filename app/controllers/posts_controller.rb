@@ -50,7 +50,7 @@ class PostsController < ApplicationController
   end
 
   def feed
-    following_ids = @viewer.following_ids
+    following_ids = @viewer.following_ids << @viewer.id
     @posts = Post.includes(:user).where(user_id: following_ids).order(created_at: :desc)
     @likes = @viewer.likes
   end
