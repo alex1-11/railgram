@@ -3,13 +3,13 @@ class RelationsController < ApplicationController
 
   # POST /relations
   def create
-    @relation = current_user.follow(@user) if current_user != @user
+    @relation = @viewer.follow(@user) if @viewer != @user
     replace_follow_elements
   end
 
   # DELETE /relations/1
   def destroy
-    current_user.unfollow(@user)
+    @viewer.unfollow(@user)
     replace_follow_elements
   end
 
@@ -30,12 +30,12 @@ class RelationsController < ApplicationController
         turbo_stream.replace(
           'followers_counter',
           partial: 'relations/followers_counter',
-          locals: { relation: @relation, user: @user }
+          locals: { relation: @relation, user: @user, viewer: @viewer }
         ),
         turbo_stream.replace(
           'follow_toggle',
           partial: 'relations/follow_toggle',
-          locals: { relation: @relation, user: @user }
+          locals: { relation: @relation, user: @user, viewer: @viewer }
         )
       ]
   end

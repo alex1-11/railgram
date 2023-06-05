@@ -16,8 +16,8 @@
   <% if viewer != user %>
     <div id='follow_toggle_div'>
       <%= render 'relations/follow_toggle',
-                user: user,
-                viewer: viewer,
+                user:,
+                viewer:,
                 relation: viewer.active_relations.find_by(followed: user) %>
     </div>
   <% end %>
