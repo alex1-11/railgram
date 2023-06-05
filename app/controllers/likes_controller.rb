@@ -1,5 +1,5 @@
 class LikesController < ApplicationController
-  before_action :set_post_and_viewer
+  before_action :set_post
 
   def create
     @like = @viewer.likes.build(post_id: @post.id)
@@ -18,9 +18,8 @@ class LikesController < ApplicationController
 
   private
 
-  def set_post_and_viewer
+  def set_post
     @post = Post.find(like_params[:post_id])
-    @viewer = current_user
   end
 
   def like_params
