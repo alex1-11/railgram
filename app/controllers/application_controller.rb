@@ -1,11 +1,16 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!, unless: :home_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_viewer
 
   private
 
   def home_controller?
     params[:controller] == 'home'
+  end
+
+  def set_viewer
+    @viewer = current_user
   end
 
   protected

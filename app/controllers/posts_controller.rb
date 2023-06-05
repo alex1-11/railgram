@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  before_action :set_viewer
   before_action :set_post, only: %i[edit update destroy]
 
   # GET /users/:user_id/posts
@@ -52,14 +51,11 @@ class PostsController < ApplicationController
 
   def feed
     following_ids = @viewer.following_ids
-    @posts = Post.where(user_id: following_ids).order(created_at: :desc)
+    @posts = Post.includes(:user).where(user_id: following_ids).order(created_at: :desc)
+    @likes = @viewer.likes
   end
 
   private
-
-  def set_viewer
-    @viewer = current_user
-  end
 
   def set_post
     @post = @viewer.posts.find(params[:id])

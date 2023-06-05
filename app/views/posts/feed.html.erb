@@ -2,19 +2,14 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <%
-=begin%>
- <% if post.present? %> 
-<%
-=end%>
-      <%= render post %>
+    <% if post.present? %> 
+      <%= render partial: 'posts/post', 
+                 locals: { post:,
+                           viewer: @viewer,
+                           likes: @likes } %>
       <p>
         <%= link_to "Show this post", post_path(post) %>
       </p>
-    <%
-=begin%>
- <% end %> 
-<%
-=end%>
+    <% end %> 
   <% end %>
 </div>
