@@ -30,8 +30,8 @@ class CommentsController < ApplicationController
   private
 
   def set_post_comments
-    @post = Post.includes(:user, { comments: :user }).find(params[:post_id])
-    @comments = @post.comments
+    @post = Post.includes(:user).find(params[:post_id])
+    @comments = Comment.includes(:user).where(post_id: @post.id).order(:created_at)
   end
 
   # Only allow a list of trusted parameters through.
