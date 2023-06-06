@@ -49,6 +49,7 @@ class PostsController < ApplicationController
     redirect_to user_posts_url(@viewer), notice: "Post was successfully deleted."
   end
 
+  # GET /feed
   def feed
     following_ids = @viewer.following_ids << @viewer.id
     @posts = Post.includes(:user).where(user_id: following_ids).order(created_at: :desc)
