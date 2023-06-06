@@ -10,6 +10,7 @@ class RelationsController < ApplicationController
   # DELETE /relations/1
   def destroy
     @viewer.unfollow(@user)
+    @user.reload
     replace_follow_elements
   end
 
@@ -30,12 +31,12 @@ class RelationsController < ApplicationController
         turbo_stream.replace(
           'followers_counter',
           partial: 'relations/followers_counter',
-          locals: { relation: @relation, user: @user, viewer: @viewer }
+          locals: { relation: @relation, user: @user }
         ),
         turbo_stream.replace(
           'follow_toggle',
           partial: 'relations/follow_toggle',
-          locals: { relation: @relation, user: @user, viewer: @viewer }
+          locals: { relation: @relation, user: @user }
         )
       ]
   end
