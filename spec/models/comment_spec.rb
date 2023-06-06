@@ -5,10 +5,13 @@ RSpec.describe Comment, type: :model do
 
   describe 'association' do
     it { should belong_to(:user) }
-    it { should belong_to(:post) }
+    it { should belong_to(:post).counter_cache(true) }
   end
 
   describe 'validation' do
+    it { should validate_presence_of(:text) }
+    it { should validate_length_of(:text).is_at_most(2200) }
+
     context 'valid data' do
       it { should be_valid }
       it 'saves to database successfully' do
