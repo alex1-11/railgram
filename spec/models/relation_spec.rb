@@ -15,6 +15,7 @@ RSpec.describe Relation, type: :model do
     it 'requires a follower_id' do
       expect(subject.follower_id).to_not be_nil
       expect(subject).to be_valid
+      should validate_presence_of(:follower_id)
 
       subject.follower_id = nil
       expect(subject).to be_invalid
@@ -24,6 +25,7 @@ RSpec.describe Relation, type: :model do
     it 'requires a followed_id' do
       expect(subject.followed_id).to_not be_nil
       expect(subject).to be_valid
+      should validate_presence_of(:followed_id)
 
       subject.followed_id = nil
       expect(subject).to be_invalid
@@ -32,12 +34,13 @@ RSpec.describe Relation, type: :model do
   end
 
   describe 'association' do
-    it { should belong_to :follower }
-    it { should belong_to :followed }
+    it { should belong_to(:follower).class_name('User').counter_cache(:following_count) }
+    it { should belong_to(:followed).class_name('User').counter_cache(:followers_count) }
 
-    it 'can create active relation between users' do
+    it 'can create active and passive relation between users' do
       subject.save
       expect(user.active_relations.last).to eq(subject)
+      expect(subject.followed.passive_relations.last).to eq(subject)
     end
   end
 end
