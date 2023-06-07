@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "comments/index", type: :view do
+RSpec.describe 'comments/index', type: :view do
   subject                  { rendered }
   let(:user)               { create :user }
   let(:sample_post)        { create :post }
@@ -15,7 +15,7 @@ RSpec.describe "comments/index", type: :view do
     render
   end
 
-  it { should have_link('Back to post', href: post_path(sample_post)) }
+  it { should have_link('Back') }
 
   it "renders post's caption with author name and text" do
     should have_selector('div#caption')
@@ -24,6 +24,8 @@ RSpec.describe "comments/index", type: :view do
   end
 
   it { should have_selector('div#comments') }
-  it { should render_template(partial: '_comment', count: 3) }
-  it { should render_template(partial: '_form', count: 1) }
+  it { should render_template(partial: '_comment', count: 1, locals: { comment: comments[0], post: sample_post }) }
+  it { should render_template(partial: '_comment', count: 1, locals: { comment: comments[1], post: sample_post }) }
+  it { should render_template(partial: '_comment', count: 1, locals: { comment: comments[2], post: sample_post }) }
+  it { should render_template(partial: '_form', count: 1, locals: { comment: new_comment_record, post: sample_post }) }
 end

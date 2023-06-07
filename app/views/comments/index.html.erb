@@ -11,7 +11,7 @@
 
 <div id="comments">
   <% @comments.each do |comment| %>
-    <%= render comment, comment:, post: @post if comment.present? %>
+    <%= render 'comment', comment:, post: @post if comment.present? %>
   <% end %>
 </div>
 
