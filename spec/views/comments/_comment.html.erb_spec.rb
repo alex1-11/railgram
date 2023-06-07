@@ -8,7 +8,8 @@ RSpec.describe 'comments/_comment', type: :view do
 
   before do
     sign_in user
-    render partial: 'comments/comment', locals: { comment: }
+    assign(:viewer, user)
+    render partial: 'comments/comment', locals: { post: sample_post, comment: }
   end
 
   it { should have_selector("div#comment_#{comment.id}") }
@@ -21,13 +22,13 @@ RSpec.describe 'comments/_comment', type: :view do
   end
 
   shared_examples 'deletable comment' do
-    it { should have_selector("form[action='#{post_comment_path(sample_post, comment)}'][method='post']") }
-    it { should have_selector("input[name='_method'][type='hidden'][value='delete']", visible: false) }
+    it { should have_selector("form[method='post'][action='#{post_comment_path(sample_post, comment)}']") }
+    it { should have_selector("input[type='hidden'][name='_method'][value='delete']", visible: false) }
     it do
       should have_selector(
-        "button[type='submit']"\
-        "[data-turbo-confirm='Delete this comment?']"\
-        "[data-confirm='Delete this comment?']",
+        "button[data-turbo-confirm='Delete this comment?']"\
+              "[data-confirm='Delete this comment?']"\
+              "[type='submit']",
         text: 'x'
       )
     end
