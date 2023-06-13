@@ -13,12 +13,11 @@
     <%= link_to "#{user.following_count} Following", following_user_path(user) %>
   </div>
 
-  <% if viewer != user %>
+  <% if @viewer != user %>
     <div id='follow_toggle_div'>
       <%= render 'relations/follow_toggle',
                 user:,
-                viewer:,
-                relation: viewer.active_relations.find_by(followed: user) %>
+                relation: @viewer.active_relations.find_by(followed: user) %>
     </div>
   <% end %>
 </div>

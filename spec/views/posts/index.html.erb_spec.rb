@@ -2,26 +2,49 @@ require 'rails_helper'
 
 RSpec.describe 'posts/index', type: :view do
   subject            { rendered }
-  let(:user)         { create :user }
+  let(:viewer)       { create :user }
+  let(:user)         { viewer }
   let(:sample_posts) { create_list(:post, 5, user:) }
 
   before do
-    sign_in user
-    assign(:posts, sample_posts)
+    sign_in viewer
+    assign(:viewer, viewer)
     assign(:user, user)
+    assign(:posts, sample_posts)
+    assign(:likes, viewer.likes)
     render
   end
 
-  it { should have_link('New post', href: new_post_path) }
+  shared_examples "correct index of user's posts" do
+    it { should have_link('New post', href: new_post_path) }
 
-  it 'renders "users/_profile" partial for requested user' do
-    expect(view).to render_template(partial: 'users/_profile', count: 1)
+    it 'renders "users/_profile" partial for requested user' do
+      expect(view).to render_template(partial: 'users/profile',
+                                      count: 1,
+                                      locals: { user: })
+    end
+
+    it 'renders all the posts using "_post" partial, each with link for show' do
+      expect(view).to render_template(partial: 'posts/post',
+                                      count: 5,
+                                      locals: { likes: user.likes })
+      sample_posts.each do |post|
+        expect(view).to render_template(partial: 'posts/post',
+                                        count: 1,
+                                        locals: { post:,
+                                                  likes: user.likes })
+        should have_link('Show this post', href: post_path(post))
+      end
+    end
   end
 
-  it 'renders all the posts using "_post" partial' do
-    expect(view).to render_template(partial: '_post', count: 5)
+  context 'accessing own profile (viewer == viewed user)' do
+    it_behaves_like "correct index of user's posts"
   end
 
-  it { should have_link('Show this post', href: post_path(sample_posts[0])) }
-  it { should have_link('Show this post', href: post_path(sample_posts[4])) }
+  context "accessing other user's profile" do
+    let(:user) { create :user }
+
+    it_behaves_like "correct index of user's posts"
+  end
 end
