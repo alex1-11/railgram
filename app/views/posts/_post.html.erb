@@ -1,7 +1,7 @@
 <div id="<%= dom_id post %>">
   <%= image_tag post.image_url(:post_size) %>
 
-  <%= render 'likes/like_toggle', post:, viewer:, likes: %>
+  <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
 
   <p>
     <strong><%= link_to post.user.name, user_path(post.user) %> </strong>

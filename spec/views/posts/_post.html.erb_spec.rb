@@ -7,7 +7,8 @@ RSpec.describe 'posts/_post', type: :view do
 
   before do
     sign_in user
-    render partial: 'posts/post', locals: { post: sample_post }
+    assign(:viewer, user)
+    render partial: 'posts/post', locals: { post: sample_post, likes: user.likes }
   end
 
   it { should have_selector("div##{dom_id sample_post}") }
@@ -20,7 +21,7 @@ RSpec.describe 'posts/_post', type: :view do
   end
 
   describe 'connected entities' do
-    it { should render_template(partial: '_like_toggle', count: 1) }
+    it { should render_template(partial: 'likes/like_toggle', count: 1, locals: { post: sample_post, likes: user.likes }) }
     it { should have_link('0 Comments', href: post_comments_path(sample_post)) }
 
     context 'with several comments' do
@@ -28,7 +29,7 @@ RSpec.describe 'posts/_post', type: :view do
 
       before do
         comment
-        render partial: 'posts/post', locals: { post: sample_post }
+        render partial: 'posts/post', locals: { post: sample_post, likes: user.likes }
       end
 
       it { should have_link('3 Comments', href: post_comments_path(sample_post)) }
