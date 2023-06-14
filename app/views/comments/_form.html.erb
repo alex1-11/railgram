@@ -1,7 +1,7 @@
 <div id='new_comment_form'>
   <%= form_with(model: comment, url: post_comments_path(post, comment)) do |form| %>
     <% if comment.errors.any? %>
-      <div style="color: red">
+      <div class="alert alert-danger">
         <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
 
         <ul>
