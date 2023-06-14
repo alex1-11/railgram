@@ -1,18 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe 'likes/_like_toggle', type: :view do
-  subject    { rendered }
-  let(:user) { create :user }
-  let(:post) { create :post }
+  subject     { rendered }
+  let(:user)  { create :user }
+  let(:post)  { create :post }
+  let(:likes) { user.likes }
 
   before do
     sign_in user
-    render partial: 'likes/like_toggle', locals: { post: }
+    assign(:viewer, user)
   end
 
-  it { should have_selector("turbo-frame#like_toggle_#{post.id}") }
+  it do
+    render partial: 'likes/like_toggle', locals: { post:, likes: }
+    should have_selector("turbo-frame#like_toggle_#{post.id}")
+  end
 
   context 'the post has no likes' do
+    before { render partial: 'likes/like_toggle', locals: { post:, likes: } }
+
     it { should have_selector("form[action='#{likes_path}'][method='post']") }
     it { should have_selector("input[name='post_id'][type='hidden'][value='#{post.id}']", visible: false) }
     it { should have_selector("button[type='submit']", text: 'Like') }
@@ -23,11 +29,12 @@ RSpec.describe 'likes/_like_toggle', type: :view do
 
     before do
       like
-      render partial: 'likes/like_toggle', locals: { post: }
+      likes
+      render partial: 'likes/like_toggle', locals: { post:, likes: }
     end
 
-    it { should have_selector("form[action='#{like_path(post.likes.find_by(user_id: user.id))}'][method='post']") }
-    it { should have_selector("input[name='_method'][type='hidden'][value='delete']", visible: false) }
+    it { should have_selector("form[method='post'][action='#{like_path(like)}']") }
+    it { should have_selector("input[type='hidden'][name='_method'][value='delete']", visible: false) }
     it { should have_selector("input[name='post_id'][type='hidden'][value='#{post.id}']", visible: false) }
     it { should have_selector("button[type='submit']", text: 'Unlike') }
     it { should have_selector('p', text: '1 Like') }

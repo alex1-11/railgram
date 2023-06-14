@@ -1,4 +1,4 @@
-<%= link_to 'Back to post', post_path(@post) %>
+<%= link_to 'Back', :back %>
 
 <div id="caption">
   <p>
@@ -11,8 +11,8 @@
 
 <div id="comments">
   <% @comments.each do |comment| %>
-    <%= render comment if comment.id %>
+    <%= render 'comment', comment:, post: @post if comment.present? %>
   <% end %>
 </div>
 
-<%= render 'form', comment: @new_comment %>
+<%= render 'form', comment: @new_comment, post: @post %>

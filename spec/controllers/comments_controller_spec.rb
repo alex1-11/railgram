@@ -59,10 +59,18 @@ RSpec.describe CommentsController, type: :controller do
     let(:request_params) { { post_id: sample_post.id } }
     let(:request)        { get :index, params: request_params }
     let(:comment)        { build(:comment, user:, post: sample_post, text: nil) }
+    let(:comments)       { create_list(:comment, 3, post: sample_post)}
 
     it do
       should receive(:set_post_comments)
       request
+    end
+
+    it 'loads comments in ascending order (from old to new)' do
+      comments
+      request
+      expect(assigns(:comments)[0].created_at < assigns(:comments)[1].created_at).to be_truthy
+      expect(assigns(:comments)[1].created_at < assigns(:comments)[2].created_at).to be_truthy
     end
 
     it 'initiates empty Comment instance for form and assigns it to @new_comment' do

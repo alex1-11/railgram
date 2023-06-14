@@ -37,7 +37,8 @@ RSpec.describe PostsController, type: :controller do
     it { should render_template(:index) }
 
     context 'user has no posts' do
-      it 'assigns empty posts collection' do
+      it 'assigns user and empty posts collection' do
+        expect(assigns(:user)).to eq(user)
         expect(assigns(:posts)).to be_empty
       end
     end
@@ -66,33 +67,59 @@ RSpec.describe PostsController, type: :controller do
         expect(assigns(:posts)).to eq(other_user.posts)
       end
     end
+
+    context 'viewer has likes' do
+      let(:likes) { create_list(:like, 3, user:) }
+
+      it "assigns viewer's likes to @likes" do
+        expect(assigns(:likes)).to match_array(likes)
+      end
+    end
   end
 
   describe 'GET #show' do
     context 'user accesses own post' do
       let(:sample_post) { create(:post, user:) }
+      let(:likes)       { create_pair(:like, user:) }
+
+      before { get :show, params: { user_id: user.id, id: sample_post.id } }
 
       it "assigns user's post" do
-        get :show, params: { user_id: user.id, id: sample_post.id }
         expect(assigns(:post)).to eq(sample_post)
       end
 
+      it 'assigns true for @own_post' do
+        expect(assigns(:own_post)).to be_truthy
+      end
+
+      it "assingns viewer's likes" do
+        expect(assigns(:likes)).to match_array(likes)
+      end
+
       it 'renders show template' do
-        get :show, params: { user_id: user.id, id: sample_post.id }
         expect(response).to render_template(:show)
       end
     end
 
     context "user accesses other user's post" do
       let(:sample_post) { create(:post) }
+      let(:likes)       { create_pair(:like, user:) }
+
+      before { get :show, params: { user_id: sample_post.user_id, id: sample_post.id } }
 
       it "assigns user's post" do
-        get :show, params: { user_id: sample_post.user_id, id: sample_post.id }
         expect(assigns(:post)).to eq(sample_post)
       end
 
+      it 'assigns false for @own_post' do
+        expect(assigns(:own_post)).to be_falsey
+      end
+
+      it "assingns viewer's likes" do
+        expect(assigns(:likes)).to match_array(likes)
+      end
+
       it 'renders show template' do
-        get :show, params: { user_id: sample_post.user_id, id: sample_post.id }
         expect(response).to render_template(:show)
       end
     end
@@ -251,13 +278,14 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
-  describe 'feed' do
+  describe 'GET #feed' do
     let(:blogger1)  { create :user }
     let(:blogger2)  { create :user }
     let(:posts1)    { create_list(:post, 3, user: blogger1) }
     let(:posts2)    { create_list(:post, 3, user: blogger2) }
     let(:relation1) { create(:relation, follower: user, followed: blogger1) }
     let(:relation2) { create(:relation, follower: user, followed: blogger2) }
+    let(:likes)     { create_list(:like, 3, user:) }
     let(:request)   { get :feed }
 
     before do
@@ -273,6 +301,10 @@ RSpec.describe PostsController, type: :controller do
       expect(assigns(:posts)).to match_array(posts_collection)
     end
 
+    it "assigns viewer's likes to @likes" do
+      expect(assigns(:likes)).to match_array(likes)
+    end
+
     it 'puts posts at descending order from fresh to old' do
       expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
       expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
@@ -280,5 +312,14 @@ RSpec.describe PostsController, type: :controller do
     end
 
     it { should render_template(:feed) }
+
+    context 'current user (viewer) also has own posts' do
+      let(:own_posts) { create_list(:post, 3, user:) }
+
+      it "@posts includes viewer's own posts" do
+        posts_collection = posts1.concat posts2, own_posts
+        expect(assigns(:posts)).to match_array(posts_collection)
+      end
+    end
   end
 end

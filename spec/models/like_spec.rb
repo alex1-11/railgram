@@ -5,7 +5,7 @@ RSpec.describe Like, type: :model do
 
   describe 'association' do
     it { should belong_to(:user) }
-    it { should belong_to(:post) }
+    it { should belong_to(:post).counter_cache(true) }
   end
 
   describe 'validation' do

@@ -1,8 +1,10 @@
-<%= render @post %>
+<%= render partial: 'posts/post', 
+           locals: { post: @post,
+                     likes: @likes } %>
 
 <div>
   <%= link_to "Back", :back %>
-  <% if @post.user == current_user %>
+  <% if @own_post %>
      | <%= link_to 'Edit this post', edit_post_path(@post) %>
     <%= button_to 'Destroy this post', post_path(@post),
       data: { turbo_confirm: 'Are sure you want to delete this post?',

@@ -7,6 +7,7 @@ RSpec.describe 'shared/_navbar', type: :view do
   context 'user logged in' do
     before do
       sign_in user
+      assign(:viewer, user)
       render
     end
 

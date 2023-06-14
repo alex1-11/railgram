@@ -7,6 +7,7 @@ RSpec.describe 'relations/_follow_toggle', type: :view do
 
   before do
     sign_in user
+    assign(:viewer, user)
     render partial: 'relations/follow_toggle', locals: { user: blogger }
   end
 

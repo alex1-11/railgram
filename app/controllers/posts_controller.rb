@@ -5,18 +5,19 @@ class PostsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts.order(created_at: :desc)
-    # FIXME: join tables or @posts_likes = @posts.map { |post| { post.id => post.likes.find_by(user_id: current_user.id) } }
+    @likes = @viewer.likes
   end
 
   # GET /posts/1
   def show
-    @post = Post.find(params[:id])
-    # FIXME: join tables or @post_like = @post.likes.find_by(user_id: current_user.id)
+    @post = Post.includes(:user).find(params[:id])
+    @own_post = @post.user_id == @viewer.id
+    @likes = @viewer.likes
   end
 
   # GET /posts/new
   def new
-    @post = current_user.posts.build
+    @post = @viewer.posts.build
   end
 
   # GET /posts/1/edit
@@ -25,9 +26,9 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = current_user.posts.build(post_params)
+    @post = @viewer.posts.build(post_params)
     if @post.save
-      redirect_to user_posts_url(current_user), notice: "Post was successfully created."
+      redirect_to user_posts_url(@viewer), notice: "Post was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -45,19 +46,20 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to user_posts_url(current_user), notice: "Post was successfully deleted."
+    redirect_to user_posts_url(@viewer), notice: "Post was successfully deleted."
   end
 
+  # GET /feed
   def feed
-    following_ids = current_user.following_ids
-    @posts = Post.where(user_id: following_ids).order(created_at: :desc)
+    following_ids = @viewer.following_ids << @viewer.id
+    @posts = Post.includes(:user).where(user_id: following_ids).order(created_at: :desc)
+    @likes = @viewer.likes
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_post
-    @post = current_user.posts.find(params[:id])
+    @post = @viewer.posts.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

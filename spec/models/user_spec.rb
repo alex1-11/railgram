@@ -52,20 +52,29 @@ RSpec.describe User, type: :model do
       subject.password = FFaker::Lorem.characters(5)
       expect(subject).not_to be_valid
     end
+
+    it { should validate_presence_of(:email) }
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:password) }
+    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_uniqueness_of(:name) }
+    it { should validate_length_of(:email).is_at_least(5).is_at_most(256) }
+    it { should validate_length_of(:name).is_at_least(3).is_at_most(30) }
+    it { should validate_length_of(:password).is_at_least(6) }
   end
 
   describe 'associations' do
-    it { should have_many(:posts) }
-    it { should have_many(:likes) }
-    it { should have_many(:liked_posts) }
-    it { should have_many(:comments) }
-    it { should have_many(:active_relations) }
-    it { should have_many(:passive_relations) }
-    it { should have_many(:following) }
-    it { should have_many(:followers) }
+    it { should have_many(:posts).dependent(:destroy) }
+    it { should have_many(:likes).dependent(:destroy) }
+    it { should have_many(:liked_posts).through(:likes).source(:post) }
+    it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:active_relations).class_name('Relation').with_foreign_key('follower_id').dependent(:destroy) }
+    it { should have_many(:passive_relations).class_name('Relation').with_foreign_key('followed_id').dependent(:destroy) }
+    it { should have_many(:following).through(:active_relations).source(:followed) }
+    it { should have_many(:followers).through(:passive_relations).source(:follower) }
   end
 
-  describe 'relation helpers' do
+  describe 'relation helper methods' do
     let(:user)    { create :user }
     let(:blogger) { create :user }
 
@@ -112,6 +121,16 @@ RSpec.describe User, type: :model do
         expect { user.follow(user) }.to_not change(Relation, :count)
         expect(user.follow(user)).to be_falsey
       end
+    end
+  end
+
+  describe 'callbacks' do
+    let(:user) { build :user }
+
+    it 'sets default counters cache values' do
+      expect(user.posts_count).to eq(0)
+      expect(user.followers_count).to eq(0)
+      expect(user.following_count).to eq(0)
     end
   end
 end

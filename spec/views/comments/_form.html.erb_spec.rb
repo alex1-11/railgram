@@ -8,7 +8,7 @@ RSpec.describe 'comments/_form', type: :view do
 
   before do
     sign_in user
-    render partial: 'comments/form', locals: { comment: }
+    render partial: 'comments/form', locals: { post: sample_post, comment: }
   end
 
   it { should have_selector('div#new_comment_form') }
@@ -27,7 +27,7 @@ RSpec.describe 'comments/_form', type: :view do
   context 'when the new comment data has errors' do
     before do
       comment.errors.add(:text, "can't be blank")
-      render partial: 'comments/form', locals: { comment: }
+      render partial: 'comments/form', locals: { post: sample_post, comment: }
     end
 
     it { should have_selector('div[style="color: red"]') }

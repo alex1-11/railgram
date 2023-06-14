@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'users/_profile', type: :view do
-  subject               { rendered }
-  let(:user)            { create :user }
-  let(:user_to_sing_in) { user }
+  subject      { rendered }
+  let(:user)   { create :user }
+  let(:viewer) { user }
 
   before do
-    sign_in user_to_sing_in
+    sign_in viewer
+    assign(:viewer, viewer)
     render partial: 'users/profile', locals: { user: }
   end
 
@@ -19,12 +20,20 @@ RSpec.describe 'users/_profile', type: :view do
   it { should have_selector('div', text: '0 Following') }
 
   context 'own profile' do
-    it { should_not render_template(partial: 'relations/_follow_toggle') }
+    it { should_not render_template(partial: 'relations/follow_toggle') }
   end
 
   context "other user's profile" do
-    let(:user_to_sing_in) { create :user }
-    it { should render_template(partial: 'relations/_follow_toggle') }
+    let(:viewer) { create :user }
+
+    it do
+      should render_template(
+        partial: 'relations/follow_toggle',
+        count: 1,
+        locals: { user:,
+                  relation: viewer.active_relations.find_by(followed: user) }
+      )
+    end
   end
 
   context 'with content' do

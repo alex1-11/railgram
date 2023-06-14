@@ -11,6 +11,7 @@ RSpec.describe 'users/following', type: :view do
     render
   end
 
+  it { should have_link('Back') }
   it { should have_selector('div#following') }
 
   it 'has list of links to all followed users' do

@@ -1,7 +1,7 @@
 <div id="<%= dom_id post %>">
   <%= image_tag post.image_url(:post_size) %>
 
-  <%= render 'likes/like_toggle', post: %>
+  <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
 
   <p>
     <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
@@ -9,7 +9,7 @@
   </p>
   
   <p>
-    <%= link_to pluralize(post.comments.count, 'Comment'), post_comments_path(post) %>
+    <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post) %>
   </p>
 
   <p>
