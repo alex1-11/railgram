@@ -21,13 +21,12 @@ RSpec.describe 'users/settings', type: :view do
     should have_selector("input[name='_method'][type='hidden'][value='delete']",
                          visible: false)
 
-    confirmation_text = "Are really sure you want to delete your account and lose all the data and posts you made?\n"\
-      'This action CAN NOT BE UNDONE!'
+    confirmation_text = "Are you really sure?\nThis action CAN NOT BE UNDONE!"
 
     button_tags = 'button[type="submit"]'\
       "[data-turbo-confirm=\"#{confirmation_text}\"]"\
       "[data-confirm=\"#{confirmation_text}\"]"
 
-    should have_selector(button_tags, text: 'Delete my account and all the data permanently (no undo!)')
+    should have_selector(button_tags, text: 'Delete')
   end
 end
