@@ -10,7 +10,10 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <% if user_signed_in? %>
-          <%= tag_nav_link('Feed', feed_path) %>
+          <%= tag.li(link_to('Feed',
+                             feed_path,
+                             class: "nav-link #{'active bold' if current_page?(feed_path)}"),
+                     class: 'nav-item') %>
         <% end %>
       </ul>
 
