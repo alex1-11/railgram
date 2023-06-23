@@ -1,5 +1,5 @@
-<div id="<%= dom_id post %>">
-  <%= image_tag post.image_url(:post_size) %>
+<div class="post" id="<%= dom_id post %>">
+  <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto d-block' %>
 
   <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
 
