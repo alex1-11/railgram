@@ -1,24 +1,32 @@
 <div class="post container bg-secondary-subtle" id="<%= dom_id post %>">
-  <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto d-block' %>
-
-  <div class='actions-badge container'>
-    <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
-    <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post), class: 'btn btn-outline-primary' %>
+  <div class='container pt-2'>
+    <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto' %>
   </div>
 
-  <div class='caption-section container'>
-    <%= render partial: 'likes/likes_counter', locals: { post:, likes: } %>
+  <div class='container pt-2'>
+    <div class='actions-badge container row row-cols-auto '>
+      <div class='col g-0'>
+        <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
+      </div>
+      <div class='col g-0'>
+        <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post), class: 'btn btn-outline-primary' %>
+      </div>
+    </div>
+
+    <div class='caption-section'>
+      <%= render partial: 'likes/likes_counter', locals: { post:, likes: } %>
+      <p>
+        <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
+        <%= post.caption %>
+      </p>
+    </div>
+    
+
+
     <p>
-      <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
-      <%= post.caption %>
+      <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
+        <%= time_ago_in_words(post.created_at) %> ago
+      </span>
     </p>
   </div>
-  
-
-
-  <p>
-    <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
-      <%= time_ago_in_words(post.created_at) %> ago
-    </span>
-  </p>
 </div>
