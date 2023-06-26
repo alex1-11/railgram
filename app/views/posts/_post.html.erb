@@ -1,16 +1,17 @@
-<div class="post" id="<%= dom_id post %>">
+<div class="post container bg-secondary-subtle" id="<%= dom_id post %>">
   <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto d-block' %>
 
-  <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
+  <div class='actions-badge container'>
+    <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
+    <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post), class: 'btn btn-outline-primary' %>
+  </div>
 
-  <p>
+  <div class='caption-section container'>
     <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
     <%= post.caption %>
-  </p>
+  </div>
   
-  <p>
-    <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post) %>
-  </p>
+
 
   <p>
     <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
