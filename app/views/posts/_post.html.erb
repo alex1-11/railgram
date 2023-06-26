@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class='caption-section'>
+    <div class='caption-section pt-2'>
       <%= render partial: 'likes/likes_counter', locals: { post:, likes: } %>
       <p>
         <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
