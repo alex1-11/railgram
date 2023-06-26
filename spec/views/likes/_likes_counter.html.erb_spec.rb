@@ -13,14 +13,14 @@ RSpec.describe 'likes/_likes_counter', type: :view do
 
   it do
     render partial: 'likes/likes_counter', locals: { post: }
-    should have_selector("turbo-frame#likes_counter_#{post.id}>p")
+    should have_selector("turbo-frame#likes_counter_#{post.id}")
   end
 
   context 'the post has no likes' do
     before { render partial: 'likes/likes_counter', locals: { post: } }
 
     it { should_not have_selector('p', text: '0 Likes') }
-    it { should have_selector("turbo-frame#likes_counter_#{post.id}>p", text: "\n      \n  ") }
+    it { should have_selector("turbo-frame#likes_counter_#{post.id}", text: '') }
   end
 
   context 'the post is liked' do
