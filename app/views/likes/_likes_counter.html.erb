@@ -1,7 +1,9 @@
 <%= turbo_frame_tag "likes_counter_#{post.id}" do %>
-  <% if post.likes_count > 0 %>
-    <p>
+  <p>
+    <% if post.likes_count > 0 %>
       <%= pluralize(post.likes_count, 'Like') %>
-    </p>
-  <% end %>
+    <% else %>
+      <br>
+    <% end %>
+  </p>
 <% end %>
