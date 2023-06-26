@@ -7,8 +7,11 @@
   </div>
 
   <div class='caption-section container'>
-    <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
-    <%= post.caption %>
+    <%= render partial: 'likes/likes_counter', locals: { post:, likes: } %>
+    <p>
+      <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
+      <%= post.caption %>
+    </p>
   </div>
   
 

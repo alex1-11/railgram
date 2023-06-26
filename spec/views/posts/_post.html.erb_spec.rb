@@ -23,6 +23,7 @@ RSpec.describe 'posts/_post', type: :view do
   describe 'connected entities' do
     it { should render_template(partial: 'likes/like_toggle', count: 1, locals: { post: sample_post, likes: user.likes }) }
     it { should have_link('0 Comments', href: post_comments_path(sample_post)) }
+    it { should render_template(partial: 'likes/likes_counter', count: 1, locals: { post: sample_post }) }
 
     context 'with several comments' do
       let(:comment) { create_list(:comment, 3, post: sample_post) }

@@ -5,10 +5,4 @@
     <% else %>
       <%= button_to "♡", likes_path, method: :post, params: { post_id: post.id }, class: 'btn btn-outline-primary' %>
     <% end %>
-
-  <% if post.likes_count > 0 %>
-    <p>
-      <%= pluralize(post.likes_count, 'Like') %>
-    </p>
-  <% end %>
 <% end %>

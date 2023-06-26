@@ -52,7 +52,7 @@ RSpec.describe LikesController, type: :controller do
       end
 
       it do
-        should receive(:replace_like_toggle)
+        should receive(:replace_like_elements)
         request
       end
 
@@ -61,7 +61,11 @@ RSpec.describe LikesController, type: :controller do
         expect(response).to have_http_status(:ok)
         expect(response.media_type).to eq Mime[:turbo_stream]
         expect(response).to render_template(layout: false)
-        expect(response.body).to include('<turbo-stream action="replace"', "target=\"like_toggle_#{sample_post.id}\">")
+        expect(response.body).to include(
+          '<turbo-stream action="replace"',
+          "target=\"like_toggle_#{sample_post.id}\">",
+          "target=\"likes_counter_#{sample_post.id}\">",
+        )
       end
     end
 
@@ -76,7 +80,7 @@ RSpec.describe LikesController, type: :controller do
       end
 
       it do
-        should receive(:replace_like_toggle)
+        should receive(:replace_like_elements)
         request
       end
     end
@@ -94,7 +98,7 @@ RSpec.describe LikesController, type: :controller do
     end
 
     it do
-      should receive(:replace_like_toggle)
+      should receive(:replace_like_elements)
       request
     end
 
@@ -107,7 +111,11 @@ RSpec.describe LikesController, type: :controller do
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq Mime[:turbo_stream]
       expect(response).to render_template(layout: false)
-      expect(response.body).to include('<turbo-stream action="replace"', "target=\"like_toggle_#{sample_post.id}\">")
+      expect(response.body).to include(
+        '<turbo-stream action="replace"',
+        "target=\"like_toggle_#{sample_post.id}\">",
+        "target=\"likes_counter_#{sample_post.id}\">",
+      )
     end
   end
 end
