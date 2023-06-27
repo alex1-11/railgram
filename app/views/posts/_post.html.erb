@@ -1,6 +1,6 @@
-<div class="post container bg-secondary-subtle" id="<%= dom_id post %>">
+<div class="post container bg-secondary-subtle my-5 px-0 py-1 rounded-1" id="<%= dom_id post %>">
   <div class='container pt-2 text-center'>
-    <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto ratio' %>
+    <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded-1 mx-auto ratio' %>
   </div>
 
   <div class='container pt-2'>
@@ -15,18 +15,19 @@
 
     <div class='caption-section pt-2'>
       <%= render partial: 'likes/likes_counter', locals: { post:, likes: } %>
-      <p>
+      <p class='my-1'>
         <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
         <%= post.caption %>
       </p>
+      <p class='my-1'>
+        <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
+          <%= time_ago_in_words(post.created_at) %> ago
+        </span>
+      </p>
     </div>
-    
 
-
-    <p>
-      <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
-        <%= time_ago_in_words(post.created_at) %> ago
-      </span>
-    </p>
+    <% if controller_name == 'posts' && action_name.in?(['feed', 'index']) %>
+      <%= link_to "Show this post", post_path(post) %>
+    <% end %>
   </div>
 </div>
