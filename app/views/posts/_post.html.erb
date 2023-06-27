@@ -1,15 +1,15 @@
 <div class="post container bg-secondary-subtle" id="<%= dom_id post %>">
-  <div class='container pt-2'>
-    <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto' %>
+  <div class='container pt-2 text-center'>
+    <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded mx-auto ratio' %>
   </div>
 
   <div class='container pt-2'>
-    <div class='actions-badge container row row-cols-auto '>
+    <div class='actions-badge container row row-cols-auto'>
       <div class='col g-0'>
         <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
       </div>
       <div class='col g-0'>
-        <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post), class: 'btn btn-outline-primary' %>
+        <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post), class: 'btn btn-outline-primary rounded-pill ms-1' %>
       </div>
     </div>
 
