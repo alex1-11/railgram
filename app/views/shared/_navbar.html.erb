@@ -1,12 +1,19 @@
 <nav class="navbar sticky-top navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <%= image_tag "railgram_logo.png", alt: "Logo", width: 24, height: 24, class: "d-inline-block align-text-top" %>
+    <a class="navbar-brand py-0" href="#">
+      <%= image_tag "sign-railroad-fill.svg", alt: "Logo", width: 30, height: 30, class: "d-inline-block align-text-start" %>
       Railgram
     </a>
+    
+    <div class="navbar-toggler align-text-end" aria-label="Make a new post">
+      <%= link_to(image_tag('plus-square.svg', alt: "Make a post", width: 30, height: 30, style: 'fill: "#00ff00"'), new_post_path) %>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
+    
+    
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <% if user_signed_in? %>
@@ -14,6 +21,7 @@
                              feed_path,
                              class: "nav-link #{'active bold' if current_page?(feed_path)}"),
                      class: 'nav-item') %>
+          <%= tag_nav_link("Make a post", new_post_path) %>
         <% end %>
       </ul>
 
