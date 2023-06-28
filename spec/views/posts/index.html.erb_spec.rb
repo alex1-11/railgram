@@ -33,7 +33,6 @@ RSpec.describe 'posts/index', type: :view do
                                         count: 1,
                                         locals: { post:,
                                                   likes: user.likes })
-        should have_link('Show this post', href: post_path(post))
       end
     end
   end

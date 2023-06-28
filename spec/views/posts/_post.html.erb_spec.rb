@@ -20,6 +20,38 @@ RSpec.describe 'posts/_post', type: :view do
                          text: time_ago_in_words(sample_post.created_at))
   end
 
+  context 'rendered from PostsController#index' do
+    before do
+      allow(controller).to receive(:controller_name).and_return('posts')
+      allow(controller).to receive(:action_name).and_return('index')
+      render partial: 'posts/post', locals: { post: sample_post, likes: user.likes }
+    end
+
+    it { should have_link('Show this post', href: post_path(sample_post)) }
+  end
+
+  context 'rendered from PostsController#feed' do
+    before do
+      allow(controller).to receive(:controller_name).and_return('posts')
+      allow(controller).to receive(:action_name).and_return('feed')
+      render partial: 'posts/post', locals: { post: sample_post, likes: user.likes }
+    end
+
+    it { should have_link('Show this post', href: post_path(sample_post)) }
+  end
+
+  context 'rendered from PostsController#show' do
+    before do
+      allow(controller).to receive(:controller_name).and_return('posts')
+      allow(controller).to receive(:action_name).and_return('show')
+      render partial: 'posts/post', locals: { post: sample_post, likes: user.likes }
+    end
+
+    it { should_not have_link('Show this post', href: post_path(sample_post)) }
+  end
+
+
+
   describe 'connected entities' do
     it { should render_template(partial: 'likes/like_toggle', count: 1, locals: { post: sample_post, likes: user.likes }) }
     it { should have_link('0 Comments', href: post_comments_path(sample_post)) }
