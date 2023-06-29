@@ -1,1 +1,9 @@
 <%= render partial: 'users/profile', locals: { user: @user } %>
+
+<div class="post-thumbnails container-fluid">
+  <div class="row row-cols-3 align-items-start text-center g-0">
+  <% @user.posts.each do |post| %>
+      <%= link_to(image_tag(post.image_url(:thumbnail), class: 'img-fluid rounded-1 mx-auto'), post_path(post), class: 'col') %>
+  <% end %>
+  </div>
+</div>
