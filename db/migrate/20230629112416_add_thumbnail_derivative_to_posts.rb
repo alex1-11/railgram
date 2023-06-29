@@ -16,7 +16,7 @@ class AddThumbnailDerivativeToPosts < ActiveRecord::Migration[7.0]
       begin
         attacher.atomic_persist               # persist changes if attachment has not changed in the meantime
       rescue Shrine::AttachmentChanged,       # attachment has changed
-            ActiveRecord::RecordNotFound     # record has been deleted
+             ActiveRecord::RecordNotFound     # record has been deleted
         attacher.derivatives[:thumbnail].delete  # delete now orphaned derivative
       end
     end
