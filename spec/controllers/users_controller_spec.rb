@@ -22,7 +22,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it { should permit(:id).for(:show, verb: :get, params: { id: user.id }) }
-      it { should redirect_to user_posts_path(user) }
+      it { should render_template(:show) }
     end
 
     context 'trying to view other user page' do
@@ -34,7 +34,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it { should permit(:id).for(:show, verb: :get, params: { id: other_user.id }) }
-      it { should redirect_to user_posts_path(other_user) }
+      it { should render_template(:show) }
     end
   end
 
