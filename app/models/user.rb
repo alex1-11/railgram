@@ -15,6 +15,9 @@ class User < ApplicationRecord
   has_many :following, through: :active_relations,  source: :followed
   has_many :followers, through: :passive_relations, source: :follower
 
+  # Shrine gem for uploading avatar
+  include AvatarUploader::Attachment(:avatar) # adds an `avatar` virtual attribute
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
