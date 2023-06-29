@@ -1,14 +1,23 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar sticky-bottom navbar-expand-lg bg-primary d-lg" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand py-0" href="#">
-      <%= image_tag "sign-railroad-fill.svg", alt: "Logo", width: 30, height: 30, class: "d-inline-block align-text-start" %>
+    <a class="navbar-brand py-0" href="/">
+      <svg xmlns="http://www.w3.org/2000/svg" alt="Logo" width="30" height="30" fill="currentColor" class="bi bi-sign-railroad-fill d-inline-block align-text-start" viewBox="0 0 16 16">
+        <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L4.224 3.162 8 6.94l3.777-3.777L9.049.435Zm3.274 7.425v-.862h.467c.28 0 .467.154.467.44 0 .28-.182.421-.475.421h-.459Z"/>
+        <path d="M12.838 4.223 9.06 8l3.777 3.777 2.727-2.728c.58-.58.58-1.519 0-2.098l-2.727-2.728Zm.03 2.361c.591 0 .935.334.935.844a.79.79 0 0 1-.485.748l.536 1.074h-.59l-.467-.994h-.473v.994h-.521V6.584h1.064Zm-1.091 6.254L8 9.06l-3.777 3.777 2.728 2.727c.58.58 1.519.58 2.098 0l2.728-2.727Zm-8.953-5.84v.861h.46c.292 0 .474-.14.474-.421 0-.286-.188-.44-.467-.44h-.467Z"/>
+        <path d="M3.162 11.777 6.94 8 3.162 4.223.435 6.951c-.58.58-.58 1.519 0 2.098l2.727 2.728Zm-.86-5.193h1.065c.592 0 .936.334.936.844 0 .39-.242.654-.485.748l.536 1.074h-.59l-.467-.994h-.473v.994h-.521V6.584Z"/>
+      </svg>
       Railgram
     </a>
     
-    <div class="navbar-toggler align-text-end" aria-label="Make a new post">
-      <%= link_to(image_tag('plus-square.svg', alt: "Make a post", width: 30, height: 30, style: 'fill: "#00ff00"'), new_post_path) %>
+    <div class="navbar-toggler align-text-end border-0 top-50 start-0 translate-middle-x" aria-label="Make a new post">
+      <a href="<%= new_post_path %>" alt="Make a post">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+          <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+        </svg>
+      </a>
     </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     
@@ -17,10 +26,7 @@
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <ul class="navbar-nav mb-2 mb-lg-0">
         <% if user_signed_in? %>
-          <%= tag.li(link_to('Feed',
-                             feed_path,
-                             class: "nav-link #{'active bold' if current_page?(feed_path)}"),
-                     class: 'nav-item') %>
+          <%= tag_nav_link('Feed', feed_path) %>
           <%= tag_nav_link("Make a post", new_post_path) %>
         <% end %>
       </ul>
@@ -45,3 +51,4 @@
     </div>
   </div>
 </nav>
+<br/>
