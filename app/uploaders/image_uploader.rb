@@ -23,7 +23,8 @@ class ImageUploader < Shrine
   Attacher.derivatives do |original|
     vips = ImageProcessing::Vips.source(original)
     {
-      post_size: vips.resize_to_fit!(1080, 1080)
+      post_size: vips.resize_to_fit!(1080, 1080),
+      thumbnail: vips.resize_to_fit!(161, 161),
     }
   end
 end
