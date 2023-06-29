@@ -2,7 +2,9 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show followers following]
 
   # GET /users/1
-  def show; end
+  def show
+    @posts = @user.posts.order(created_at: :desc)
+  end
 
   # GET /settings
   def settings; end

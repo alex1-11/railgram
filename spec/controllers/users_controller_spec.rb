@@ -17,8 +17,16 @@ RSpec.describe UsersController, type: :controller do
     it { should permit(:id).for(:show, params: { id: user.id }, verb: :get) }
 
     context 'signed in user trying to view his/her own user page' do
-      it 'assigns user instance variable with user from request' do
+      before { create_list(:post, 3, user:) }
+
+      it 'assigns user and posts instance variables with user from request' do
         expect(assigns(:user)).to eq(user)
+        expect(assigns(:posts)).to match_array(user.posts)
+      end
+
+      it 'assigns posts in descending order of creation datetime' do
+        expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
+        expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
       end
 
       it { should permit(:id).for(:show, verb: :get, params: { id: user.id }) }
@@ -29,8 +37,16 @@ RSpec.describe UsersController, type: :controller do
       let(:other_user) { create :user }
       let(:request)    { get :show, params: { id: other_user.id } }
 
-      it 'assigns user instance variable with user from request' do
+      before { create_list(:post, 3, user: other_user) }
+
+      it 'assigns user and posts instance variables with user from request' do
         expect(assigns(:user)).to eq(other_user)
+        expect(assigns(:posts)).to match_array(other_user.posts)
+      end
+
+      it 'assigns posts in descending order of creation datetime' do
+        expect(assigns(:posts)[0].created_at > assigns(:posts)[1].created_at).to be_truthy
+        expect(assigns(:posts)[1].created_at > assigns(:posts)[2].created_at).to be_truthy
       end
 
       it { should permit(:id).for(:show, verb: :get, params: { id: other_user.id }) }

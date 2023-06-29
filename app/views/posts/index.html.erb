@@ -2,7 +2,7 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <%= render partial: 'posts/post', 
+    <%= render partial: 'posts/post',
            locals: { post:,
                      likes: @likes } %>
   <% end %>

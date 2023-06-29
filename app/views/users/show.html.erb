@@ -1,9 +1,11 @@
-<%= render partial: 'users/profile', locals: { user: @user } %>
+<div class='bg-secondary-subtle'>
+  <%= render partial: 'users/profile', locals: { user: @user } %>
 
-<div class="post-thumbnails container-fluid">
-  <div class="row row-cols-3 align-items-start text-center g-0">
-  <% @user.posts.each do |post| %>
-      <%= link_to(image_tag(post.image_url(:thumbnail), class: 'img-fluid rounded-1 mx-auto'), post_path(post), class: 'col') %>
-  <% end %>
+  <div class="post-thumbnails container text-center">
+    <div class="row row-cols-auto g-0 justify-content-center">
+      <% @posts.each do |post| %>
+          <%= link_to(image_tag(post.image_url(:thumbnail), class: 'img-fluid mx-auto d-block object-fit-fill'), post_path(post), class: 'col align-self-center') %>
+      <% end %>
+    </div>
   </div>
 </div>
