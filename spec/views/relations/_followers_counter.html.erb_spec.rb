@@ -13,7 +13,7 @@ RSpec.describe 'relations/_followers_counter', type: :view do
   it { should have_selector('turbo-frame#followers_counter') }
 
   context 'user has no followers' do
-    it { should have_selector("a[href='#{followers_user_url(blogger)}'][target='_top']", text: '0 Followers') }
+    it { should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']", text: '0 Followers') }
   end
 
   context 'user has one follower' do
@@ -24,7 +24,7 @@ RSpec.describe 'relations/_followers_counter', type: :view do
       render partial: 'relations/followers_counter', locals: { user: blogger }
     end
 
-    it { should have_selector("a[href='#{followers_user_url(blogger)}'][target='_top']", text: '1 Follower') }
+    it { should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']", text: '1 Follower') }
   end
 
   context 'user has several followers' do
@@ -35,6 +35,6 @@ RSpec.describe 'relations/_followers_counter', type: :view do
       render partial: 'relations/followers_counter', locals: { user: blogger }
     end
 
-    it { should have_selector("a[href='#{followers_user_url(blogger)}'][target='_top']", text: '5 Followers') }
+    it { should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']", text: '5 Followers') }
   end
 end

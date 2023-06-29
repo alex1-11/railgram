@@ -14,7 +14,9 @@ RSpec.describe 'users/_profile', type: :view do
   it { should have_selector("div##{dom_id user}") }
   it { should have_selector('h2', text: user.name) }
   it { should have_selector('div', text: '0 Posts') }
+  it { should have_link('0 Posts', href: user_posts_path(user).to_s) }
   it { should have_selector('div', text: '0 Followers') }
+  it { should have_link('0 Followers', href: followers_user_path(user).to_s) }
   it { should render_template(partial: 'relations/_followers_counter', count: 1) }
   it { should have_link('0 Following', href: following_user_path(user).to_s) }
   it { should have_selector('div', text: '0 Following') }
@@ -46,6 +48,8 @@ RSpec.describe 'users/_profile', type: :view do
 
     it { should have_selector('div', text: '5 Posts') }
     it { should have_selector('div', text: '4 Followers') }
+    it { should have_link('5 Posts', href: user_posts_path(user).to_s) }
+    it { should have_link('4 Followers', href: followers_user_path(user).to_s) }
     it { should have_link('3 Following', href: following_user_path(user).to_s) }
   end
 end

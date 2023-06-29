@@ -2,7 +2,7 @@
   <h2><%= user.name %></h2>
 
   <div id='posts_counter'>
-    <%= pluralize(user.posts_count, 'Post') %>
+    <%= link_to "#{pluralize(user.posts_count, 'Post')}", user_posts_path(user) %>
   </div>
 
   <div id='followers_counter_div'>
