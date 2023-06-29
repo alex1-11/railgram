@@ -13,6 +13,7 @@ RSpec.describe 'users/_profile', type: :view do
 
   it { should have_selector("div##{dom_id user}") }
   it { should have_selector('h2', text: user.name) }
+  it { should have_link(user.name, href: user_path(user).to_s) }
   it { should have_selector('div', text: '0 Posts') }
   it { should have_link('0 Posts', href: user_posts_path(user).to_s) }
   it { should have_selector('div', text: '0 Followers') }
