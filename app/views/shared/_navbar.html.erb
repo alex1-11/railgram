@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-secondary d-lg">
+<nav class="navbar sticky-top navbar-expand-sm bg-secondary d-lg">
   <div class="container-fluid">
     <a class="navbar-brand py-0" href="/">
       <svg xmlns="http://www.w3.org/2000/svg" alt="Logo" width="30" height="30" fill="currentColor" class="bi bi-sign-railroad-fill d-inline-block align-text-start" viewBox="0 0 16 16">
@@ -24,14 +24,14 @@
     
     
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-      <ul class="navbar-nav mb-2 mb-lg-0">
+      <ul class="navbar-nav">
         <% if user_signed_in? %>
           <%= tag_nav_link('Feed', feed_path) %>
           <%= tag_nav_link("Make a post", new_post_path) %>
         <% end %>
       </ul>
 
-      <ul class="navbar-nav mb-2 mb-lg-0">
+      <ul class="navbar-nav">
         <% if user_signed_in? %>
           <%= tag_nav_link(@viewer.name, user_path(@viewer)) %>
           <li class="nav-item dropdown">
