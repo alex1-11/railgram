@@ -19,5 +19,19 @@ $secondary: #e6ffa2;
 // $danger: #7700ff;
 // $success: #00ff88;
 
+// Limits max width of containers
+$grid-breakpoints: (
+  xs: 0,
+  sm: 480px,
+  md: 768px,
+  lg: 1024px
+);
+
+$container-max-widths: (
+  sm: 420px,
+  md: 720px,
+  lg: 960px
+);
+
  // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
