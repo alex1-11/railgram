@@ -24,13 +24,13 @@ $grid-breakpoints: (
   xs: 0,
   sm: 480px,
   md: 768px,
-  lg: 1024px
+  lg: 960px
 );
 
 $container-max-widths: (
   sm: 420px,
   md: 720px,
-  lg: 960px
+  lg: 840px
 );
 
  // Custom bootstrap variables must be set or imported *before* bootstrap.
