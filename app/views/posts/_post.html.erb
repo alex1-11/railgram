@@ -1,10 +1,8 @@
-<div class="post container bg-secondary-subtle my-5 px-0 pt-0 pb-1 rounded-3" id="<%= dom_id post %>">
-  <div class='container pt-0 px-0 text-center'>
-    <%= image_tag post.image_url(:post_size), class: 'img-fluid rounded-3 mx-auto ratio' %>
-  </div>
+<div class="post bg-secondary-subtle my-5 px-0 pt-0 pb-1 rounded-3" id="<%= dom_id post %>">
+  <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio' %>
 
-  <div class='container pt-2'>
-    <div class='actions-badge container row row-cols-auto'>
+  <div class='py-2 px-4'>
+    <div class='container actions-badge row row-cols-auto'>
       <div class='col g-0'>
         <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
       </div>
