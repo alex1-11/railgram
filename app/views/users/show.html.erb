@@ -1,7 +1,7 @@
 <div class='bg-secondary-subtle'>
   <%= render partial: 'users/profile', locals: { user: @user } %>
 
-  <div class="post-thumbnails container px-0 container-md-fluid text-center grid gap-0">
+  <div class="post-thumbnails container px-0 container-md-fluid text-center">
     <div class="row row-cols-3 mx-0 g-0 justify-content-center">
       <% @posts.each do |post| %>
         <%= 
