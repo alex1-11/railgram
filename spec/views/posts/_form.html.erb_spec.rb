@@ -36,7 +36,7 @@ RSpec.describe 'posts/_form', type: :view do
     end
 
     it 'displays the error messages' do
-      expect(subject).to have_selector('div[style="color: red"]')
+      expect(subject).to have_selector('div[class="alert alert-danger"]')
       expect(subject).to have_selector('h2', text: '2 errors prohibited this post from being saved:')
       expect(subject).to have_selector('ul')
       expect(subject).to have_selector('li', text: "Caption can't be blank")

@@ -30,7 +30,7 @@ RSpec.describe 'comments/_form', type: :view do
       render partial: 'comments/form', locals: { post: sample_post, comment: }
     end
 
-    it { should have_selector('div[style="color: red"]') }
+    it { should have_selector('div[class="alert alert-danger"]') }
     it { should have_selector('h2', text: '1 error prohibited this comment from being saved:') }
     it { should have_selector('ul') }
     it { should have_selector('li', text: "Text can't be blank") }

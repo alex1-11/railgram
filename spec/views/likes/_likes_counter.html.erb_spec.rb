@@ -31,7 +31,7 @@ RSpec.describe 'likes/_likes_counter', type: :view do
       render partial: 'likes/likes_counter', locals: { post: }
     end
 
-    it { should have_selector("turbo-frame#likes_counter_#{post.id}>p", text: '1 Like') }
+    it { should have_selector("turbo-frame#likes_counter_#{post.id}>span", text: '1 Like') }
 
     context 'the post has several likes' do
       let(:like) do
@@ -39,7 +39,7 @@ RSpec.describe 'likes/_likes_counter', type: :view do
         create_list(:like, 4, post:)
       end
 
-      it { should have_selector("turbo-frame#likes_counter_#{post.id}>p", text: '5 Likes') }
+      it { should have_selector("turbo-frame#likes_counter_#{post.id}>span", text: '5 Likes') }
     end
   end
 end
