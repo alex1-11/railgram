@@ -1,6 +1,8 @@
 <div id="<%= dom_id user %>" class='container'>
   <h2><%= link_to user.name, user_path(user) %></h2>
 
+  <%= image_tag user.avatar_url(:profile_pic) unless user.avatar_data.nil? %>
+  
   <div id='posts_counter'>
     <%= link_to "#{pluralize(user.posts_count, 'Post')}", user_posts_path(user) %>
   </div>

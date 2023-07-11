@@ -10,6 +10,7 @@
         <div class="accordion-body">
           <p>Name: <%= current_user.name %></p>
           <p>Email: <%= current_user.email %></p>
+          <p><%= link_to "Change profile picture", edit_avatar_path, class: 'link-underline link-underline-opacity-0 link-underline-opacity-75-hover' %></p>
           <p><%= link_to "Change password", edit_user_registration_path, class: 'link-underline link-underline-opacity-0 link-underline-opacity-75-hover' %></p>
         </div>
       </div>

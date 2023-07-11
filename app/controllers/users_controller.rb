@@ -29,6 +29,15 @@ class UsersController < ApplicationController
     redirect_to 'https://youtu.be/eBGIQ7ZuuiU?t=43', allow_other_host: true
   end
 
+  # GET /edit_avatar
+  def edit_avatar
+  end
+
+  # PATCH /set_avatar
+  def set_avatar
+    @viewer.update_attribute(:avatar, avatar_params[:avatar])
+  end
+
   private
 
   def set_user
@@ -37,5 +46,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:id)
+  end
+
+  def avatar_params
+    params.permit(:avatar)
   end
 end

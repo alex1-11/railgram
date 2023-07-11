@@ -15,11 +15,11 @@ class AvatarUploader < Shrine
     if  validate_mime_type_inclusion(%w[image/jpeg image/png image/webp]) &&
         validate_extension_inclusion(%w[jpg jpeg png webp])
       # A guard against decompression attacks
-      validate_dimensions [110..5000, 110..5000] # avatar dimensions max: 5000x5000, min: 110x110px
+      validate_dimensions [50..5000, 50..5000] # avatar dimensions max: 5000x5000, min: 50x50px
     end
   end
 
-  # Limit avatar width and height to 110px, keeping aspect ratio
+  # Limit avatar width and height, keeping aspect ratio
   Attacher.derivatives do |original|
     vips = ImageProcessing::Vips.source(original)
     {
