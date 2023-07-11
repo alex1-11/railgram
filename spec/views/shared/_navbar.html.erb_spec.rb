@@ -26,6 +26,20 @@ RSpec.describe 'shared/_navbar', type: :view do
       should have_link('Log out', href: destroy_user_session_path)
       should have_selector("a[data-turbo-method='delete'][href='#{destroy_user_session_path}']")
     end
+
+    context 'user is not rolled yet' do
+      it { should have_selector("a[href='#{easter_egg_path}'][target='_blank']", text: '🤫🔎🥚') }
+    end
+
+    context 'user is already rolled' do
+      let(:user) do
+        u = create :user
+        u.roll_user
+        u
+      end
+
+      it { should_not have_link('🤫🔎🥚', href: easter_egg_path) }
+    end
   end
 
   context 'user logged out' do
@@ -45,6 +59,5 @@ RSpec.describe 'shared/_navbar', type: :view do
       should_not have_link('Log out', href: destroy_user_session_path)
       should_not have_selector("a[data-turbo-method='delete'][href='#{destroy_user_session_path}']")
     end
-
   end
 end
