@@ -56,6 +56,6 @@ class User < ApplicationRecord
   end
 
   def roll_user
-    self.rolled = true
+    update_attribute(:rolled, true)
   end
 end
