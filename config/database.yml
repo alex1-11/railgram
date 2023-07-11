@@ -91,3 +91,4 @@ production:
   database: railgram_production
   username: railgram
   password: <%= ENV["RAILGRAM_DATABASE_PASSWORD"] %>
+  url:      <%= ENV['DATABASE_URL'] %>
