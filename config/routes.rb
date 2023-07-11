@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   get 'feed', to: 'posts#feed', as: 'feed'
+  get 'easter_egg', to: 'users#easter_egg', as: 'easter_egg'
 
   resources :likes, only: %i[create destroy]
   resources :relations, only: %i[create destroy]

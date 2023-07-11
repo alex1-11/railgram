@@ -54,4 +54,8 @@ class User < ApplicationRecord
     self.followers_count ||= 0
     self.following_count ||= 0
   end
+
+  def roll_user
+    self.rolled = true
+  end
 end

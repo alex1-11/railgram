@@ -55,6 +55,12 @@
                 <span>Settings</span>
                 <% end %>
               </li>
+              
+              <% unless @viewer.rolled %>
+                <li>
+                  <%= link_to('🤫🔎🥚', easter_egg_path, class: 'dropdown-item') %>
+                </li>
+              <% end %>
               <li><hr class="dropdown-divider"></li>
               <li>
                 <%= link_to(destroy_user_session_path, data: { turbo_method: :delete }, class: 'dropdown-item') do %>

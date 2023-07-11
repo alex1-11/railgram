@@ -23,6 +23,11 @@ class UsersController < ApplicationController
     @following = @user.following
   end
 
+  def easter_egg
+    @user.roll_user
+    redirect_to 'https://youtu.be/eBGIQ7ZuuiU?t=43'
+  end
+
   private
 
   def set_user
