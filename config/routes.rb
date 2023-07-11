@@ -12,13 +12,13 @@ Rails.application.routes.draw do
   end
 
   get 'settings', to: 'users#settings', as: 'user_settings'
+  get 'easter_egg', to: 'users#easter_egg', as: 'easter_egg'
 
   resources :posts, only: %i[show new create edit update destroy] do
     resources :comments, only: %i[index create destroy]
   end
 
   get 'feed', to: 'posts#feed', as: 'feed'
-  get 'easter_egg', to: 'users#easter_egg', as: 'easter_egg'
 
   resources :likes, only: %i[create destroy]
   resources :relations, only: %i[create destroy]

@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @following = @user.following
   end
 
-  # POST /easter_egg
+  # GET /easter_egg
   def easter_egg
     current_user.roll_user
     redirect_to 'https://youtu.be/eBGIQ7ZuuiU?t=43', allow_other_host: true

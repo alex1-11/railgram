@@ -133,4 +133,14 @@ RSpec.describe User, type: :model do
       expect(user.following_count).to eq(0)
     end
   end
+
+  describe 'roll_user, the easter_egg feature helper' do
+    let(:user) { create :user }
+
+    it 'changes default `false` value to `true`' do
+      expect(user.rolled).to be_falsey
+      user.roll_user
+      expect(user.rolled).to be_truthy
+    end
+  end
 end

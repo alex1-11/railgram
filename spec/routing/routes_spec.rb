@@ -41,6 +41,17 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
+  describe 'Easter egg routing' do
+    it 'routes to user#easter_egg' do
+      expect(get: '/easter_egg').to route_to(controller: 'users', action: 'easter_egg')
+    end
+
+    it 'has the correct named route' do
+      expect(easter_egg_path).to eq '/easter_egg'
+    end
+  end
+
+
   describe 'Posts routing' do
     it 'routes to posts#index' do
       expect(get: '/users/1/posts').to route_to(controller: 'posts', action: 'index', user_id: '1')
