@@ -9,7 +9,7 @@
             image_tag(
               post.image_url(:thumbnail), class: 'img-fluid object-fit-fill'
             ),
-            "#{user_posts_path(@user)}##{dom_id post}",
+            user_posts_path(@user, anchor: dom_id(post)),
             class: 'col'
           )
         %>
