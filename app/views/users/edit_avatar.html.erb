@@ -1,28 +1,21 @@
 <%= link_to "Back", :back %>
 
-<%= form_with(model: @viewer, url: set_avatar_url) do |form| %>
-  <% if @viewer.errors.any? %>
-    <div class="alert alert-danger">
-      <h2><%= pluralize(@viewer.errors.count, "error") %> prohibited this avatar from being saved:</h2>
-
-      <ul>
-        <% @viewer.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+<% if @viewer.avatar_data %>
   <div>
-    <%= image_tag @viewer.image_url(:profile_pic) if @viewer.avatar_data %>
+      <%= image_tag @viewer.avatar_url(:profile_pic) %>
   </div>
-
   <div>
-    <%= form.hidden_field :avatar, value: @viewer.cached_avatar_data, id: nil %>
-    <%= form.file_field :avatar %>
+    <%= button_to 'Remove avatar', set_avatar_url, method: :patch %>
+  </div>
+<% end %>
+
+<%= form_with(url: set_avatar_url, method: :patch) do |form| %>
+  <div>
+    <%= form.file_field :avatar, required: true %>
   </div>
 
   <div>
     <%= form.submit 'Set avatar' %>
   </div>
 <% end %>
+<%= console %>

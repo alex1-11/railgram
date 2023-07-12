@@ -23,8 +23,8 @@ class AvatarUploader < Shrine
   Attacher.derivatives do |original|
     vips = ImageProcessing::Vips.source(original)
     {
-      profile_pic: vips.resize_to_fit!(1080, 1080),
-      thumbnail: vips.resize_to_fit!(161, 161),
+      profile_pic: vips.resize_to_fill!(180, 180),
+      thumbnail: vips.resize_to_fill!(50, 50),
     }
   end
 end

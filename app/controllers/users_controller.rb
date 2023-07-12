@@ -36,6 +36,7 @@ class UsersController < ApplicationController
   # PATCH /set_avatar
   def set_avatar
     @viewer.update_attribute(:avatar, avatar_params[:avatar])
+    redirect_to user_path(@viewer)
   end
 
   private
