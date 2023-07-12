@@ -26,20 +26,20 @@
     
     
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav align-items-center">
         <% if user_signed_in? %>
           <%= tag_nav_link('Feed', feed_path) %>
           <%= tag_nav_link("Make a post", new_post_path) %>
         <% end %>
       </ul>
 
-      <ul class="navbar-nav">
+      <ul class="navbar-nav align-items-center">
         <% if user_signed_in? %>
           <%= tag_nav_link(@viewer.name, user_path(@viewer)) %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <%= image_tag 'default_avatar.svg', width: 30, height: 30, class: 'rounded-circle' if @viewer.avatar_data.nil? %>
-              <%= image_tag @viewer.avatar_url(:thumbnail), width: 30, height: 30, class: 'rounded-circle' unless @viewer.avatar_data.nil? %>
+              <%= image_tag 'default_avatar.svg', width: 30, height: 30, class: 'rounded-circle d-inline-block align-text-start' if @viewer.avatar_data.nil? %>
+              <%= image_tag @viewer.avatar_url(:thumbnail), width: 30, height: 30, class: 'rounded-circle d-inline-block align-text-start' unless @viewer.avatar_data.nil? %>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
