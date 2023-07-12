@@ -5,7 +5,15 @@
       <%= image_tag @viewer.avatar_url(:profile_pic) %>
   </div>
   <div>
-    <%= button_to 'Remove avatar', set_avatar_url, method: :patch %>
+    <%= button_to(
+      'Remove avatar', 
+      set_avatar_url, 
+      method: :patch, 
+      data: { 
+        confirm: 'Are you sure you want to remove current avatar?', 
+        turbo_confirm: 'Are you sure you want to remove current avatar?' 
+      }
+    ) %>
   </div>
 <% end %>
 

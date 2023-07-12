@@ -1,10 +1,16 @@
 <%= link_to 'Back', :back %>
 
-<div id="caption">
-  <p>
-    <strong><%= @post.user.name %> </strong>
-    <%= @post.caption %>
-  </p>
+<div id="caption" class="row">
+  <div class="col-1">
+    <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if @post.user.avatar_data.nil? %>
+    <%= image_tag @post.user.avatar_url(:thumbnail), class: 'rounded-circle' unless @post.user.avatar_data.nil? %>
+  </div>
+  <div class="col">
+    <p>
+      <strong><%= @post.user.name %> </strong>
+      <%= @post.caption %>
+    </p>
+  </div>
 </div>
 
 <h2>Comments</h2>

@@ -1,8 +1,9 @@
 <div id="<%= dom_id user %>" class='container'>
   <h2><%= link_to user.name, user_path(user) %></h2>
 
-  <%= image_tag user.avatar_url(:profile_pic) unless user.avatar_data.nil? %>
-  <%= image_tag user.avatar_url(:thumbnail) unless user.avatar_data.nil? %>
+  <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' if user.avatar_data.nil? %>
+  <%= image_tag user.avatar_url(:profile_pic), class: 'rounded-circle' unless user.avatar_data.nil? %>
+  <%= image_tag user.avatar_url(:thumbnail), class: 'rounded-circle' unless user.avatar_data.nil? %>
 
   <% if user == @viewer %>
     <%= link_to user.avatar_data.nil? ? 'Set avatar' : 'Change avatar', edit_avatar_path %>

@@ -1,7 +1,19 @@
 <div class="post bg-secondary-subtle my-5 px-0 pt-0 pb-1 rounded-3 shadow" id="<%= dom_id post %>">
-  <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio rounded-top-3' %>
 
-  <div class='py-2 px-4'>
+  <div class='row p-3'>
+    <div class="col-1">
+      <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if post.user.avatar_data.nil? %>
+      <%= image_tag post.user.avatar_url(:thumbnail), class: 'rounded-circle' unless post.user.avatar_data.nil? %>
+    </div>
+
+    <div class="col">
+      <strong><%= link_to post.user.name, user_path(post.user) %></strong>
+    </div>
+  </div>
+
+  <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio' %>
+
+  <div class='p-3'>
     <div class='container actions-badge row row-cols-auto'>
       <div class='col g-0'>
         <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
