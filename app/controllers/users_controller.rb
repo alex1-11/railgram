@@ -35,7 +35,8 @@ class UsersController < ApplicationController
 
   # PATCH /set_avatar
   def set_avatar
-    @viewer.update_attribute(:avatar, avatar_params[:avatar])
+    @viewer.avatar = avatar_params[:avatar] # FIXME
+    @viewer.update_attribute(:avatar, avatar_params[:avatar]) if @viewer.valid? # FIXME
     redirect_to user_path(@viewer)
   end
 

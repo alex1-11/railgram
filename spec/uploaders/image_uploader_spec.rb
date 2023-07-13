@@ -76,37 +76,101 @@ RSpec.describe ImageUploader do
     end
   end
 
-  describe 'derivative' do
+  describe 'derivatives for Post :image' do
     context 'before saving sample image to storage (promoting image, storing post instance in db`s row)' do
       let(:post) { build(:post) }
       it 'derivatives are nil' do
         expect(derivatives[:post_size]).to be_nil
+        expect(derivatives[:thumbnail]).to be_nil
       end
     end
 
     context 'after saving 1920x1280 image to storage (promoting)' do
       let(:post) { create(:post, image: File.open('spec/support/images/sample_1920x1280.jpg', 'rb'), image_data: {}) }
 
-      it 'generates derivative image' do
+      it 'generates derivatives for image' do
         expect(derivatives[:post_size]).to be_kind_of(Shrine::UploadedFile)
+        expect(derivatives[:thumbnail]).to be_kind_of(Shrine::UploadedFile)
       end
 
-      it 'resizes to fit 1080x1080' do
+      it 'resizes to fill 1080x1080' do
         expect(image.width).to eq(1920)
         expect(image.height).to eq(1280)
-        expect(derivatives[:post_size].width).to be <= 1080
-        expect(derivatives[:post_size].height).to be <= 1080
+        expect(derivatives[:post_size].width).to eq(1080)
+        expect(derivatives[:post_size].height).to eq(1080)
+      end
+
+      it 'creates 161x161 thumbnail' do
+        expect(derivatives[:thumbnail].width).to eq(161)
+        expect(derivatives[:thumbnail].height).to eq(161)
       end
     end
 
     context 'after saving 427x640 image to storage (promoting)' do
       let(:post) { create(:post, image: File.open('spec/support/images/sample_427x640.jpg', 'rb'), image_data: {}) }
 
-      it 'upscales to fit 1080x1080' do
+      it 'upscales to fill 1080x1080' do
         expect(image.width).to  be < derivatives[:post_size].width
         expect(image.height).to be < derivatives[:post_size].height
-        expect(derivatives[:post_size].width).to be <= 1080
-        expect(derivatives[:post_size].height).to be <= 1080
+        expect(derivatives[:post_size].width).to eq(1080)
+        expect(derivatives[:post_size].height).to eq(1080)
+      end
+
+      it 'creates 161x161 thumbnail' do
+        expect(derivatives[:thumbnail].width).to eq(161)
+        expect(derivatives[:thumbnail].height).to eq(161)
+      end
+    end
+  end
+
+  describe 'derivatives for User :avatar' do
+    let(:user)        { create(:user, avatar: File.open('spec/support/images/sample_1280x720.jpg', 'rb')) }
+    let(:avatar)      { user.avatar }
+    let(:derivatives) { user.avatar_derivatives }
+
+    context 'before saving avatar image to storage (promoting image, storing user.avatar in db`s row)' do
+      let(:user) { build(:user) }
+
+      it 'derivatives are nil' do
+        expect(derivatives[:profile_pic]).to be_nil
+        expect(derivatives[:thumbnail]).to be_nil
+      end
+    end
+
+    context 'after saving 1920x1280 avatar to storage (promoting)' do
+      let(:user) { create(:user, avatar: File.open('spec/support/images/sample_1920x1280.jpg', 'rb'), avatar_data: {}) }
+
+      it 'generates derivatives for avatar' do
+        expect(derivatives[:profile_pic]).to be_kind_of(Shrine::UploadedFile)
+        expect(derivatives[:thumbnail]).to be_kind_of(Shrine::UploadedFile)
+      end
+
+      it 'resizes to fill 180x180' do
+        expect(avatar.width).to eq(1920)
+        expect(avatar.height).to eq(1280)
+        expect(derivatives[:profile_pic].width).to eq(180)
+        expect(derivatives[:profile_pic].height).to eq(180)
+      end
+
+      it 'creates 50x50 thumbnail' do
+        expect(derivatives[:thumbnail].width).to eq(50)
+        expect(derivatives[:thumbnail].height).to eq(50)
+      end
+    end
+
+    context 'after saving 427x640 avatar to storage (promoting)' do
+      let(:user) { create(:user, avatar: File.open('spec/support/images/sample_427x640.jpg', 'rb'), avatar_data: {}) }
+
+      it 'resizes to fill 180x180' do
+        expect(avatar.width).to  be > derivatives[:profile_pic].width
+        expect(avatar.height).to be > derivatives[:profile_pic].height
+        expect(derivatives[:profile_pic].width).to eq(180)
+        expect(derivatives[:profile_pic].height).to eq(180)
+      end
+
+      it 'creates 50x50 thumbnail' do
+        expect(derivatives[:thumbnail].width).to eq(50)
+        expect(derivatives[:thumbnail].height).to eq(50)
       end
     end
   end
