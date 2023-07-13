@@ -59,5 +59,62 @@ RSpec.describe 'shared/_navbar', type: :view do
       should_not have_link('Log out', href: destroy_user_session_path)
       should_not have_selector("a[data-turbo-method='delete'][href='#{destroy_user_session_path}']")
     end
+
+    it 'does not render the light theme link' do
+      should_not have_link('', href: dark_theme_path)
+      should_not have_css('svg.bi-sun')
+    end
+
+    it 'does not render the dark theme link' do
+      should_not have_link('', href: light_theme_path)
+      should_not have_css('svg.bi-moon')
+    end
+  end
+
+  describe 'theme switcher for logged in user' do
+    before do
+      sign_in user
+      assign(:viewer, user)
+      allow(view).to receive(:cookies).and_return(theme:)
+      render
+    end
+
+    shared_examples 'light themed view' do
+      it 'renders the light theme link' do
+        expect(rendered).to have_link('', href: dark_theme_path)
+        expect(rendered).to have_css('svg.bi-sun')
+      end
+
+      it 'does not render the dark theme link' do
+        expect(rendered).not_to have_link('', href: light_theme_path)
+        expect(rendered).not_to have_css('svg.bi-moon')
+      end
+    end
+
+    context 'when theme is set to light' do
+      let(:theme) { 'light' }
+
+      it_behaves_like 'light themed view'
+    end
+
+    context 'when theme is unset' do
+      let(:theme) { nil }
+
+      it_behaves_like 'light themed view'
+    end
+
+    context 'when theme is set to dark' do
+      let(:theme) { 'dark' }
+
+      it 'renders the dark theme link' do
+        expect(rendered).to have_link('', href: light_theme_path)
+        expect(rendered).to have_css('svg.bi-moon')
+      end
+
+      it 'does not render the light theme link' do
+        expect(rendered).not_to have_link('', href: dark_theme_path)
+        expect(rendered).not_to have_css('svg.bi-sun')
+      end
+    end
   end
 end

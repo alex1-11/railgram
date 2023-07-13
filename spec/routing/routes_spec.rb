@@ -129,4 +129,16 @@ RSpec.describe 'Routes', type: :routing do
       expect(feed_path).to eq '/feed'
     end
   end
+
+  describe 'Themes routing' do
+    it 'routes to "themes#light" through "light_theme" named route' do
+      expect(get: 'light_theme').to route_to('themes#light')
+      expect(light_theme_path).to eq '/light_theme'
+    end
+
+    it 'routes to "themes#dark" through "dark_theme" named route' do
+      expect(get: 'dark_theme').to route_to('themes#dark')
+      expect(dark_theme_path).to eq '/dark_theme'
+    end
+  end
 end
