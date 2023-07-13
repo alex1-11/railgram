@@ -74,6 +74,17 @@ RSpec.describe User, type: :model do
     it { should have_many(:followers).through(:passive_relations).source(:follower) }
   end
 
+  describe 'avatar data' do
+    subject { build(:user, :with_avatar) }
+
+    it 'has associated valid avatar image with data and derivative versions' do
+      subject.save
+      expect(subject.avatar).to be_kind_of(AvatarUploader::UploadedFile)
+      expect(subject.avatar(:profile_pic)).to be_kind_of(AvatarUploader::UploadedFile)
+      expect(subject.avatar(:thumbnail)).to be_kind_of(AvatarUploader::UploadedFile)
+    end
+  end
+
   describe 'relation helper methods' do
     let(:user)    { create :user }
     let(:blogger) { create :user }
