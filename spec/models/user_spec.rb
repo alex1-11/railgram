@@ -79,9 +79,9 @@ RSpec.describe User, type: :model do
 
     it 'has associated valid avatar image with data and derivative versions' do
       subject.save
-      expect(subject.avatar).to be_kind_of(AvatarUploader::UploadedFile)
-      expect(subject.avatar(:profile_pic)).to be_kind_of(AvatarUploader::UploadedFile)
-      expect(subject.avatar(:thumbnail)).to be_kind_of(AvatarUploader::UploadedFile)
+      expect(subject.avatar).to be_kind_of(ImageUploader::UploadedFile)
+      expect(subject.avatar(:profile_pic)).to be_kind_of(ImageUploader::UploadedFile)
+      expect(subject.avatar(:thumbnail)).to be_kind_of(ImageUploader::UploadedFile)
     end
   end
 
