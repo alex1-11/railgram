@@ -34,6 +34,10 @@
       </ul>
 
       <ul class="navbar-nav align-items-sm-center">
+
+        <%= tag_nav_link("dark", dark_theme_path) %>
+        <%= tag_nav_link("light", light_theme_path) %>
+
         <% if user_signed_in? %>
           <%= tag_nav_link(@viewer.name, user_path(@viewer)) %>
           <li class="nav-item dropdown">

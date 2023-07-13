@@ -24,4 +24,7 @@ Rails.application.routes.draw do
 
   resources :likes, only: %i[create destroy]
   resources :relations, only: %i[create destroy]
+
+  get 'light_theme', to: 'themes#light', as: 'light_theme'
+  get 'dark_theme', to: 'themes#dark', as: 'dark_theme'
 end
