@@ -42,7 +42,7 @@ RSpec.describe 'Routes', type: :routing do
   end
 
   describe 'Easter egg routing' do
-    it 'routes to user#easter_egg' do
+    it 'routes to users#easter_egg' do
       expect(get: '/easter_egg').to route_to(controller: 'users', action: 'easter_egg')
     end
 
@@ -51,6 +51,27 @@ RSpec.describe 'Routes', type: :routing do
     end
   end
 
+  describe 'Avatar routing' do
+    describe 'edit_avatar path' do
+      it 'routes to users#edit_avatar' do
+        expect(get: '/edit_avatar').to route_to(controller: 'users', action: 'edit_avatar')
+      end
+
+      it 'has the correct named route' do
+        expect(edit_avatar_path).to eq '/edit_avatar'
+      end
+    end
+
+    describe 'set_avatar path' do
+      it 'routes to users#set_avatar' do
+        expect(patch: '/set_avatar').to route_to(controller: 'users', action: 'set_avatar')
+      end
+
+      it 'has the correct named route' do
+        expect(set_avatar_path).to eq '/set_avatar'
+      end
+    end
+  end
 
   describe 'Posts routing' do
     it 'routes to posts#index' do
