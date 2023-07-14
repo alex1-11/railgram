@@ -35,9 +35,13 @@ class UsersController < ApplicationController
 
   # PATCH /set_avatar
   def set_avatar
-    @viewer.avatar = avatar_params[:avatar] # FIXME
-    @viewer.update_attribute(:avatar, avatar_params[:avatar]) if @viewer.valid? # FIXME
-    redirect_to user_path(@viewer)
+    # @viewer.avatar = avatar_params[:avatar] # FIXME
+    # @viewer.update_attribute(:avatar, avatar_params[:avatar]) if @viewer.valid? # FIXME
+    if @viewer.update!(avatar_params)
+      redirect_to user_path(@viewer)
+    else
+      render :edit_avatar, status: :unprocessable_entity
+    end
   end
 
   private
@@ -51,6 +55,6 @@ class UsersController < ApplicationController
   end
 
   def avatar_params
-    params.permit(:avatar)
+    params.require(:user).permit(:avatar)
   end
 end
