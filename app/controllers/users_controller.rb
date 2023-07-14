@@ -44,6 +44,10 @@ class UsersController < ApplicationController
     end
   end
 
+    # TODO: PATCH /remove_avatar
+    def remove_avatar
+    end
+
   private
 
   def set_user
