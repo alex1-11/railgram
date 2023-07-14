@@ -23,11 +23,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :email, :name, :password, presence: true
+  validates :email, :name, presence: true
   validates :email, :name, uniqueness: true
   validates :email, length: { in: 5..256 }
   validates :name, length: { in: 3..30 }
-  validates :password, length: { minimum: 6 }
 
   # Checks if the user is following the other user
   def follows?(other_user)
