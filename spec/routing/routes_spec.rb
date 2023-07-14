@@ -71,6 +71,16 @@ RSpec.describe 'Routes', type: :routing do
         expect(set_avatar_path).to eq '/set_avatar'
       end
     end
+
+    describe 'remove_avatar path' do
+      it 'routes to users#remove_avatar' do
+        expect(patch: '/remove_avatar').to route_to(controller: 'users', action: 'remove_avatar')
+      end
+
+      it 'has the correct named route' do
+        expect(remove_avatar_path).to eq '/remove_avatar'
+      end
+    end
   end
 
   describe 'Posts routing' do

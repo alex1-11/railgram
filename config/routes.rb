@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'easter_egg', to: 'users#easter_egg', as: 'easter_egg'
   get 'edit_avatar', to: 'users#edit_avatar', as: 'edit_avatar'
   patch 'set_avatar', to: 'users#set_avatar', as: 'set_avatar'
+  patch 'remove_avatar', to: 'users#remove_avatar', as: 'remove_avatar'
 
   resources :posts, only: %i[show new create edit update destroy] do
     resources :comments, only: %i[index create destroy]

@@ -30,23 +30,25 @@ class UsersController < ApplicationController
   end
 
   # GET /edit_avatar
-  def edit_avatar
-  end
+  def edit_avatar; end
 
   # PATCH /set_avatar
   def set_avatar
-    # @viewer.avatar = avatar_params[:avatar] # FIXME
-    # @viewer.update_attribute(:avatar, avatar_params[:avatar]) if @viewer.valid? # FIXME
-    if @viewer.update!(avatar_params)
-      redirect_to user_path(@viewer)
+    if @viewer.update(avatar_params)
+      redirect_to edit_avatar_path
     else
       render :edit_avatar, status: :unprocessable_entity
     end
   end
 
-    # TODO: PATCH /remove_avatar
-    def remove_avatar
+  # PATCH /remove_avatar
+  def remove_avatar
+    if @viewer.update(avatar: nil)
+      redirect_to edit_avatar_path
+    else
+      render :edit_avatar, status: :unprocessable_entity
     end
+  end
 
   private
 

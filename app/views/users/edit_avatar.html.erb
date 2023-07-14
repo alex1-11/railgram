@@ -1,31 +1,8 @@
 <%= link_to "Back", :back %>
 
-  <% if @viewer.avatar_data %>
-    <div>
-      <%= image_tag @viewer.avatar_url(:profile_pic), class: %>
-    </div>
-    <div>
-      <%= form_with(model: @viewer, url: set_avatar_url, method: :patch, id: 'remove_avatar') do |form| %>
-        <div>
-          <%= form.hidden_field :avatar, value: nil %>
-          <%= form.submit 'Remove avatar', data: {
-            confirm: 'Are you sure you want to remove current avatar?',
-            turbo_confirm: 'Are you sure you want to remove current avatar?'
-          } %>
-        </div>
-      <% end %>
-    </div>
-
-  <% else %>
-    <div>
-      <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' %>
-    </div>
-  <% end %>
-
-<%= form_with(model: @viewer, url: set_avatar_url, method: :patch, id: 'set_avatar') do |form| %>
   <% if @viewer.errors.any? %>
     <div class="alert alert-danger">
-      <h2><%= pluralize(@viewer.errors.count, 'error') %> prohibited this avatar from being saved:</h2>
+      <h3><%= pluralize(@viewer.errors.count, 'error') %> prohibited new avatar from being saved:</h3>
 
       <ul>
         <% @viewer.errors.each do |error| %>
@@ -35,8 +12,31 @@
     </div>
   <% end %>
 
-  <div>
+  <% if @viewer.avatar %>
+    <div>
+      <%= image_tag @viewer.avatar_url(:profile_pic), class: %>
+    </div>
+    <div>
+      <%= button_to(
+        'Remove avatar', 
+        remove_avatar_path, 
+        method: :patch, 
+        data: { 
+          confirm: 'Are you sure you want to remove current avatar?', 
+          turbo_confirm: 'Are you sure you want to remove current avatar?' 
+        }
+      ) %>
+    </div>
 
+  <% else %>
+    <div>
+      <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' %>
+    </div>
+  <% end %>
+
+<%= form_with(model: @viewer, url: set_avatar_url, method: :patch, id: 'set_avatar') do |form| %>
+  <div>
+    <%= form.hidden_field :avatar, value: @viewer.cached_avatar_data, id: nil %>
     <%= form.file_field :avatar, required: true %>
   </div>
 
