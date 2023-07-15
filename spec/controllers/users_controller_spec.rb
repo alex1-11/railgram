@@ -154,22 +154,41 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'PATCH #set_avatar' do
     let(:attributes) { attributes_for(:user, :simulate_avatar_form_upload) }
-    let(:request)    { patch :set_avatar, params: { avatar: attributes[:avatar] } }
+    let(:request)    { patch :set_avatar, params: attributes }
 
-    before do
-      sign_in user
+    it { should permit(:avatar).for(:set_avatar, verb: :patch, params: attributes) }
+
+    context 'valid avatar file uploaded' do
+      it 'updates the user avatar' do
+        user.reload
+        expect(user.avatar).to be_present
+        expect(user.avatar_data).to be_present
+      end
+
+      it 'redirects to the user profile page' do
+        expect(response).to redirect_to(user_path(user))
+      end
     end
 
-    it { should permit(:avatar).for(:set_avatar, verb: :patch, params: { avatar: attributes[:avatar] }) }
+    context 'invalid avatar file uploaded' do
+      let(:attributes) { attributes_for(:user, :with_avatar, version: 'invalid_extention') }
 
-    it 'updates the user avatar' do
-      user.reload
-      expect(user.avatar).to be_present
-      expect(user.avatar_data).to be_present
-    end
+      it { should render_template :edit_avatar, status: :unprocessable_entity }
 
-    it 'redirects to the user profile page' do
-      expect(response).to redirect_to(user_path(user))
+      it 'rerenders edit_avatar template with form with unprocessable_entity status' do
+        expect(request).to render_template(:edit_avatar)
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'adds error' do
+        expect(user.errors.inspect)
+          .to include('#<ActiveModel::Errors [#<ActiveModel::Error attribute=avatar, type=extension must be one of: jpg, jpeg, png, webp, options={}>]>')
+      end
+
     end
+  end
+
+  describe 'PATCH #remove_avatar' do
+
   end
 end
