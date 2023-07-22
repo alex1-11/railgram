@@ -43,10 +43,10 @@ class UsersController < ApplicationController
 
   # PATCH /remove_avatar
   def remove_avatar
-    if @viewer.update(avatar: nil)
+    if @viewer.avatar && @viewer.update(avatar: nil)
       redirect_to edit_avatar_path
     else
-      render :edit_avatar, status: :unprocessable_entity
+      render :edit_avatar
     end
   end
 
