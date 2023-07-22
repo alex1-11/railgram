@@ -37,5 +37,15 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :uploades_avatar_with_wrong_ext do
+      avatar_data {}
+      avatar do
+        Rack::Test::UploadedFile.new(
+          Rails.root.join('spec', 'support', 'images', 'jpg_wrong_extension.txt'),
+          'image/jpeg'
+        )
+      end
+    end
   end
 end

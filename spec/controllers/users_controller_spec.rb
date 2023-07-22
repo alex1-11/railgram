@@ -171,10 +171,8 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'invalid avatar file uploaded' do
-      let(:request_params) { { user: build(:user, :with_avatar, version: 'invalid_extention').attributes } }
-
-      it { debugger; should render_template :edit_avatar, status: :unprocessable_entity }
+    context 'avatar file with wrong extension was uploaded' do
+      let(:request_params) { { user: attributes_for(:user, :uploades_avatar_with_wrong_ext) } }
 
       it 'rerenders edit_avatar template with form with unprocessable_entity status' do
         expect(request).to render_template(:edit_avatar)
@@ -182,10 +180,11 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'adds error' do
-        expect(user.errors.inspect)
+        viewer = controller.instance_variable_get(:@viewer)
+        expect(viewer).to eq(user)
+        expect(viewer.errors.inspect)
           .to include('#<ActiveModel::Errors [#<ActiveModel::Error attribute=avatar, type=extension must be one of: jpg, jpeg, png, webp, options={}>]>')
       end
-
     end
   end
 
