@@ -17,7 +17,8 @@ FactoryBot.define do
 
     # Avatar section powered by Shrine gem and TestData preset helper
 
-    # Allows to pass key to choose which image version to build (default: 'valid') using preset TestData module for testing images
+    # Allows to pass key to choose which image version to build (default: 'valid') using preset TestData module
+    # for testing ImageUploader validations
     transient do
       version { 'avatar' }
     end
