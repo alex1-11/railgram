@@ -1,17 +1,16 @@
 require 'rails_helper'
+require 'add_thumbnails_derivative_to_posts'
 
 RSpec.describe 'lib/add_thumbnails_derivative_to_posts.rb' do
   let(:posts) { create_list(:post, 3) }
 
-  before do
-    posts.each do |post|
-      post.image_derivatives.delete(:thumbnail)
-    end
-  end
-
   it 'adds thumbnail derivative to each post image' do
+    Post.find_each do |post|
+      post.image_derivatives.delete(:thumbnail)
+      expect(post.image_derivatives.keys).to_not include(:thumbnail)
+    end
     subject
-    posts.each do |post|
+    Post.find_each do |post|
       post.reload
       thumbnail = post.image_derivatives[:thumbnail]
       expect(thumbnail).to_not be_nil
