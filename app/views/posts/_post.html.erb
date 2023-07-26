@@ -1,13 +1,11 @@
-<div class="post bg-secondary-subtle my-5 px-0 pt-0 pb-1 rounded-3 shadow" id="<%= dom_id post %>">
+<div class="post bg-body-tertiary my-5 px-0 pt-0 pb-1 rounded-3 shadow" id="<%= dom_id post %>">
 
   <div class='row p-3'>
-    <div class="col-1">
+    <div class="col" style="transform: rotate(0);">
       <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if post.user.avatar_data.nil? %>
       <%= image_tag post.user.avatar_url(:thumbnail), class: 'rounded-circle' unless post.user.avatar_data.nil? %>
-    </div>
 
-    <div class="col">
-      <strong><%= link_to post.user.name, user_path(post.user) %></strong>
+      <strong><%= link_to post.user.name, user_path(post.user), class: 'stretched-link px-2' %></strong>
     </div>
   </div>
 

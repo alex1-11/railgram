@@ -1,31 +1,47 @@
-<div id="<%= dom_id user %>" class='container'>
-  <h2><%= link_to user.name, user_path(user) %></h2>
+<div id="<%= dom_id user %>" class='container bg-body-tertiary pb-3'>
+  <div class='row align-items-center'>
+    <div class='col text-center'>
+      <h2><%= link_to user.name, user_path(user) %></h2>
 
-  <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' if user.avatar_data.nil? %>
-  <%= image_tag user.avatar_url(:profile_pic), class: 'rounded-circle' unless user.avatar_data.nil? %>
-  <%= image_tag user.avatar_url(:thumbnail), class: 'rounded-circle' unless user.avatar_data.nil? %>
+      <div class='avatar' style="transform: rotate(0);">
+        <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' if user.avatar_data.nil? %>
+        <%= image_tag user.avatar_url(:profile_pic), class: 'rounded-circle' unless user.avatar_data.nil? %>
 
-  <% if user == @viewer %>
-    <%= link_to user.avatar_data.nil? ? 'Set avatar' : 'Change avatar', edit_avatar_path %>
-  <% end %>
+        <% if user == @viewer %>
+          <br/>
+          <%= link_to user.avatar_data.nil? ? 'Set avatar' : 'Change avatar',
+            edit_avatar_path,
+            class: 'custom-hover-link position-absolute top-50 start-50 translate-middle bg-body-tertiary p-1 rounded-5' %>
+        <% end %>
+      </div>
 
-  <div id='posts_counter'>
-    <%= link_to "#{pluralize(user.posts_count, 'Post')}", user_posts_path(user) %>
-  </div>
-
-  <div id='followers_counter_div'>
-    <%= render 'relations/followers_counter', user: %>
-  </div>
-
-  <div id='following_counter'>
-    <%= link_to "#{user.following_count} Following", following_user_path(user) %>
-  </div>
-
-  <% if @viewer != user %>
-    <div id='follow_toggle_div'>
-      <%= render 'relations/follow_toggle',
-                user:,
-                relation: @viewer.active_relations.find_by(followed: user) %>
+      <% if @viewer != user %>
+        <div id='follow_toggle_div' class='text-center'>
+          <%= render 'relations/follow_toggle',
+                    user:,
+                    relation: @viewer.active_relations.find_by(followed: user) %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+
+    <div class='col'>
+      <div class='row'>
+        <div id='posts_counter' class='col text-center fs-4'>
+          <%= link_to user_posts_path(user) do %>
+            <%= user.posts_count %>
+            <br/>
+            <%= 'Post'.pluralize(user.posts_count) %>
+          <% end %>
+        </div>
+
+        <div id='followers_counter_div' class='col text-center fs-4'>
+          <%= render 'relations/followers_counter', user: %>
+        </div>
+
+        <div id='following_counter' class='col text-center fs-4'>
+          <%= link_to "#{user.following_count}<br/>Following".html_safe, following_user_path(user) %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
