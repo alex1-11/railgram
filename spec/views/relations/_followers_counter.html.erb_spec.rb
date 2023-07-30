@@ -13,7 +13,7 @@ RSpec.describe 'relations/_followers_counter', type: :view do
     it { should have_selector('turbo-frame#followers_counter') }
     it do
       should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']",
-                           text: "\n    0\n    \n    Followers\n")
+                           text: /0\s*Followers/)
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe 'relations/_followers_counter', type: :view do
     it { should have_selector('turbo-frame#followers_counter') }
     it do
       should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']",
-                           text: "\n    1\n    \n    Follower\n")
+                           text: /1\s*Follower/)
     end
   end
 
@@ -43,7 +43,7 @@ RSpec.describe 'relations/_followers_counter', type: :view do
     it { should have_selector('turbo-frame#followers_counter') }
     it do
       should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']",
-                           text: "\n    5\n    \n    Followers\n")
+                           text: /5\s*Followers/)
     end
   end
 end

@@ -14,13 +14,16 @@ RSpec.describe 'users/_profile', type: :view do
   it { should have_selector("div##{dom_id user}") }
   it { should have_selector('h2', text: user.name) }
   it { should have_link(user.name, href: user_path(user).to_s) }
-  it { should have_selector('div', text: '0 Posts') }
-  it { should have_link('0 Posts', href: user_posts_path(user).to_s) }
-  it { should have_selector('div', text: '0 Followers') }
-  it { should have_link('0 Followers', href: followers_user_path(user).to_s) }
+
+  it { should have_selector('div#posts_counter') }
+  it { should have_selector(:link, href: user_posts_path(user).to_s, text: /0\s*Posts/) }
+
+  it { should have_selector('div#followers_counter_div') }
   it { should render_template(partial: 'relations/_followers_counter', count: 1) }
-  it { should have_link('0 Following', href: following_user_path(user).to_s) }
-  it { should have_selector('div', text: '0 Following') }
+  it { should have_selector(:link, href: followers_user_path(user).to_s, text: /0\s*Followers/) }
+
+  it { should have_selector('div#following_counter') }
+  it { should have_selector(:link, href: following_user_path(user).to_s, text: /0\s*Following/) }
 
   context 'own profile' do
     it { should_not render_template(partial: 'relations/follow_toggle') }
@@ -47,10 +50,8 @@ RSpec.describe 'users/_profile', type: :view do
       render partial: 'users/profile', locals: { user: }
     end
 
-    it { should have_selector('div', text: '5 Posts') }
-    it { should have_selector('div', text: '4 Followers') }
-    it { should have_link('5 Posts', href: user_posts_path(user).to_s) }
-    it { should have_link('4 Followers', href: followers_user_path(user).to_s) }
-    it { should have_link('3 Following', href: following_user_path(user).to_s) }
+    it { should have_selector(:link, href: user_posts_path(user).to_s, text: /5\s*Posts/) }
+    it { should have_selector(:link, href: followers_user_path(user).to_s, text: /4\s*Followers/) }
+    it { should have_selector(:link, href: following_user_path(user).to_s, text: /3\s*Following/) }
   end
 end
