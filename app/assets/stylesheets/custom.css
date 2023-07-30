@@ -10,3 +10,6 @@ a {
 .avatar:hover .custom-hover-link {
   display: block;
 }
+.navbar-nav .nav-link.active {
+  color: #7c4cff;
+}
