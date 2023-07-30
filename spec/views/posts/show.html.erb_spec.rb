@@ -22,7 +22,7 @@ RSpec.describe 'posts/show', type: :view do
                                       locals: { post: sample_post, likes: viewer.likes })
     end
 
-    it { expect(rendered).to have_link('Back') }
+    it { expect(rendered).to have_link('< Back') }
     it { should have_link('Edit this post', href: edit_post_path(sample_post)) }
     it { should have_selector("form[action='#{post_path(sample_post)}']") }
     it { should have_button('Destroy this post') }
