@@ -1,7 +1,7 @@
 <%= link_to "Back to settings", user_settings_path %>
 
   <% if @viewer.errors.any? %>
-    <div class="alert alert-danger alert-dismissible fade show">
+    <div class="alert alert-danger alert-dismissible fade show text-start">
       <h3><%= pluralize(@viewer.errors.count, 'error') %> prohibited new avatar from being saved:</h3>
 
       <ul>
