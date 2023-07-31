@@ -1,7 +1,10 @@
-<div id='new_comment_form' class='row'>
-  <div class='col-1'></div>
+<div id='new_comment_form' class='row mb-5 justify-content-between'>
+  <div class='col-1'>
+    <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if @viewer.avatar_data.nil? %>
+    <%= image_tag @viewer.avatar_url(:thumbnail), class: 'rounded-circle' unless @viewer.avatar_data.nil? %>
+  </div>
   <div class='col'>
-    <%= form_with(model: comment, url: post_comments_path(post, comment)) do |form| %>
+    <%= form_with(model: comment, url: post_comments_path(post, comment), html: { class: 'col' }) do |form| %>
       <% if comment.errors.any? %>
         <div class="alert alert-danger alert-dismissible fade show text-start">
           <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
@@ -15,15 +18,19 @@
         </div>
       <% end %>
 
-      <div>
+      <div class="field form-floating mb-3">
         <%= form.hidden_field :post_id %>
-        <%= form.label :text, value: 'Comment', style: "display: block" %>
-        <%= form.text_field :text %>
+        <%= form.text_area :text,
+                            autofocus: true,
+                            class: 'form-control',
+                            placeholder: 'Write a comment' %>
+        <%= form.label :text, 'Write a comment' %>
       </div>
 
       <div>
-        <%= form.submit 'Send' %>
+        <%= form.submit 'Send', class: 'btn btn-primary mb-3' %>
       </div>
     <% end %>
   </div>
+  <div class='col-1'></div>
 </div>
