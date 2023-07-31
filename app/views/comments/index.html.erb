@@ -9,17 +9,20 @@
       <%= image_tag @post.user.avatar_url(:thumbnail), class: 'rounded-circle' unless @post.user.avatar_data.nil? %>
     <% end %>
   </div>
+
   <div class="col">
-    <p>
+    <%= link_to user_path(@post.user) do %>
       <strong><%= @post.user.name %> </strong>
+    <% end %>
+    <span title='<%= @post.created_at.localtime.to_fs(:long) %>'>
+      <%= time_ago_in_words(@post.created_at) %> ago
+    </span>
+    <br>
+    <span class='text-wrap text-break'>
       <%= @post.caption %>
-    </p>
-    <p class='my-1'>
-        <span title='<%= @post.created_at.localtime.to_fs(:long) %>'>
-          <%= time_ago_in_words(@post.created_at) %> ago
-        </span>
-    </p>
+    </span>
   </div>
+
   <div class='col-1'></div>
 </div>
 
