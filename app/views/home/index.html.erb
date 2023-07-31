@@ -1,10 +1,14 @@
 <% unless user_signed_in? %>
-  <div class="row text-center p-5 m-5 justify-content-evenly text-primary">
+  <div class="row text-center p-5 m-5 justify-content-evenly">
     <h1>Welcome to</h1>
     <h3><del>RAILGUN 🔫</del><h3>
-    <h1>RAILGRAM ! 📸</h1>
+    <h1 class='text-primary'>RAILGRAM ! 📸</h1>
+  </div>
 
-    <%= link_to('Register', new_user_registration_path, class: 'col') %>
-    <%= link_to('Sign in', new_user_session_path, class: 'col') %>
+  <div class="row text-center justify-content-evenly">
+    <div class='col-6 btn-group'>
+      <%= link_to('Register', new_user_registration_path, class: 'btn btn-primary') %>
+      <%= link_to('Sign in', new_user_session_path, class: 'btn btn-outline-primary') %>
+    </div>
   </div>
 <% end %>
