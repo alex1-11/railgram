@@ -1,9 +1,4 @@
-<h1>New post</h1>
+<h1 class='text-center mb-3'>New post</h1>
+<%= link_to "< Back", :back, class: 'col-2 btn btn-outline-primary mb-3' %>
 
 <%= render "form", post: @post %>
-
-<br>
-
-<div>
-  <%= link_to "Back to my posts", user_posts_path(current_user) %>
-</div>

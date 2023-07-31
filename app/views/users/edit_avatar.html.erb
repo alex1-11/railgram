@@ -1,7 +1,7 @@
 <%= link_to "Back to settings", user_settings_path %>
 
   <% if @viewer.errors.any? %>
-    <div class="alert alert-danger">
+    <div class="alert alert-danger alert-dismissible fade show">
       <h3><%= pluralize(@viewer.errors.count, 'error') %> prohibited new avatar from being saved:</h3>
 
       <ul>
@@ -9,6 +9,7 @@
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
   <% end %>
 

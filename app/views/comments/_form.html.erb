@@ -3,7 +3,7 @@
   <div class='col'>
     <%= form_with(model: comment, url: post_comments_path(post, comment)) do |form| %>
       <% if comment.errors.any? %>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show">
           <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
 
           <ul>
@@ -11,6 +11,7 @@
               <li><%= error.full_message %></li>
             <% end %>
           </ul>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <% end %>
 
