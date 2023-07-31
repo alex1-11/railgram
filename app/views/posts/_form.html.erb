@@ -14,7 +14,7 @@
     <% end %>
 
     <div>
-      <%= image_tag post.image_url(:post_size) if post.id %>
+      <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio my-3' if post.id %>
     </div>
 
     <div class="input-group mb-3">
@@ -28,8 +28,9 @@
       <%= form.text_area :caption, class: 'form-control' %>
     </div>
 
-    <div>
-      <%= form.submit %>
+    <div class='btn-group'>
+      <%= link_to 'Cancel', :back, class: 'btn btn-outline-primary mb-3' %>
+      <%= form.submit class: 'btn btn-primary mb-3' %>
     </div>
   <% end %>
 </div>

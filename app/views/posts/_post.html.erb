@@ -11,7 +11,7 @@
 
   <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio' %>
 
-  <div class='p-3'>
+  <div class='p-3 pb-0'>
     <div class='container actions-badge row row-cols-auto'>
       <div class='col g-0'>
         <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
@@ -35,7 +35,12 @@
     </div>
 
     <% if controller_name == 'posts' && action_name.in?(['feed', 'index']) %>
-      <%= link_to "Show this post", post_path(post) %>
+      <div class='row text-center'>
+        <hr class='m-0 mt-3'>
+        <%= link_to "Show this post", post_path(post), class: 'stretched-link py-2' %>
+      </div>
+    <% else %>
+      <div class='pb-3'></div>
     <% end %>
   </div>
 </div>
