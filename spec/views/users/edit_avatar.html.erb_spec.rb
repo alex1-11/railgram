@@ -11,7 +11,9 @@ RSpec.describe 'users/edit_avatar', type: :view do
     render
   end
 
-  it { should have_selector('h1', text: 'Avatar settings') }
+  it 'has header `Avatar settings`' do
+    expect(rendered).to have_selector('h1', text: 'Avatar settings')
+  end
 
   context 'when viewer has errors' do
     before do
