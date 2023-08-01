@@ -1,11 +1,15 @@
-<%= link_to "Back", :back %>
+<div class='row justify-content-center m-0 my-5 p-0'>
+  <%= link_to "Back to #{@user.name}'s profile", user_path(@user), class: 'col-5 btn btn-outline-primary' %>
+</div>
 
-<div id='followers'>
-  <ul>
+<div class='row justify-content-center m-0 my-5 p-0'>
+  <div id='followers' class='list-group col-sm-8 col-md-6 px-0 mx-0'>
     <% @followers.each do |follower| %>
-      <li>
-        <%= link_to follower.name, user_path(follower) %>
-      </li>
+      <%= link_to user_path(follower), class: 'list-group-item list-group-item-action' do %>
+        <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle me-2' if follower.avatar_data.nil? %>
+        <%= image_tag follower.avatar_url(:thumbnail), class: 'rounded-circle me-2' unless follower.avatar_data.nil? %>
+        <span> <%= follower.name %></span>
+      <% end %>
     <% end %>
-  </ul>
+  </div>
 </div>

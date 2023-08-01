@@ -26,20 +26,24 @@
 
     <div class='col-9 pe-md-5'>
       <div class='row py-3'>
-        <div id='posts_counter' class='col text-center fs-4'>
-          <%= link_to user_posts_path(user) do %>
-            <%= user.posts_count %>
+        <div id='posts_counter' class='col text-center fs-4' style="transform: rotate(0);">
+          <%= link_to user_posts_path(user), class: 'stretched-link' do %>
+            <strong><%= user.posts_count %></strong>
             <br/>
             <%= 'Post'.pluralize(user.posts_count) %>
           <% end %>
         </div>
 
-        <div id='followers_counter_div' class='col text-center fs-4'>
+        <div id='followers_counter_div' class='col text-center fs-4' style="transform: rotate(0);">
           <%= render 'relations/followers_counter', user: %>
         </div>
 
-        <div id='following_counter' class='col text-center fs-4'>
-          <%= link_to "#{user.following_count}<br/>Following".html_safe, following_user_path(user) %>
+        <div id='following_counter' class='col text-center fs-4' style="transform: rotate(0);">
+          <%= link_to following_user_path(user), class: 'stretched-link' do %>
+            <strong><%= user.following_count %></strong>
+            <br/>
+            Following
+          <% end %>
         </div>
       </div>
     </div>
