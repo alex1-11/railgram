@@ -1,6 +1,6 @@
 <div id="<%= dom_id comment %>" class="row mb-5 justify-content-between">
   <div class="col-1">
-    <%= link_to user_path(@post.user) do %>
+    <%= link_to user_path(post.user) do %>
       <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if comment.user.avatar_data.nil? %>
       <%= image_tag comment.user.avatar_url(:thumbnail), class: 'rounded-circle' unless comment.user.avatar_data.nil? %>
     <% end %>
@@ -8,7 +8,7 @@
 
   <div class="col">
     <hr class='m-0'>
-    <%= link_to user_path(@post.user) do %>
+    <%= link_to user_path(post.user) do %>
       <strong>
         <%= comment.user.name %>
       </strong>
