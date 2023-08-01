@@ -1,19 +1,24 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show followers following]
 
+  # GET /users
+  def index
+    @users = User.all.order(followers_count: :desc).limit(100)
+  end
+
   # GET /users/1
   def show
     @posts = @user.posts.order(created_at: :desc)
   end
-
-  # GET /settings
-  def settings; end
 
   # DELETE /users/1
   def destroy
     current_user.destroy
     redirect_to :root, notice: 'User was successfully destroyed.'
   end
+
+  # GET /settings
+  def settings; end
 
   def followers
     @followers = @user.followers

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  resources :users, only: %i[show destroy] do
+  resources :users, only: %i[index show destroy] do
     resources :posts, only: :index
     member do
       get 'followers'

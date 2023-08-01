@@ -30,6 +30,7 @@
       <ul class="navbar-nav align-items-sm-center">
         <% if user_signed_in? %>
           <%= tag_nav_link('Feed', feed_path) %>
+          <%= tag_nav_link('Users', users_path) %>
           <%= tag_nav_link("Make a post", new_post_path) %>
         <% end %>
       </ul>

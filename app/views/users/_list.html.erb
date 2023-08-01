@@ -1,0 +1,11 @@
+<div class='row justify-content-center m-0 my-5 p-0'>
+  <div id='users' class='list-group col-sm-8 col-md-6 px-0 mx-0'>
+    <% users.each do |user| %>
+      <%= link_to user_path(user), class: 'list-group-item list-group-item-action' do %>
+        <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle me-2' if user.avatar_data.nil? %>
+        <%= image_tag user.avatar_url(:thumbnail), class: 'rounded-circle me-2' unless user.avatar_data.nil? %>
+        <span><%= user.name %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>
