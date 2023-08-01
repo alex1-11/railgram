@@ -9,6 +9,7 @@ RSpec.describe 'comments/index', type: :view do
 
   before do
     sign_in user
+    assign(:viewer, user)
     assign(:post, sample_post)
     assign(:comments, comments)
     assign(:new_comment, new_comment_record)
@@ -20,7 +21,7 @@ RSpec.describe 'comments/index', type: :view do
   it "renders post's caption with author name and text" do
     should have_selector('div#caption')
     should have_selector('strong', text: sample_post.user.name)
-    should have_selector('p', text: sample_post.caption)
+    should have_selector('span', text: sample_post.caption)
   end
 
   it { should have_selector('div#comments') }

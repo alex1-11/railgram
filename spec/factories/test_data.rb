@@ -9,9 +9,16 @@ module TestData
     attacher.set(uploaded_image(version))
 
     # Assign derivatives explicitly, to skip image processing
-    attacher.set_derivatives(
-      post_size: uploaded_image(version)
-    )
+    if version == 'avatar'
+      attacher.set_derivatives(
+        profile_pic: uploaded_image('profile_pic'),
+        thumbnail: uploaded_image('avatar_thumbnail')
+      )
+    else
+      attacher.set_derivatives(
+        post_size: uploaded_image(version)
+      )
+    end
 
     attacher.column_data # or attacher.data in case of postgres jsonb column
   end
@@ -37,7 +44,10 @@ module TestData
       'invalid_mime' => common_data.merge('mime_type' => 'text/plain'),
       'invalid_extention' => common_data.merge('filename' => 'test.txt'),
       'invalid_hight' => common_data.merge('width' => 100, 'height' => 5001),
-      'invalid_width' => common_data.merge('width' => 5001, 'height' => 100)
+      'invalid_width' => common_data.merge('width' => 5001, 'height' => 100),
+      'avatar' => common_data,
+      'profile_pic' => common_data.merge('width' => 180, 'height' => 180),
+      'avatar_thumbnail' => common_data.merge('width' => 50, 'height' => 50)
     }
 
     # For performance we skip metadata extraction and assign test metadata

@@ -1,16 +1,11 @@
-<br/><br/>
+<div class='bg-body-tertiary rounded-3 shadow my-5 px-0 py-3'>
+  <%= render partial: 'users/profile', locals: { user: @user } %>
+</div>
 
-<%= link_to "New post", new_post_path %>
-
-<%= render partial: 'users/profile', locals: { user: @user } %>
-
-<div id="posts">
+<div id="posts" class='mt-5'>
   <% @posts.each do |post| %>
-    <%= render partial: 'posts/post', 
+    <%= render partial: 'posts/post',
            locals: { post:,
                      likes: @likes } %>
-    <p>
-      <%= link_to "Show this post", post_path(post) %>
-    </p>
   <% end %>
 </div>

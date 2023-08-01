@@ -1,16 +1,8 @@
 <%= turbo_frame_tag "like_toggle_#{post.id}" do %>
-  <p>
-    <% like ||= likes.find {|l| l.post_id == post.id}
-       if like %>
-      <%= button_to "Unlike", like_path(like), method: :delete, params: { post_id: post.id } %>
+  <% like ||= likes.find {|l| l.post_id == post.id}
+    if like %>
+      <%= button_to "♥", like_path(like), method: :delete, params: { post_id: post.id }, class: 'btn btn-primary rounded-circle me-1' %>
     <% else %>
-      <%= button_to "Like", likes_path, method: :post, params: { post_id: post.id } %>
+      <%= button_to "♡", likes_path, method: :post, params: { post_id: post.id }, class: 'btn btn-outline-primary rounded-circle me-1' %>
     <% end %>
-  </p>
-
-  <% if post.likes_count > 0 %>
-    <p>
-      <%= pluralize(post.likes_count, 'Like') %>
-    </p>
-  <% end %>
 <% end %>

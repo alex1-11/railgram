@@ -1,29 +1,32 @@
-<%= form_with(model: post, url: url_for(post)) do |form| %>
-  <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+<div class='row justify-content-center text-center'>
+  <%= form_with(model: post, url: url_for(post), html: { class: 'col-sm-8 col-md-6' }) do |form| %>
+    <% if post.errors.any? %>
+      <div class="alert alert-danger alert-dismissible fade show text-start">
+        <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-      <ul>
-        <% post.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% post.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+
+    <div>
+      <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio my-3' if post.id %>
     </div>
+
+    <div class="input-group mb-3">
+      <%= form.hidden_field :image, value: post.cached_image_data, id: nil %>
+      <%= form.file_field :image, class: 'form-control' %>
+    </div>
+
+    <div class="input-group mb-3">
+      <span class='input-group-text col-3'>Caption</span>
+      <%= form.text_area :caption, class: 'form-control' %>
+    </div>
+
+    <%= form.submit class: 'btn btn-primary mb-3' %>
   <% end %>
-
-  <div>
-    <%= image_tag post.image_url(:post_size) if post.id %>
-  </div>
-
-  <div>
-    <%= form.hidden_field :image, value: post.cached_image_data, id: nil %>
-    <%= form.file_field :image %>
-
-    <%= form.label :caption, style: "display: block" %>
-    <%= form.text_field :caption %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

@@ -1,20 +1,46 @@
-<div id="<%= dom_id post %>">
-  <%= image_tag post.image_url(:post_size) %>
+<div class="post bg-body-tertiary mb-5 px-0 pt-0 pb-1 rounded-3 shadow" id="<%= dom_id post %>">
 
-  <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
+  <div class='row p-3'>
+    <div class="col" style="transform: rotate(0);">
+      <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if post.user.avatar_data.nil? %>
+      <%= image_tag post.user.avatar_url(:thumbnail), class: 'rounded-circle' unless post.user.avatar_data.nil? %>
 
-  <p>
-    <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
-    <%= post.caption %>
-  </p>
-  
-  <p>
-    <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post) %>
-  </p>
+      <strong><%= link_to post.user.name, user_path(post.user), class: 'stretched-link px-2' %></strong>
+    </div>
+  </div>
 
-  <p>
-    <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
-      <%= time_ago_in_words(post.created_at) %> ago
-    </span>
-  </p>
+  <%= image_tag post.image_url(:post_size), class: 'img-fluid mx-auto ratio' %>
+
+  <div class='p-3 pb-0'>
+    <div class='container actions-badge row row-cols-auto'>
+      <div class='col g-0'>
+        <%= render partial: 'likes/like_toggle', locals: { post:, likes: } %>
+      </div>
+      <div class='col g-0'>
+        <%= link_to pluralize(post.comments_count, 'Comment'), post_comments_path(post), class: 'btn btn-outline-primary rounded-pill ms-1' %>
+      </div>
+    </div>
+
+    <div class='caption-section pt-2'>
+      <%= render partial: 'likes/likes_counter', locals: { post:, likes: } %>
+      <p class='my-1'>
+        <strong><%= link_to post.user.name, user_path(post.user) %> </strong>
+        <%= post.caption %>
+      </p>
+      <p class='my-1'>
+        <span title='<%= post.created_at.localtime.to_fs(:long) %>'>
+          <%= time_ago_in_words(post.created_at) %> ago
+        </span>
+      </p>
+    </div>
+
+    <% if controller_name == 'posts' && action_name.in?(['feed', 'index']) %>
+      <div class='row text-center' style="transform: rotate(0);">
+        <hr class='m-0 mt-3'>
+        <%= link_to "Show this post", post_path(post), class: 'stretched-link py-2' %>
+      </div>
+    <% else %>
+      <div class='pb-3'></div>
+    <% end %>
+  </div>
 </div>

@@ -5,7 +5,7 @@ class LikesController < ApplicationController
     @like = @viewer.likes.build(post_id: @post.id)
     @like.save
     @likes = [] << @like
-    replace_like_toggle
+    replace_like_elements
   end
 
   def destroy
@@ -13,7 +13,7 @@ class LikesController < ApplicationController
     @like.destroy
     @like = nil
     @likes = []
-    replace_like_toggle
+    replace_like_elements
   end
 
   private
@@ -26,14 +26,21 @@ class LikesController < ApplicationController
     params.permit(:post_id, :id)
   end
 
-  def replace_like_toggle
+  def replace_like_elements
     # Renders new like toggle without refreshing the page (Solution by Deanin https://www.youtube.com/watch?v=lnSJ01chhG4&ab_channel=Deanin)
     @post.reload
     render turbo_stream:
-      turbo_stream.replace(
-        "like_toggle_#{@post.id}",
-        partial: 'likes/like_toggle',
-        locals: { post: @post, like: @like, likes: @likes }
-      )
+      [
+        turbo_stream.replace(
+          "like_toggle_#{@post.id}",
+          partial: 'likes/like_toggle',
+          locals: { post: @post, like: @like, likes: @likes }
+        ),
+        turbo_stream.replace(
+          "likes_counter_#{@post.id}",
+          partial: 'likes/likes_counter',
+          locals: { post: @post }
+        )
+      ]
   end
 end

@@ -1,3 +1,7 @@
 <%= turbo_frame_tag "followers_counter" do %>
-  <%= link_to pluralize(user.followers_count, 'Follower'), followers_user_url(user), target: '_top' %>
+  <%= link_to followers_user_path(user), target: '_top', class: 'stretched-link' do %>
+    <strong><%= user.followers_count %></strong>
+    <br/>
+    <%= 'Follower'.pluralize(user.followers_count) %>
+  <% end %>
 <% end %>

@@ -1,14 +1,55 @@
-<div>
-  <h2>Account information</h2>
-  <p>Name: <%= current_user.name %></p>
-  <p>Email: <%= current_user.email %></p>
-  <p><%= link_to "Change password", edit_user_registration_path %></p>
-</div>
-
-<div>
-  <h2>Danger zone</h2>
-    <%= button_to "Delete my account and all the data permanently (no undo!)", user_path(current_user),
-      data: { confirm: "Are really sure you want to delete your account and lose all the data and posts you made?\nThis action CAN NOT BE UNDONE!",
-              turbo_confirm: "Are really sure you want to delete your account and lose all the data and posts you made?\nThis action CAN NOT BE UNDONE!" },
-      method: 'delete' %>
+<div class="container mx-auto mt-5">
+  <div class="accordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+          Account information
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+        <div class="accordion-body">
+          <p>Name: <%= current_user.name %></p>
+          <p>Email: <%= current_user.email %></p>
+          <p><%= link_to "Change avatar", edit_avatar_path, class: 'link-underline link-underline-opacity-0 link-underline-opacity-75-hover' %></p>
+          <p><%= link_to "Change password", edit_user_registration_path, class: 'link-underline link-underline-opacity-0 link-underline-opacity-75-hover' %></p>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+          Danger zone
+        </button>
+      </h2>
+      <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+            Delete account
+          </button>
+          <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="deleteConfirmationLabel">Are you sure?</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Your account and all its data (posts, comments, followers, followings, etc.) will be <strong>deleted permanently</strong>.</p>
+                  <p>This action can not be undone!</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <%= button_to "Delete", user_path(current_user),
+                        data: { confirm: "Are you really sure?\nThis action CAN NOT BE UNDONE!",
+                        turbo_confirm: "Are you really sure?\nThis action CAN NOT BE UNDONE!" },
+                        method: 'delete',
+                        class: "btn btn-danger" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

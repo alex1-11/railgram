@@ -22,8 +22,16 @@ class ImageUploader < Shrine
   # Limit image width and height to 1080px, keeping aspect ratio
   Attacher.derivatives do |original|
     vips = ImageProcessing::Vips.source(original)
-    {
-      post_size: vips.resize_to_fit!(1080, 1080)
-    }
+    result = {}
+
+    if record.is_a?(Post)
+      result[:post_size] = vips.resize_to_fill!(1080, 1080)
+      result[:thumbnail] = vips.resize_to_fill!(161, 161)
+    elsif record.is_a?(User)
+      result[:profile_pic] = vips.resize_to_fill!(180, 180)
+      result[:thumbnail] = vips.resize_to_fill!(50, 50)
+    end
+
+    result
   end
 end

@@ -21,7 +21,7 @@ RSpec.describe 'likes/_like_toggle', type: :view do
 
     it { should have_selector("form[action='#{likes_path}'][method='post']") }
     it { should have_selector("input[name='post_id'][type='hidden'][value='#{post.id}']", visible: false) }
-    it { should have_selector("button[type='submit']", text: 'Like') }
+    it { should have_selector("button[type='submit'][class='btn btn-outline-primary rounded-circle me-1']", text: '♡') }
   end
 
   context 'the post is liked' do
@@ -36,16 +36,6 @@ RSpec.describe 'likes/_like_toggle', type: :view do
     it { should have_selector("form[method='post'][action='#{like_path(like)}']") }
     it { should have_selector("input[type='hidden'][name='_method'][value='delete']", visible: false) }
     it { should have_selector("input[name='post_id'][type='hidden'][value='#{post.id}']", visible: false) }
-    it { should have_selector("button[type='submit']", text: 'Unlike') }
-    it { should have_selector('p', text: '1 Like') }
-
-    context 'the post has several likes' do
-      let(:like) do
-        create(:like, user:, post:)
-        create_list(:like, 4, post:)
-      end
-
-      it { should have_selector('p', text: '5 Likes') }
-    end
+    it { should have_selector("button[type='submit'][class='btn btn-primary rounded-circle me-1']", text: '♥') }
   end
 end

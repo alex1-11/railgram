@@ -16,8 +16,6 @@ RSpec.describe 'posts/index', type: :view do
   end
 
   shared_examples "correct index of user's posts" do
-    it { should have_link('New post', href: new_post_path) }
-
     it 'renders "users/_profile" partial for requested user' do
       expect(view).to render_template(partial: 'users/profile',
                                       count: 1,
@@ -33,7 +31,6 @@ RSpec.describe 'posts/index', type: :view do
                                         count: 1,
                                         locals: { post:,
                                                   likes: user.likes })
-        should have_link('Show this post', href: post_path(post))
       end
     end
   end

@@ -10,6 +10,36 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  */
+
+// Bootstrap framework
+// Custom variables
+$primary: #7c4cff;
+$secondary: #daffa2;
+$success: #69c16c;
+$danger: #f45c36;
+$warning: #e6c534;
+$info: #00a2ff;
+$light: #F2F4EF;
+$dark: #000000;
+
+
+// Limits max width of containers
+$grid-breakpoints: (
+  xs: 0,
+  sm: 480px,
+  md: 768px,
+  lg: 960px
+);
+
+$container-max-widths: (
+  sm: 420px,
+  md: 720px,
+  lg: 840px
+);
+
+// Custom bootstrap variables must be set or imported *before* bootstrap.
+@import "bootstrap";
+
+// Custom css must be set *after* bootstrap to overwrite it's values
+@import 'custom';

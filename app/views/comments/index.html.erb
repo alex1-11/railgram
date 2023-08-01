@@ -1,13 +1,32 @@
-<%= link_to 'Back', :back %>
-
-<div id="caption">
-  <p>
-    <strong><%= @post.user.name %> </strong>
-    <%= @post.caption %>
-  </p>
+<div class='row justify-content-between m-0 my-5 p-0'>
+  <%= link_to "< Back to post", post_path(@post), class: 'col-2 btn btn-outline-primary' %>
 </div>
 
-<h2>Comments</h2>
+<div id="caption" class="row mb-3">
+  <div class="col-1">
+    <%= link_to user_path(@post.user) do %>
+      <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if @post.user.avatar_data.nil? %>
+      <%= image_tag @post.user.avatar_url(:thumbnail), class: 'rounded-circle' unless @post.user.avatar_data.nil? %>
+    <% end %>
+  </div>
+
+  <div class="col">
+    <%= link_to user_path(@post.user) do %>
+      <strong><%= @post.user.name %> </strong>
+    <% end %>
+    <span title='<%= @post.created_at.localtime.to_fs(:long) %>'>
+      <%= time_ago_in_words(@post.created_at) %> ago
+    </span>
+    <br>
+    <span class='text-wrap text-break'>
+      <%= @post.caption %>
+    </span>
+  </div>
+
+  <div class='col-1'></div>
+</div>
+
+<h2 class='m-3 text-center'>Comments</h2>
 
 <div id="comments">
   <% @comments.each do |comment| %>
