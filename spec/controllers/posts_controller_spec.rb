@@ -177,8 +177,8 @@ RSpec.describe PostsController, type: :controller do
         expect { request }.to change(Post, :count).by(1)
       end
 
-      it "redirects to user's posts" do 
-        expect(request).to redirect_to(user_posts_url(user))
+      it "redirects to new post (show action)" do
+        expect(request).to redirect_to(post_path(user.posts.last))
       end
 
       it 'sets a flash notice' do
