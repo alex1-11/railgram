@@ -22,6 +22,7 @@ RSpec.describe 'posts/_form', type: :view do
   context 'updating existing post' do
     let(:sample_post) { create(:post, user:) }
 
+    it { should have_selector("img[src='#{sample_post.image_url(:post_size)}']") }
     it { should have_selector("form[action='#{post_path(sample_post)}'][method='post']") }
     it { should have_selector('input[name="_method"][type="hidden"][value="patch"]', visible: false) }
     it { should have_selector("textarea[name='post[caption]']", text: sample_post.caption) }

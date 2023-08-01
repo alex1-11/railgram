@@ -15,6 +15,8 @@ RSpec.describe 'posts/edit', type: :view do
     expect(view).to render_template(partial: '_form')
   end
 
+  it { should have_selector('h1', text: 'Edit post') }
+  it { should have_selector('input[type="submit"][name="commit"][value="Update Post"]') }
   it { should have_link('Show this post', href: post_path(sample_post)) }
   it { should have_link('Back to my posts', href: user_posts_path(user)) }
 end
