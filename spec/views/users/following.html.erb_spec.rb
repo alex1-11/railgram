@@ -7,15 +7,16 @@ RSpec.describe 'users/following', type: :view do
 
   before do
     sign_in user
+    assign(:user, user)
     assign(:following, relations.map(&:followed))
     render
   end
 
-  it { should have_link('Back') }
+  it { should have_selector('h1', text: "#{user.name} is following") }
   it { should have_selector('div#following') }
+  it { should have_link('Back to profile', href: user_path(user)) }
 
   it 'has list of links to all followed users' do
-    should have_selector('ul')
     should have_link(relations[0].followed.name, href: user_path(relations[0].followed))
     should have_link(relations[1].followed.name, href: user_path(relations[1].followed))
     should have_link(relations[2].followed.name, href: user_path(relations[2].followed))

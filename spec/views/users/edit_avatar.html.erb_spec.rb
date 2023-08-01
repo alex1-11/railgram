@@ -11,9 +11,7 @@ RSpec.describe 'users/edit_avatar', type: :view do
     render
   end
 
-  it 'displays the "Back to settings" link' do
-    expect(rendered).to have_link('Back to settings', href: user_settings_path)
-  end
+  it { should have_selector('h1', text: 'Avatar settings') }
 
   context 'when viewer has errors' do
     before do

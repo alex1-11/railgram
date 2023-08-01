@@ -22,7 +22,7 @@ RSpec.describe 'posts/show', type: :view do
                                       locals: { post: sample_post, likes: viewer.likes })
     end
 
-    it { expect(rendered).to have_link('< Back') }
+    it { should have_link("Back to user's posts", href: user_posts_path(viewer).concat("##{dom_id sample_post}")) }
     it { should have_link('Edit this post', href: edit_post_path(sample_post)) }
     it { should have_selector("form[action='#{post_path(sample_post)}']") }
     it { should have_button('Destroy this post') }
@@ -43,11 +43,11 @@ RSpec.describe 'posts/show', type: :view do
     it 'renders the post using "_post" partial' do
       expect(view).to render_template(partial: 'posts/post',
                                       count: 1,
-                                      locals: { post: sample_post, 
+                                      locals: { post: sample_post,
                                                 likes: viewer.likes })
     end
 
-    it { should have_link('Back') }
+    it { should have_link("Back to user's posts", href: user_posts_path(author).concat("##{dom_id sample_post}")) }
     it { should_not have_link('Edit this post', href: edit_post_path(sample_post)) }
     it { should_not have_selector("form[action='#{post_path(sample_post)}']") }
     it { should_not have_button('Destroy this post') }

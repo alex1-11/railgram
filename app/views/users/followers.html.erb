@@ -1,6 +1,4 @@
-<div class='row justify-content-center m-0 my-5 p-0'>
-  <%= link_to "Back to #{@user.name}'s profile", user_path(@user), class: 'col-sm-8 col-md-6 px-0 mx-0 btn btn-outline-primary' %>
-</div>
+<h1 class='text-center m-3'><%= @user.name %> - followers</h1>
 
 <div class='row justify-content-center m-0 my-5 p-0'>
   <div id='followers' class='list-group col-sm-8 col-md-6 px-0 mx-0'>
@@ -12,4 +10,8 @@
       <% end %>
     <% end %>
   </div>
+</div>
+
+<div class='row justify-content-center m-0 my-5 p-0'>
+  <%= link_to "Back to profile", user_path(@user), class: 'col-sm-8 col-md-6 px-0 mx-0 btn btn-outline-primary' %>
 </div>
