@@ -13,6 +13,7 @@ RSpec.describe 'users/settings', type: :view do
   it { should have_selector('p', text: "Name: #{user.name}") }
   it { should have_selector('p', text: "Email: #{user.email}") }
   it { should have_link('Change password', href: edit_user_registration_path) }
+  it { should have_link('Change avatar', href: edit_avatar_path) }
 
   it { should have_selector('h2', text: 'Danger zone') }
 

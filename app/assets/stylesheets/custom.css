@@ -1,0 +1,15 @@
+/* Reduce the opacity of the underline for all links */
+a {
+  text-decoration: underline rgba(0, 0, 0, 0);
+}
+
+.custom-hover-link {
+  display: none;
+}
+
+.avatar:hover .custom-hover-link {
+  display: block;
+}
+.navbar-nav .nav-link.active {
+  color: #7c4cff;
+}

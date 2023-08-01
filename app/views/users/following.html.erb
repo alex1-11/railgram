@@ -1,11 +1,7 @@
-<%= link_to "Back", :back %>
+<h1 class='text-center m-3'><%= @user.name %> is following</h1>
 
-<div id='following'>
-  <ul>
-    <% @following.each do |following| %>
-      <li>
-        <p><%= link_to following.name, user_path(following) %></p>
-      </li>
-    <% end %>
-  </ul>
+<%= render partial: 'users/list', locals: { users: @following } %>
+
+<div class='row justify-content-center m-0 my-5 p-0'>
+  <%= link_to "Back to profile", user_path(@user), class: 'col-sm-8 col-md-6 px-0 mx-0 btn btn-outline-primary' %>
 </div>

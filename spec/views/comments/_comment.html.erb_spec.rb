@@ -14,7 +14,7 @@ RSpec.describe 'comments/_comment', type: :view do
 
   it { should have_selector("div#comment_#{comment.id}") }
   it { should have_selector('strong', text: user.name) }
-  it { should have_selector('p', text: comment.text) }
+  it { should have_selector('span', text: comment.text) }
 
   it do
     should have_selector("span[title='#{comment.created_at.localtime.to_fs(:long)}']",
@@ -28,8 +28,7 @@ RSpec.describe 'comments/_comment', type: :view do
       should have_selector(
         "button[data-turbo-confirm='Delete this comment?']"\
               "[data-confirm='Delete this comment?']"\
-              "[type='submit']",
-        text: 'x'
+              "[type='submit']"
       )
     end
   end

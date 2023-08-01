@@ -14,7 +14,7 @@
 
 // Bootstrap framework
 // Custom variables
-$primary: #AAFFA2;
+$primary: #7c4cff;
 $secondary: #daffa2;
 $success: #69c16c;
 $danger: #f45c36;
@@ -38,5 +38,8 @@ $container-max-widths: (
   lg: 840px
 );
 
- // Custom bootstrap variables must be set or imported *before* bootstrap.
+// Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
+
+// Custom css must be set *after* bootstrap to overwrite it's values
+@import 'custom';

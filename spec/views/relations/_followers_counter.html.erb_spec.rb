@@ -5,15 +5,16 @@ RSpec.describe 'relations/_followers_counter', type: :view do
   let(:user)    { create :user }
   let(:blogger) { create :user }
 
-  before do
-    sign_in user
-    render partial: 'relations/followers_counter', locals: { user: blogger }
-  end
-
-  it { should have_selector('turbo-frame#followers_counter') }
+  before        { sign_in user }
 
   context 'user has no followers' do
-    it { should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']", text: '0 Followers') }
+    before { render partial: 'relations/followers_counter', locals: { user: blogger } }
+
+    it { should have_selector('turbo-frame#followers_counter') }
+    it do
+      should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']",
+                           text: /0\s*Followers/)
+    end
   end
 
   context 'user has one follower' do
@@ -24,7 +25,11 @@ RSpec.describe 'relations/_followers_counter', type: :view do
       render partial: 'relations/followers_counter', locals: { user: blogger }
     end
 
-    it { should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']", text: '1 Follower') }
+    it { should have_selector('turbo-frame#followers_counter') }
+    it do
+      should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']",
+                           text: /1\s*Follower/)
+    end
   end
 
   context 'user has several followers' do
@@ -35,6 +40,10 @@ RSpec.describe 'relations/_followers_counter', type: :view do
       render partial: 'relations/followers_counter', locals: { user: blogger }
     end
 
-    it { should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']", text: '5 Followers') }
+    it { should have_selector('turbo-frame#followers_counter') }
+    it do
+      should have_selector("a[href='#{followers_user_path(blogger)}'][target='_top']",
+                           text: /5\s*Followers/)
+    end
   end
 end

@@ -1,23 +1,34 @@
-<div id="<%= dom_id comment %>">
+<div id="<%= dom_id comment %>" class="row mb-5 justify-content-between">
+  <div class="col-1">
+    <%= link_to user_path(post.user) do %>
+      <%= image_tag 'default_avatar.svg', width: 50, height: 50, class: 'rounded-circle' if comment.user.avatar_data.nil? %>
+      <%= image_tag comment.user.avatar_url(:thumbnail), class: 'rounded-circle' unless comment.user.avatar_data.nil? %>
+    <% end %>
+  </div>
 
-  <p>
-    <strong>
-      <%= comment.user.name %>
-    </strong>
+  <div class="col">
+    <hr class='m-0'>
+    <%= link_to user_path(post.user) do %>
+      <strong>
+        <%= comment.user.name %>
+      </strong>
+    <% end %>
     <span title='<%= comment.created_at.localtime.to_fs(:long) %>'>
       <%= time_ago_in_words(comment.created_at) %> ago
     </span>
     <br>
+    <span class='text-wrap text-break'>
+      <%= comment.text %>
+    </span>
+  </div>
 
-    <%= comment.text %>
-    <br>
-
+  <div class='col-1 text-end'>
     <% if @viewer == comment.user || @viewer == post.user %>
-      <%= button_to 'x', post_comment_path(post, comment),
-        data: { turbo_confirm: 'Delete this comment?',
-                confirm: 'Delete this comment?' },
-        method: 'delete' %>
-    <% end %>
-  </p>
-
+        <%= button_to '', post_comment_path(post, comment),
+          data: { turbo_confirm: 'Delete this comment?',
+                  confirm: 'Delete this comment?' },
+          method: 'delete',
+          class: 'btn-close' %>
+      <% end %>
+  </div>
 </div>

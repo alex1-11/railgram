@@ -22,6 +22,10 @@ RSpec.describe 'Routes', type: :routing do
   end
 
   describe 'Users routing' do
+    it 'routes to user#index' do
+      expect(get: '/users').to route_to(controller: 'users', action: 'index')
+    end
+
     it 'routes to user#show' do
       expect(get: '/users/1').to route_to(controller: 'users', action: 'show', id: '1')
     end
@@ -38,6 +42,48 @@ RSpec.describe 'Routes', type: :routing do
 
     it 'has the correct named route' do
       expect(user_settings_path).to eq '/settings'
+    end
+  end
+
+  describe 'Easter egg routing' do
+    it 'routes to users#easter_egg' do
+      expect(get: '/easter_egg').to route_to(controller: 'users', action: 'easter_egg')
+    end
+
+    it 'has the correct named route' do
+      expect(easter_egg_path).to eq '/easter_egg'
+    end
+  end
+
+  describe 'Avatar routing' do
+    describe 'edit_avatar path' do
+      it 'routes to users#edit_avatar' do
+        expect(get: '/edit_avatar').to route_to(controller: 'users', action: 'edit_avatar')
+      end
+
+      it 'has the correct named route' do
+        expect(edit_avatar_path).to eq '/edit_avatar'
+      end
+    end
+
+    describe 'set_avatar path' do
+      it 'routes to users#set_avatar' do
+        expect(patch: '/set_avatar').to route_to(controller: 'users', action: 'set_avatar')
+      end
+
+      it 'has the correct named route' do
+        expect(set_avatar_path).to eq '/set_avatar'
+      end
+    end
+
+    describe 'remove_avatar path' do
+      it 'routes to users#remove_avatar' do
+        expect(patch: '/remove_avatar').to route_to(controller: 'users', action: 'remove_avatar')
+      end
+
+      it 'has the correct named route' do
+        expect(remove_avatar_path).to eq '/remove_avatar'
+      end
     end
   end
 
@@ -116,6 +162,18 @@ RSpec.describe 'Routes', type: :routing do
     it 'routes to posts#feed through "feed" named route' do
       expect(get: 'feed').to route_to('posts#feed')
       expect(feed_path).to eq '/feed'
+    end
+  end
+
+  describe 'Themes routing' do
+    it 'routes to "themes#light" through "light_theme" named route' do
+      expect(get: 'light_theme').to route_to('themes#light')
+      expect(light_theme_path).to eq '/light_theme'
+    end
+
+    it 'routes to "themes#dark" through "dark_theme" named route' do
+      expect(get: 'dark_theme').to route_to('themes#dark')
+      expect(dark_theme_path).to eq '/dark_theme'
     end
   end
 end

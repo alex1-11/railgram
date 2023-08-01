@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="auto" >
+<html lang="en">
   <head>
     <title>Railgram</title>
     <meta charset="utf-8">
@@ -11,17 +11,19 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-bs-theme=<%= cookies[:theme] || 'light' %>>
     <%= render 'shared/navbar' %>
     <% if notice %>
-      <p class="alert alert-success">
+      <div class="alert alert-success alert-dismissible fade show text-start">
         <%= notice %>
-      </p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     <% end %>
     <% if alert %>
-      <p class="alert alert-danger">
+      <div class="alert alert-danger alert-dismissible fade show text-start">
         <%= alert %>
-      </p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     <% end %>
 
     <div class="container-fluid container-md px-0 px-md-auto">

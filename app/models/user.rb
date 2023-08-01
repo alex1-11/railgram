@@ -15,16 +15,18 @@ class User < ApplicationRecord
   has_many :following, through: :active_relations,  source: :followed
   has_many :followers, through: :passive_relations, source: :follower
 
+  # Shrine gem for uploading avatar
+  include ImageUploader::Attachment(:avatar) # adds an `avatar` virtual attribute
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :email, :name, :password, presence: true
+  validates :email, :name, presence: true
   validates :email, :name, uniqueness: true
   validates :email, length: { in: 5..256 }
   validates :name, length: { in: 3..30 }
-  validates :password, length: { minimum: 6 }
 
   # Checks if the user is following the other user
   def follows?(other_user)
@@ -53,5 +55,9 @@ class User < ApplicationRecord
     self.posts_count ||= 0
     self.followers_count ||= 0
     self.following_count ||= 0
+  end
+
+  def roll_user
+    update_attribute(:rolled, true)
   end
 end

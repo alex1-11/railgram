@@ -15,5 +15,6 @@ RSpec.describe 'posts/new', type: :view do
     expect(view).to render_template(partial: '_form')
   end
 
-  it { should have_link('Back to my posts', href: user_posts_path(user)) }
+  it { should have_selector('h1', text: 'New post') }
+  it { should have_selector('input[type="submit"][name="commit"][value="Create Post"]') }
 end
