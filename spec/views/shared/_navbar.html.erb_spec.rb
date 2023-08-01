@@ -19,6 +19,7 @@ RSpec.describe 'shared/_navbar', type: :view do
     it { should_not have_link('Register', href: new_user_registration_path) }
 
     it { should have_link('Feed', href: feed_path) }
+    it { should have_link('Users', href: users_path) }
     it { should have_link('Make a post', href: new_post_path) }
     it { should have_link(user.name, href: user_path(user)) }
     it { should have_link('Settings', href: user_settings_path) }
