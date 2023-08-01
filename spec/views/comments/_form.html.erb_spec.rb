@@ -8,6 +8,7 @@ RSpec.describe 'comments/_form', type: :view do
 
   before do
     sign_in user
+    assign(:viewer, user)
     render partial: 'comments/form', locals: { post: sample_post, comment: }
   end
 
@@ -20,8 +21,7 @@ RSpec.describe 'comments/_form', type: :view do
                          visible: false)
   end
 
-  it { should have_selector('label[for="comment_text_comment"]', text: 'Comment') }
-  it { should have_selector('input[type="text"][name="comment[text]"][id="comment_text"]') }
+  it { should have_selector('textarea[name="comment[text]"][id="comment_text"][autofocus="autofocus"][placeholder="Write a comment"]') }
   it { should have_selector('input[type="submit"][name="commit"][value="Send"]') }
 
   context 'when the new comment data has errors' do
@@ -30,7 +30,7 @@ RSpec.describe 'comments/_form', type: :view do
       render partial: 'comments/form', locals: { post: sample_post, comment: }
     end
 
-    it { should have_selector('div[class="alert alert-danger"]') }
+    it { should have_selector('div[class="alert alert-danger alert-dismissible fade show text-start"]') }
     it { should have_selector('h2', text: '1 error prohibited this comment from being saved:') }
     it { should have_selector('ul') }
     it { should have_selector('li', text: "Text can't be blank") }
