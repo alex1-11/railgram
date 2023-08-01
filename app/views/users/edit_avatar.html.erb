@@ -1,4 +1,5 @@
-<%= link_to "Back to settings", user_settings_path %>
+<div class='row justify-content-center text-center'>
+  <h1 class='text-center m-3'>Avatar settings</h1>
 
   <% if @viewer.errors.any? %>
     <div class="alert alert-danger alert-dismissible fade show text-start">
@@ -13,35 +14,37 @@
     </div>
   <% end %>
 
-  <% if @viewer.avatar %>
-    <div>
-      <%= image_tag @viewer.avatar_url(:profile_pic), class: %>
-    </div>
-    <div>
-      <%= button_to(
-        'Remove avatar', 
-        remove_avatar_path, 
-        method: :patch, 
-        data: { 
-          confirm: 'Are you sure you want to remove current avatar?', 
-          turbo_confirm: 'Are you sure you want to remove current avatar?' 
-        }
-      ) %>
-    </div>
-
-  <% else %>
-    <div>
+  <div class='avatar m-5' style='transform: rotate(0);'>
+    <% if @viewer.avatar %>
+      <%= image_tag @viewer.avatar_url(:profile_pic), class: 'rounded-circle' %>
+      <br/>
+      <%= button_to('Remove avatar',
+                    remove_avatar_path,
+                    method: :patch,
+                    data: {
+                      confirm: 'Are you sure you want to remove current avatar?',
+                      turbo_confirm: 'Are you sure you want to remove current avatar?',
+                    },
+                    class: 'btn btn-outline-danger stretched-link custom-hover-link position-absolute top-50 start-50 translate-middle bg-body-tertiary p-1 rounded-5') %>
+    <% else %>
       <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 
-<%= form_with(model: @viewer, url: set_avatar_url, method: :patch, id: 'set_avatar') do |form| %>
-  <div>
-    <%= form.hidden_field :avatar, value: @viewer.cached_avatar_data, id: nil %>
-    <%= form.file_field :avatar, required: true %>
+<%= form_with(model: @viewer, url: set_avatar_url, method: :patch, id: 'set_avatar', html: { class: 'col-sm-8 col-md-6' }) do |form| %>
+  <div class='mb-3'>
+    <%= form.hidden_field :avatar,
+                          value: @viewer.cached_avatar_data,
+                          id: nil %>
+    <%= form.file_field :avatar,
+                        required: true,
+                        class: 'form-control' %>
   </div>
 
   <div>
-    <%= form.submit 'Set avatar' %>
+    <%= form.submit 'Set avatar', class: 'btn btn-primary mb-3' %>
   </div>
 <% end %>
+
+<div>
+</div>

@@ -7,11 +7,11 @@
         <%= image_tag 'default_avatar.svg', width: 180, height: 180, class: 'rounded-circle' if user.avatar_data.nil? %>
         <%= image_tag user.avatar_url(:profile_pic), class: 'rounded-circle' unless user.avatar_data.nil? %>
 
-        <% if user == @viewer %>
+        <% if user == @viewer && controller_name == 'users' %>
           <br/>
           <%= link_to user.avatar_data.nil? ? 'Set avatar' : 'Change avatar',
             edit_avatar_path,
-            class: 'custom-hover-link position-absolute top-50 start-50 translate-middle bg-body-tertiary p-1 rounded-5' %>
+            class: 'stretched-link custom-hover-link position-absolute top-50 start-50 translate-middle bg-body-tertiary p-1 rounded-5' %>
         <% end %>
       </div>
 

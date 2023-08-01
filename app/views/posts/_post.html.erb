@@ -35,7 +35,7 @@
     </div>
 
     <% if controller_name == 'posts' && action_name.in?(['feed', 'index']) %>
-      <div class='row text-center'>
+      <div class='row text-center' style="transform: rotate(0);">
         <hr class='m-0 mt-3'>
         <%= link_to "Show this post", post_path(post), class: 'stretched-link py-2' %>
       </div>

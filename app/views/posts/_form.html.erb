@@ -18,7 +18,6 @@
     </div>
 
     <div class="input-group mb-3">
-      <%= form.label :image, 'Image', class: 'input-group-text col-3' %>
       <%= form.hidden_field :image, value: post.cached_image_data, id: nil %>
       <%= form.file_field :image, class: 'form-control' %>
     </div>
@@ -28,9 +27,6 @@
       <%= form.text_area :caption, class: 'form-control' %>
     </div>
 
-    <div class='btn-group'>
-      <%= link_to 'Cancel', :back, class: 'btn btn-outline-primary mb-3' %>
-      <%= form.submit class: 'btn btn-primary mb-3' %>
-    </div>
+    <%= form.submit class: 'btn btn-primary mb-3' %>
   <% end %>
 </div>
