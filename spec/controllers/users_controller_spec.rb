@@ -2,14 +2,45 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
   let(:user)    { create :user }
+  let(:prepare) {}
   let(:request) {}
 
   before do
     sign_in user
+    prepare
     request
   end
 
   it { should use_before_action(:set_user) }
+
+  describe 'GET #index' do
+    let(:users)       { create_list :user, 50, followers_count: 3 }
+    let(:spare_users) { create_list :user, 2 }
+    let(:request)     { get :index }
+
+    it 'assigns 50 top followed users' do
+      expect(assigns(:users)).to match_array(users)
+      expect(assigns(:users)).to_not include(spare_users[0])
+      expect(assigns(:users)).to_not include(spare_users[1])
+    end
+
+    context 'users have different number of followers' do
+      let(:popular_user) { create :user, followers_count: 500 }
+      let(:regular_user) { create :user, followers_count: 30 }
+      let(:fresh_user)   { create :user, followers_count: 5 }
+      let(:prepare) do
+        popular_user
+        regular_user
+        fresh_user
+      end
+
+      it 'puts users in descending order by number of followers' do
+        expect(assigns(:users)[0]).to eq(popular_user)
+        expect(assigns(:users)[1]).to eq(regular_user)
+        expect(assigns(:users)[2]).to eq(fresh_user)
+      end
+    end
+  end
 
   describe 'GET #show' do
     let(:request) { get :show, params: { id: user.id } }

@@ -22,6 +22,10 @@ RSpec.describe 'Routes', type: :routing do
   end
 
   describe 'Users routing' do
+    it 'routes to user#index' do
+      expect(get: '/users').to route_to(controller: 'users', action: 'index')
+    end
+
     it 'routes to user#show' do
       expect(get: '/users/1').to route_to(controller: 'users', action: 'show', id: '1')
     end

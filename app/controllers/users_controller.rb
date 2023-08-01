@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all.order(followers_count: :desc).limit(100)
+    @users = User.all.order(followers_count: :desc).limit(50)
   end
 
   # GET /users/1
