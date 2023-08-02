@@ -81,4 +81,4 @@ Styling done with [Bootstrap](https://getbootstrap.com/) v.5.3
 
 Sample testing images by Thorsten Schulze from [Pixabay](https://pixabay.com/users/thorsten1970-11841595/).
 
-This project is developed and maintained by [Your Name]. Feel free to contribute by submitting issues or pull requests.
+This study project is developed and maintained by [Alex1-11](https://github.com/alex1-11). Feel free to contribute by submitting issues or pull requests.
